@@ -425,3 +425,10 @@ test('production publish disables debug sidecars for Portable and Setup outputs'
   assert.match(build,/DebugSymbols=false/);
   assert.match(build,/unexpected external runtime\/content files/);
 });
+
+
+test('production packaging strips PDB metadata before sidecar validation',()=>{
+  assert.match(build,/PDB files are debugging metadata/);
+  assert.match(build,/Filter \*\.pdb \| Remove-Item -Force/);
+  assert.match(build,/Portable publish produced unexpected external runtime\/content files/);
+});
