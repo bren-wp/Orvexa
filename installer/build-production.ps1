@@ -33,6 +33,7 @@ dotnet publish $app `
     --self-contained true `
     -o "$publish\portable-win-x64" `
     /p:PublishSingleFile=true `
+    /p:EnableMsixTooling=true `
     /p:IncludeNativeLibrariesForSelfExtract=true `
     /p:IncludeAllContentForSelfExtract=true `
     /p:EnableCompressionInSingleFile=true `
