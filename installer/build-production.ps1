@@ -41,6 +41,7 @@ Assert-NativeSuccess "dotnet folder publish"
 
 $setupAppExe=Join-Path $setupPublish "Orvexa.App.exe"
 if(-not (Test-Path $setupAppExe)) { throw "Orvexa.App.exe was not produced for Setup." }
+Get-ChildItem $setupPublish -Recurse -File -Filter *.pdb | Remove-Item -Force
 
 # The Portable EXE must be published with its FINAL filename.
 # Windows App SDK 1.8 single-file apps can fail during XAML startup if the
@@ -66,6 +67,9 @@ $publishedPortableExe=Join-Path $portablePublish "$portableBaseName.exe"
 if(-not (Test-Path $publishedPortableExe)) {
     throw "Portable single-file executable was not produced with its final release name."
 }
+
+# PDB files are debugging metadata, not runtime dependencies.
+Get-ChildItem $portablePublish -Recurse -File -Filter *.pdb | Remove-Item -Force
 
 $extraPortableFiles=@(
     Get-ChildItem $portablePublish -File -Recurse |
