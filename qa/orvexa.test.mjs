@@ -353,6 +353,12 @@ test('GitHub stable release hashes assets explicitly and can create an annotated
   assert.match(releaseWorkflow,/git config user\.email/);
 });
 
+test('missing GitHub stable release is treated as publishable metadata',()=>{
+  assert.match(releaseWorkflow,/gh release list --repo/);
+  assert.match(releaseWorkflow,/\$releaseTags -contains \$tag/);
+  assert.doesNotMatch(releaseWorkflow,/gh release view/);
+});
+
 test('embedded Windows license uses a valid multiline raw string',()=>{
   assert.match(license,/Text=>"""\r?\nORVEXA SOFTWARE LICENSE AGREEMENT/);
   assert.doesNotMatch(license,/Text=>"""ORVEXA/);
