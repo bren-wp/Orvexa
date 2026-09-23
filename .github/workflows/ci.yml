@@ -21,14 +21,23 @@ jobs:
       - run: npm run qa
 
   windows-build:
-    name: Windows source build
+    name: Windows release build smoke test
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Restore
-        run: dotnet restore apps/windows/Orvexa.sln
-      - name: Build
-        run: dotnet build apps/windows/Orvexa.sln -c Release --no-restore
+      - name: Install Inno Setup
+        shell: powershell
+        run: choco install innosetup --no-progress -y
+      - name: Build production artifacts
+        shell: powershell
+        run: ./installer/build-production.ps1
+      - name: Verify release artifacts
+        shell: powershell
+        run: |
+          $version=(Get-Content build/version.json -Raw | ConvertFrom-Json).version
+          if(-not (Test-Path "dist/Orvexa-Portable-$version-x64.zip")) { throw "Portable artifact missing." }
+          if(-not (Test-Path "dist/Orvexa-Setup-$version-x64.exe")) { throw "Setup artifact missing." }
+          if(-not (Test-Path "dist/SHA256SUMS.txt")) { throw "Checksum manifest missing." }
