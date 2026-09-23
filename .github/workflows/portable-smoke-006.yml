@@ -1,4 +1,5 @@
 name: Diagnose Portable startup
+# final-name publish validation
 
 on:
   push:
