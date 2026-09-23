@@ -86,7 +86,7 @@ Copy-Item $setup (Join-Path $webDownloads "Orvexa-Setup-x64.exe") -Force
 
 Copy-Item (Join-Path $root "build\version.json") (Join-Path $dist "version.json") -Force
 
-$hashes=@($portable,$setup) | Get-FileHash -Algorithm SHA256
+$hashes=@($portable,$setup) | ForEach-Object { Get-FileHash -LiteralPath $_ -Algorithm SHA256 }
 $hashes |
     ForEach-Object { "$($_.Hash)  $([IO.Path]::GetFileName($_.Path))" } |
     Set-Content (Join-Path $dist "SHA256SUMS.txt") -Encoding ascii
