@@ -369,3 +369,16 @@ test('README local image references resolve inside the repository',()=>{
     assert.equal(exists(ref),true,'Missing README asset: '+ref);
   }
 });
+
+
+test('protocol rejects oversized, ambiguous and invalid install requests instead of truncating them',()=>{
+  assert.match(protocol,/idParameters\.Length!=1/);
+  assert.match(protocol,/requested\.Length==0 \|\| requested\.Length>100/);
+  assert.match(protocol,/requested\.Any\(x=>!PackagePolicy\.IsSafeId\(x\)\)/);
+  assert.doesNotMatch(protocol,/\.Take\(100\)/);
+});
+
+test('protocol queue persists only validated install URIs and enforces its UTF-8 byte cap',()=>{
+  assert.match(protocol,/if\(!TryParseInstall\(value,out _\)\) return;/);
+  assert.match(protocol,/Encoding\.UTF8\.GetByteCount\(json\)<=MaxQueueBytes/);
+});

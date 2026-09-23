@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 
 namespace Orvexa.Core;
@@ -35,20 +36,23 @@ public sealed class ProtocolService
 
         try
         {
-            var raw=uri.Query.TrimStart('?')
+            var idParameters=uri.Query.TrimStart('?')
                 .Split('&',StringSplitOptions.RemoveEmptyEntries)
                 .Select(x=>x.Split('=',2))
-                .FirstOrDefault(x=>x.Length==2 && string.Equals(x[0],"ids",StringComparison.OrdinalIgnoreCase));
-
-            if(raw is null) return false;
-            var decoded=Uri.UnescapeDataString(raw[1]);
-            var safe=decoded.Split(',',StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries)
-                .Where(PackagePolicy.IsSafeId)
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .Take(100)
+                .Where(x=>x.Length==2 && string.Equals(x[0],"ids",StringComparison.OrdinalIgnoreCase))
                 .ToArray();
 
-            if(safe.Length==0) return false;
+            if(idParameters.Length!=1) return false;
+            var decoded=Uri.UnescapeDataString(idParameters[0][1]);
+            var requested=decoded.Split(',',StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
+            if(requested.Length==0 || requested.Length>100) return false;
+            if(requested.Any(x=>!PackagePolicy.IsSafeId(x))) return false;
+
+            var safe=requested
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+
+            if(safe.Length==0 || safe.Length>100) return false;
             ids=safe;
             return true;
         }
@@ -58,6 +62,7 @@ public sealed class ProtocolService
     public void Queue(string value)
     {
         if(string.IsNullOrWhiteSpace(value) || value.Length>MaxUriLength) return;
+        if(!TryParseInstall(value,out _)) return;
         WithQueueLock(()=>
         {
             var queue=ReadQueue();
@@ -104,7 +109,7 @@ public sealed class ProtocolService
         try
         {
             var json=JsonSerializer.Serialize(values.TakeLast(MaxPendingActivations).ToArray());
-            if(json.Length<=MaxQueueBytes) AtomicFile.WriteText(path,json);
+            if(Encoding.UTF8.GetByteCount(json)<=MaxQueueBytes) AtomicFile.WriteText(path,json);
         }
         catch { }
     }
