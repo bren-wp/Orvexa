@@ -192,11 +192,18 @@ Orvexa-QA-0.0.5.zip
 Windows production packaging is handled separately by `installer/build-production.ps1` and produces the versioned Portable and Setup artifacts when the Windows build environment is available:
 
 ```text
+Orvexa-Portable-0.0.5-x64.exe
 Orvexa-Portable-0.0.5-x64.zip
 Orvexa-Setup-0.0.5-x64.exe
 ```
 
 > Signing certificates and private keys are never committed to the repository.
+
+### Portable EXE
+
+`Orvexa-Portable-0.0.5-x64.exe` is a **self-contained single-file Windows build**. It does not require Setup and is built from the same release source and version metadata as the installer.
+
+The Portable EXE is included in the SHA-256 manifest and published as a first-class GitHub Release asset.
 
 ## Build
 
