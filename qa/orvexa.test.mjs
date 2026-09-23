@@ -174,7 +174,8 @@ test('Setup does not recursively wipe the install directory on uninstall',()=>{
 
 test('production build explicitly checks native command failures and artifacts',()=>{
   assert.match(build,/Assert-NativeSuccess "dotnet restore"/);
-  assert.match(build,/Assert-NativeSuccess "dotnet folder publish"/);\n  assert.match(build,/Assert-NativeSuccess "dotnet portable single-file publish"/);
+  assert.match(build,/Assert-NativeSuccess "dotnet folder publish"/);
+  assert.match(build,/Assert-NativeSuccess "dotnet portable single-file publish"/);
   assert.match(build,/Orvexa\.App\.exe was not produced/);
   assert.match(build,/Portable archive was not produced/);
   assert.match(build,/Setup\.exe was not produced/);
