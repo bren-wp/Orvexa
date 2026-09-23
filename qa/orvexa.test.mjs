@@ -418,3 +418,10 @@ test('Portable assembly naming is scoped to the WinUI app project only',()=>{
   assert.match(build,/PortableAssemblyName=\$portableBaseName/);
   assert.doesNotMatch(build,/\/p:AssemblyName=\$portableBaseName/);
 });
+
+
+test('production publish disables debug sidecars for Portable and Setup outputs',()=>{
+  assert.match(build,/DebugType=None/);
+  assert.match(build,/DebugSymbols=false/);
+  assert.match(build,/unexpected external runtime\/content files/);
+});
