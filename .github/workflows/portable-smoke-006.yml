@@ -1,5 +1,5 @@
 name: Diagnose Portable startup
-# app-scoped final-name publish validation
+# inspect final-name publish sidecars
 
 on:
   push:
