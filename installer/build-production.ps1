@@ -4,8 +4,8 @@ $root=Resolve-Path "$PSScriptRoot\.."
 $app=Join-Path $root "apps\windows\Orvexa.App\Orvexa.App.csproj"
 $publish=Join-Path $root "publish"
 $dist=Join-Path $root "dist"
-$portable=Join-Path $dist "Orvexa-Portable-0.0.4-x64.zip"
-$setup=Join-Path $dist "Orvexa-Setup-0.0.4-x64.exe"
+$portable=Join-Path $dist "Orvexa-Portable-0.0.5-x64.zip"
+$setup=Join-Path $dist "Orvexa-Setup-0.0.5-x64.exe"
 
 function Assert-NativeSuccess([string]$step) {
     if($LASTEXITCODE -ne 0) { throw "$step failed with exit code $LASTEXITCODE." }

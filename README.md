@@ -32,7 +32,7 @@ Orvexa is a modern Windows software control center built around a simple idea: i
 
 It combines a curated application catalog, WinGet, device recommendations and local system information in one native Windows experience. The companion Orvexa Web interface lets you prepare an app selection in the browser and hand only trusted catalog IDs to the Windows application through the `orvexa://` protocol.
 
-**Current version: 0.0.4**
+**Current version: 0.0.5**
 
 <table>
   <tr>
@@ -156,8 +156,8 @@ Release candidates use:
 Set the version from the repository root:
 
 ```bash
-node tools/set-version.mjs 0.0.4
-node tools/set-version.mjs 0.0.5-rc.1
+node tools/set-version.mjs 0.0.5
+node tools/set-version.mjs 0.0.6-rc.1
 ```
 
 The version tool synchronizes package metadata, .NET metadata, assembly/file version, Windows manifest, Setup configuration, web metadata/footer, build metadata and release artifact names.
@@ -175,8 +175,8 @@ Orvexa-QA-0.0.4.zip
 Windows production packaging is handled separately by `installer/build-production.ps1` and produces the versioned Portable and Setup artifacts when the Windows build environment is available:
 
 ```text
-Orvexa-Portable-0.0.4-x64.zip
-Orvexa-Setup-0.0.4-x64.exe
+Orvexa-Portable-0.0.5-x64.zip
+Orvexa-Setup-0.0.5-x64.exe
 ```
 
 > Signing certificates and private keys are never committed to the repository.
