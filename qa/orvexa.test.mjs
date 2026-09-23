@@ -346,6 +346,13 @@ test('CI smoke-tests the same production Windows release pipeline',()=>{
 });
 
 
+test('GitHub stable release hashes assets explicitly and can create an annotated tag',()=>{
+  assert.match(releaseWorkflow,/ForEach-Object \{ Get-FileHash -LiteralPath \$_\.FullName -Algorithm SHA256 \}/);
+  assert.doesNotMatch(releaseWorkflow,/\$assets \| Get-FileHash/);
+  assert.match(releaseWorkflow,/git config user\.name \"github-actions\[bot\]\"/);
+  assert.match(releaseWorkflow,/git config user\.email/);
+});
+
 test('embedded Windows license uses a valid multiline raw string',()=>{
   assert.match(license,/Text=>"""\r?\nORVEXA SOFTWARE LICENSE AGREEMENT/);
   assert.doesNotMatch(license,/Text=>"""ORVEXA/);
