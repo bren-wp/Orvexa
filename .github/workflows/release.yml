@@ -77,7 +77,7 @@ jobs:
           Compress-Archive -Path "$qaRoot/*" -DestinationPath "dist/Orvexa-QA-$version.zip" -CompressionLevel Optimal
 
           $assets=Get-ChildItem dist -File | Where-Object Name -ne 'SHA256SUMS.txt'
-          $assets | Get-FileHash -Algorithm SHA256 |
+          $assets | ForEach-Object { Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256 } |
             ForEach-Object { "$($_.Hash)  $([IO.Path]::GetFileName($_.Path))" } |
             Set-Content "dist/SHA256SUMS.txt" -Encoding ascii
 
@@ -87,6 +87,8 @@ jobs:
         run: |
           $tag='${{ steps.meta.outputs.tag }}'
           $version='${{ steps.meta.outputs.version }}'
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch --tags --force
           git rev-parse --verify "refs/tags/$tag" *> $null
           if($LASTEXITCODE -ne 0) {
