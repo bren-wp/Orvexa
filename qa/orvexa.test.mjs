@@ -44,7 +44,7 @@ test('release metadata is synchronized',()=>{
   assert.equal(product.version,v);
   assert.match(proj,new RegExp(`<Version>${v.replaceAll('.','\\.')}<\\/Version>`));
   assert.ok(installer.includes(`MyAppVersion "${v}"`));
-  assert.ok(build.includes(`Orvexa-Portable-${v}-x64.zip`));
+  assert.ok(build.includes(`Orvexa-Portable-${v}-x64.exe`));\n  assert.ok(build.includes(`Orvexa-Portable-${v}-x64.zip`));
   assert.ok(build.includes(`Orvexa-Setup-${v}-x64.exe`));
   assert.ok(read('README.md').includes(`Current version: ${v}`));
   assert.ok(read('README.md').includes(`node tools/set-version.mjs ${meta.baseVersion}`));
@@ -388,3 +388,6 @@ test('stable release can also be started manually without changing the automatic
   assert.match(releaseWorkflow,/push:\s*\n\s*branches: \[ main \]/);
   assert.match(releaseWorkflow,/workflow_dispatch:/);
 });
+
+
+test('standalone Portable EXE is built and published as a release asset',()=>{\n  assert.match(build,/PublishSingleFile=true/);\n  assert.match(build,/IncludeNativeLibrariesForSelfExtract=true/);\n  assert.match(build,/Orvexa-Portable-0\\.0\\.5-x64\\.exe/);\n  assert.match(ci,/Orvexa-Portable-\\$version-x64\\.exe/);\n  assert.match(releaseWorkflow,/Orvexa-Portable-\\$version-x64\\.exe/);\n  assert.match(versionTool,/Orvexa-Portable-\[0-9A-Za-z\\.\\\\-\]\+-x64\\\\\.exe/);\n});\n
