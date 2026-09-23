@@ -390,4 +390,10 @@ test('stable release can also be started manually without changing the automatic
 });
 
 
-test('standalone Portable EXE is built and published as a release asset',()=>{\n  assert.match(build,/PublishSingleFile=true/);\n  assert.match(build,/IncludeNativeLibrariesForSelfExtract=true/);\n  assert.match(build,/Orvexa-Portable-0\\.0\\.5-x64\\.exe/);\n  assert.match(ci,/Orvexa-Portable-\\$version-x64\\.exe/);\n  assert.match(releaseWorkflow,/Orvexa-Portable-\\$version-x64\\.exe/);\n  assert.match(versionTool,/Orvexa-Portable-\[0-9A-Za-z\\.\\\\-\]\+-x64\\\\\.exe/);\n});\n
+test('standalone Portable EXE is built and published as a release asset',()=>{
+  assert.match(build,/PublishSingleFile=true/);
+  assert.match(build,/IncludeNativeLibrariesForSelfExtract=true/);
+  assert.match(build,/Orvexa-Portable-0\.0\.5-x64\.exe/);
+  assert.match(ci,/Orvexa-Portable-\$version-x64\.exe/);
+  assert.match(releaseWorkflow,/Orvexa-Portable-\$version-x64\.exe/);
+});
