@@ -42,8 +42,9 @@ jobs:
             exit 0
           }
           $tag="v$($meta.version)"
-          gh release view $tag --repo "${{ github.repository }}" *> $null
-          $exists=$LASTEXITCODE -eq 0
+          $releaseTags=@(gh release list --repo "${{ github.repository }}" --limit 1000 --json tagName --jq '.[].tagName')
+          if($LASTEXITCODE -ne 0) { throw "Unable to inspect existing GitHub releases." }
+          $exists=$releaseTags -contains $tag
           $publish=if($exists){'false'}else{'true'}
           "publish=$publish" >> $env:GITHUB_OUTPUT
           "version=$($meta.version)" >> $env:GITHUB_OUTPUT
