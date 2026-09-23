@@ -35,7 +35,6 @@ jobs:
           unzip -q "$RUNNER_TEMP/orvexa-0.0.3.zip" -d "$RUNNER_TEMP/orvexa-source"
           cp -a "$RUNNER_TEMP/orvexa-source/." .
           rm -rf .github/bootstrap
-          rm -f .github/workflows/bootstrap-source.yml
 
       - name: Verify restored source
         shell: bash
