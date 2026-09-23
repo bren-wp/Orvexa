@@ -1,5 +1,5 @@
 name: Prepare Orvexa 0.0.5
-# rerun after protocol QA alignment
+# rerun after strict protocol QA fix
 
 on:
   push:
