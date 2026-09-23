@@ -90,8 +90,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch --tags --force
-          git rev-parse --verify "refs/tags/$tag" *> $null
-          if($LASTEXITCODE -ne 0) {
+          $localTags=@(git tag -l $tag)
+          if(-not ($localTags -contains $tag)) {
             git tag -a $tag -m "Orvexa $version"
             git push origin $tag
           }
