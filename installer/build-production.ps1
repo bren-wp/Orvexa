@@ -50,7 +50,7 @@ dotnet publish $app `
     -r win-x64 `
     --self-contained true `
     -o $portablePublish `
-    /p:AssemblyName=$portableBaseName `
+    /p:PortableAssemblyName=$portableBaseName `
     /p:PublishSingleFile=true `
     /p:PublishTrimmed=false `
     /p:PublishReadyToRun=false `
