@@ -32,7 +32,7 @@ Orvexa is a modern Windows software control center built around a simple idea: i
 
 It combines a curated application catalog, WinGet, device recommendations and local system information in one native Windows experience. The companion Orvexa Web interface lets you prepare an app selection in the browser and hand only trusted catalog IDs to the Windows application through the `orvexa://` protocol.
 
-**Current version: 0.0.4**
+**Current version: 0.0.5**
 
 <table>
   <tr>
@@ -42,6 +42,23 @@ It combines a curated application catalog, WinGet, device recommendations and lo
     <td><strong>Orvexa Web</strong><br/>Responsive · local assets · curated catalog</td>
   </tr>
 </table>
+
+## What makes Orvexa different
+
+Orvexa is designed as a product, not a thin wrapper around a package-manager command. The catalog is useful immediately, package operations stay reviewable, local state is bounded and recoverable, and the browser-to-Windows bridge never carries arbitrary shell commands.
+
+<div align="center">
+  <img src="apps/web/assets/categories/utilities.svg" width="38" alt="Utilities" />&nbsp;&nbsp;&nbsp;
+  <img src="apps/web/assets/categories/security.svg" width="38" alt="Security" />&nbsp;&nbsp;&nbsp;
+  <img src="apps/web/assets/categories/developer.svg" width="38" alt="Developer tools" />&nbsp;&nbsp;&nbsp;
+  <img src="apps/web/assets/categories/cloud-sync.svg" width="38" alt="Cloud tools" />
+</div>
+
+- **Curated first-run experience** — the trusted catalog is populated before the first search.
+- **Native Windows UX** — WinUI 3, .NET 8 and Windows App SDK, with one primary application window.
+- **Safe web handoff** — only validated Orvexa catalog IDs cross the `orvexa://` boundary.
+- **Local-first privacy** — no telemetry transport; settings, favorites, activity and cache remain local.
+- **Release-grade automation** — QA, native build, Setup, checksums and GitHub Releases are part of the release gate.
 
 ## Why Orvexa
 
@@ -124,7 +141,7 @@ User confirmation
 WinGet execution
 ```
 
-The browser never sends an arbitrary shell command. WinGet processes use `ProcessStartInfo.ArgumentList`, bounded output capture, cancellation, timeouts and process-tree termination where required.
+The browser never sends an arbitrary shell command. **Orvexa 0.0.5 further hardens the web-to-Windows boundary** by rejecting oversized, ambiguous or invalid protocol requests instead of partially processing them. WinGet processes use `ProcessStartInfo.ArgumentList`, bounded output capture, cancellation, timeouts and process-tree termination where required.
 
 Read the full model in [`docs/SECURITY.md`](docs/SECURITY.md).
 
@@ -156,8 +173,8 @@ Release candidates use:
 Set the version from the repository root:
 
 ```bash
-node tools/set-version.mjs 0.0.4
-node tools/set-version.mjs 0.0.5-rc.1
+node tools/set-version.mjs 0.0.5
+node tools/set-version.mjs 0.0.6-rc.1
 ```
 
 The version tool synchronizes package metadata, .NET metadata, assembly/file version, Windows manifest, Setup configuration, web metadata/footer, build metadata and release artifact names.
@@ -167,16 +184,16 @@ The version tool synchronizes package metadata, .NET metadata, assembly/file ver
 Stable GitHub releases publish source-oriented artifacts directly from the tagged repository state:
 
 ```text
-Orvexa-0.0.4.zip
-Orvexa-Web-0.0.4.zip
-Orvexa-QA-0.0.4.zip
+Orvexa-0.0.5.zip
+Orvexa-Web-0.0.5.zip
+Orvexa-QA-0.0.5.zip
 ```
 
 Windows production packaging is handled separately by `installer/build-production.ps1` and produces the versioned Portable and Setup artifacts when the Windows build environment is available:
 
 ```text
-Orvexa-Portable-0.0.4-x64.zip
-Orvexa-Setup-0.0.4-x64.exe
+Orvexa-Portable-0.0.5-x64.zip
+Orvexa-Setup-0.0.5-x64.exe
 ```
 
 > Signing certificates and private keys are never committed to the repository.
@@ -247,5 +264,6 @@ Orvexa/
   <img src="apps/web/assets/brand/mark.svg" width="56" alt="Orvexa" />
   <br/>
   <strong>Orvexa</strong><br/>
-  <sub>A modern Windows software control center.</sub>
+  <sub>A modern Windows software control center.</sub><br/>
+  <sub>Built and maintained by Brendigo.</sub>
 </div>

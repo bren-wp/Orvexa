@@ -3,6 +3,7 @@ name: Orvexa Release
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -100,6 +101,7 @@ jobs:
             "dist/Orvexa-$version.zip",
             "dist/Orvexa-Web-$version.zip",
             "dist/Orvexa-QA-$version.zip",
+            "dist/Orvexa-Portable-$version-x64.exe",
             "dist/Orvexa-Portable-$version-x64.zip",
             "dist/Orvexa-Setup-$version-x64.exe",
             "dist/SHA256SUMS.txt",

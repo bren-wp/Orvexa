@@ -44,6 +44,7 @@ test('release metadata is synchronized',()=>{
   assert.equal(product.version,v);
   assert.match(proj,new RegExp(`<Version>${v.replaceAll('.','\\.')}<\\/Version>`));
   assert.ok(installer.includes(`MyAppVersion "${v}"`));
+  assert.ok(build.includes(`Orvexa-Portable-${v}-x64.exe`));
   assert.ok(build.includes(`Orvexa-Portable-${v}-x64.zip`));
   assert.ok(build.includes(`Orvexa-Setup-${v}-x64.exe`));
   assert.ok(read('README.md').includes(`Current version: ${v}`));
@@ -134,7 +135,7 @@ test('protocol activation is bounded, allowlisted and capped',()=>{
   assert.match(protocol,/MaxUriLength=8192/);
   assert.match(protocol,/uri\.Scheme,"orvexa"/);
   assert.match(protocol,/uri\.Host,"install"/);
-  assert.match(protocol,/Take\(100\)/);
+  assert.match(protocol,/requested\.Length==0 \|\| requested\.Length>100/);
   assert.match(protocol,/PackagePolicy\.IsSafeId/);
   assert.match(code,/catalogResolver\.Resolve/);
 });
@@ -173,7 +174,7 @@ test('Setup does not recursively wipe the install directory on uninstall',()=>{
 
 test('production build explicitly checks native command failures and artifacts',()=>{
   assert.match(build,/Assert-NativeSuccess "dotnet restore"/);
-  assert.match(build,/Assert-NativeSuccess "dotnet publish"/);
+  assert.match(build,/Assert-NativeSuccess "dotnet single-file publish"/);
   assert.match(build,/Orvexa\.App\.exe was not produced/);
   assert.match(build,/Portable archive was not produced/);
   assert.match(build,/Setup\.exe was not produced/);
@@ -368,4 +369,32 @@ test('README local image references resolve inside the repository',()=>{
   for(const ref of refs){
     assert.equal(exists(ref),true,'Missing README asset: '+ref);
   }
+});
+
+
+test('protocol rejects oversized, ambiguous and invalid install requests instead of truncating them',()=>{
+  assert.match(protocol,/idParameters\.Length!=1/);
+  assert.match(protocol,/requested\.Length==0 \|\| requested\.Length>100/);
+  assert.match(protocol,/requested\.Any\(x=>!PackagePolicy\.IsSafeId\(x\)\)/);
+  assert.doesNotMatch(protocol,/\.Take\(100\)/);
+});
+
+test('protocol queue persists only validated install URIs and enforces its UTF-8 byte cap',()=>{
+  assert.match(protocol,/if\(!TryParseInstall\(value,out _\)\) return;/);
+  assert.match(protocol,/Encoding\.UTF8\.GetByteCount\(json\)<=MaxQueueBytes/);
+});
+
+
+test('stable release can also be started manually without changing the automatic main release path',()=>{
+  assert.match(releaseWorkflow,/push:\s*\n\s*branches: \[ main \]/);
+  assert.match(releaseWorkflow,/workflow_dispatch:/);
+});
+
+
+test('standalone Portable EXE is built and published as a release asset',()=>{
+  assert.match(build,/PublishSingleFile=true/);
+  assert.match(build,/IncludeNativeLibrariesForSelfExtract=true/);
+  assert.match(build,/Orvexa-Portable-0\.0\.5-x64\.exe/);
+  assert.match(ci,/Orvexa-Portable-\$version-x64\.exe/);
+  assert.match(releaseWorkflow,/Orvexa-Portable-\$version-x64\.exe/);
 });
