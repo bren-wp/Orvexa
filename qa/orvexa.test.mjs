@@ -178,6 +178,11 @@ test('production build explicitly checks native command failures and artifacts',
   assert.match(build,/Setup\.exe was not produced/);
 });
 
+test('production checksums hash explicit artifact paths',()=>{
+  assert.match(build,/ForEach-Object \{ Get-FileHash -LiteralPath \$_ -Algorithm SHA256 \}/);
+  assert.doesNotMatch(build,/@\(\$portable,\$setup\) \| Get-FileHash/);
+});
+
 test('web has unique IDs',()=>{
   const ids=[...html.matchAll(/\sid="([^"]+)"/g)].map(x=>x[1]);
   assert.equal(new Set(ids).size,ids.length);
