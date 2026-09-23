@@ -38,6 +38,7 @@ jobs:
         shell: powershell
         run: |
           $version=(Get-Content build/version.json -Raw | ConvertFrom-Json).version
-          if(-not (Test-Path "dist/Orvexa-Portable-$version-x64.zip")) { throw "Portable artifact missing." }
+          if(-not (Test-Path "dist/Orvexa-Portable-$version-x64.exe")) { throw "Portable executable missing." }
+          if(-not (Test-Path "dist/Orvexa-Portable-$version-x64.zip")) { throw "Portable archive missing." }
           if(-not (Test-Path "dist/Orvexa-Setup-$version-x64.exe")) { throw "Setup artifact missing." }
           if(-not (Test-Path "dist/SHA256SUMS.txt")) { throw "Checksum manifest missing." }
