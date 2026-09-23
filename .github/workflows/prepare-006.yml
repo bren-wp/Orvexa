@@ -1,5 +1,5 @@
 name: Prepare Orvexa 0.0.6
-# rerun after release QA alignment
+# rerun after QA syntax repair
 
 on:
   push:
