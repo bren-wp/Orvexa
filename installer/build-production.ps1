@@ -5,6 +5,7 @@ $app=Join-Path $root "apps\windows\Orvexa.App\Orvexa.App.csproj"
 $publish=Join-Path $root "publish"
 $dist=Join-Path $root "dist"
 $portable=Join-Path $dist "Orvexa-Portable-0.0.5-x64.zip"
+$portableExe=Join-Path $dist "Orvexa-Portable-0.0.5-x64.exe"
 $setup=Join-Path $dist "Orvexa-Setup-0.0.5-x64.exe"
 
 function Assert-NativeSuccess([string]$step) {
@@ -25,6 +26,18 @@ dotnet publish $app `
     /p:PublishSingleFile=false `
     /p:WindowsAppSDKSelfContained=true
 Assert-NativeSuccess "dotnet publish"
+
+dotnet publish $app `
+    -c Release `
+    -r win-x64 `
+    --self-contained true `
+    -o "$publish\portable-win-x64" `
+    /p:PublishSingleFile=true `
+    /p:IncludeNativeLibrariesForSelfExtract=true `
+    /p:IncludeAllContentForSelfExtract=true `
+    /p:EnableCompressionInSingleFile=true `
+    /p:WindowsAppSDKSelfContained=true
+Assert-NativeSuccess "dotnet portable single-file publish"
 
 $appExe=Join-Path $publish "win-x64\Orvexa.App.exe"
 if(-not (Test-Path $appExe)) { throw "Orvexa.App.exe was not produced." }
@@ -56,6 +69,12 @@ function Sign-Artifact([string]$path) {
 
 Sign-Artifact $appExe
 
+$singleFileExe=Join-Path $publish "portable-win-x64\Orvexa.App.exe"
+if(-not (Test-Path $singleFileExe)) { throw "Portable single-file Orvexa.App.exe was not produced." }
+Copy-Item $singleFileExe $portableExe -Force
+if(-not (Test-Path $portableExe)) { throw "Portable single-file executable was not produced." }
+Sign-Artifact $portableExe
+
 Compress-Archive `
     -Path "$publish\win-x64\*" `
     -DestinationPath $portable `
@@ -86,7 +105,7 @@ Copy-Item $setup (Join-Path $webDownloads "Orvexa-Setup-x64.exe") -Force
 
 Copy-Item (Join-Path $root "build\version.json") (Join-Path $dist "version.json") -Force
 
-$hashes=@($portable,$setup) | ForEach-Object { Get-FileHash -LiteralPath $_ -Algorithm SHA256 }
+$hashes=@($portable,$portableExe,$setup) | ForEach-Object { Get-FileHash -LiteralPath $_ -Algorithm SHA256 }
 $hashes |
     ForEach-Object { "$($_.Hash)  $([IO.Path]::GetFileName($_.Path))" } |
     Set-Content (Join-Path $dist "SHA256SUMS.txt") -Encoding ascii
