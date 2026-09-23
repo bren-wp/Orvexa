@@ -1,5 +1,5 @@
 name: Diagnose Portable startup
-# final Portable startup validation
+# final Portable launch validation
 
 on:
   push:
