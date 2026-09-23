@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.6 — 2026-09-24
+- Fixed the standalone Portable EXE startup failure reproduced as `XamlParseException` on Windows.
+- Stopped renaming WinUI 3 single-file executables after publish; the Portable release name is now assigned during the WinUI app publish itself.
+- Split production packaging into a canonical folder-based self-contained publish for Setup/Portable ZIP and a separate single-file publish for Portable EXE.
+- Added an app-scoped `PortableAssemblyName` property so only the WinUI executable receives the release filename while `Orvexa.Core` keeps its own assembly identity.
+- Removed production PDB sidecars before packaging and reject any remaining unexpected Portable runtime/content sidecar files.
+- Fixed the invalid `Icon="Computer"` WinUI navigation symbol that caused Portable startup XAML parsing to fail; This PC now uses the valid `Remote` Symbol.
+- Added a real Portable launch smoke test to GitHub CI and the stable release workflow; releases now fail if the Portable process exits during startup.
+- Repaired `tools/set-version.mjs`, added a syntax check for it to release QA and made production artifact naming metadata-driven.
+- Expanded QA coverage for publish-time naming, Portable sidecars, XAML navigation symbols and release startup gating.
+
+
 ## 0.0.5 — 2026-09-24
 - Added a standalone self-contained `Orvexa-Portable-0.0.5-x64.exe` alongside the expanded Portable ZIP and guided Setup executable.
 - Hardened the `orvexa://install` parser so oversized requests are rejected instead of silently truncated.
