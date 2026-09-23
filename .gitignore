@@ -1,0 +1,57 @@
+# .NET / Visual Studio
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build / publish output
+publish/
+dist/
+artifacts/
+release/
+*.nupkg
+*.snupkg
+
+# Node / tooling
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.pem
+*.key
+*.cer
+*.crt
+*.snk
+
+# Logs / diagnostics / temp
+*.log
+crash-logs/
+logs/
+.tmp/
+tmp/
+temp/
+*.tmp
+*.bak
+*.cache
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Generated Windows release binaries
+installer/output/
+apps/web/downloads/*.exe
+!apps/web/downloads/.gitkeep
