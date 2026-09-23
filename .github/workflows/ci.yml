@@ -1,0 +1,34 @@
+name: Orvexa CI
+
+on:
+  push:
+    branches: [ main, 'develop/**', 'release/**' ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    name: QA and web checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run qa
+
+  windows-build:
+    name: Windows source build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore
+        run: dotnet restore apps/windows/Orvexa.sln
+      - name: Build
+        run: dotnet build apps/windows/Orvexa.sln -c Release --no-restore
