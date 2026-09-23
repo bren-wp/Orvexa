@@ -44,9 +44,9 @@ test('release metadata is synchronized',()=>{
   assert.equal(product.version,v);
   assert.match(proj,new RegExp(`<Version>${v.replaceAll('.','\\.')}<\\/Version>`));
   assert.ok(installer.includes(`MyAppVersion "${v}"`));
-  assert.ok(build.includes(`Orvexa-Portable-${v}-x64.exe`));
-  assert.ok(build.includes(`Orvexa-Portable-${v}-x64.zip`));
-  assert.ok(build.includes(`Orvexa-Setup-${v}-x64.exe`));
+  assert.match(build,/Get-Content .*build\\version\.json/);
+  assert.match(build,/\$portableBaseName="Orvexa-Portable-\$version-x64"/);
+  assert.match(build,/\$setup=Join-Path \$dist "Orvexa-Setup-\$version-x64\.exe"/);
   assert.ok(read('README.md').includes(`Current version: ${v}`));
   assert.ok(read('README.md').includes(`node tools/set-version.mjs ${meta.baseVersion}`));
 });
