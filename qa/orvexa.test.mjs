@@ -25,6 +25,10 @@ const cache=read('apps/windows/Orvexa.Core/CatalogCacheService.cs');
 const seed=read('apps/windows/Orvexa.Core/CatalogSeedService.cs');
 const atomic=read('apps/windows/Orvexa.Core/AtomicFile.cs');
 const health=read('apps/windows/Orvexa.Core/HealthService.cs');
+const crashLog=read('apps/windows/Orvexa.Core/CrashLogService.cs');
+const favorites=read('apps/windows/Orvexa.Core/FavoritesService.cs');
+const ci=read('.github/workflows/ci.yml');
+const releaseWorkflow=read('.github/workflows/release.yml');
 const catalog=json('apps/web/data/catalog.json');
 const categories=json('apps/web/data/categories.json');
 const packs=json('apps/web/data/packs.json').packs;
@@ -40,6 +44,8 @@ test('release metadata is synchronized',()=>{
   assert.ok(installer.includes(`MyAppVersion "${v}"`));
   assert.ok(build.includes(`Orvexa-Portable-${v}-x64.zip`));
   assert.ok(build.includes(`Orvexa-Setup-${v}-x64.exe`));
+  assert.ok(read('README.md').includes(`Current version: ${v}`));
+  assert.ok(read('README.md').includes(`node tools/set-version.mjs ${meta.baseVersion}`));
 });
 
 test('central version tool supports RC releases and updates web metadata',()=>{
@@ -277,4 +283,58 @@ test('recovery never reads local state without file-size bounds',()=>{
 
 test('catalog cache normalizes data after reading persisted state',()=>{
   assert.match(cache,/Normalize\(parsed\.Packages/);
+});
+
+
+test('atomic reads stay bounded even if a file grows during the read',()=>{
+  assert.match(atomic,/new FileStream\(/);
+  assert.match(atomic,/total>maxBytes/);
+  assert.match(atomic,/StrictUtf8/);
+  assert.doesNotMatch(atomic,/File\.ReadAllText/);
+  assert.match(atomic,/stream\.Flush\(flushToDisk:true\)/);
+});
+
+test('bundled Windows data is read through bounded file infrastructure',()=>{
+  assert.match(code,/TryReadBundledData/);
+  assert.match(code,/MaxBundledCatalogBytes=16L\*1024\*1024/);
+  assert.match(code,/MaxBundledProfilesBytes=2L\*1024\*1024/);
+  assert.doesNotMatch(code,/File\.ReadAllText|File\.ReadAllTextAsync/);
+});
+
+test('crash log rotation never loads the entire oversized log into memory',()=>{
+  assert.match(crashLog,/RotateAtBytes=1024L\*1024/);
+  assert.match(crashLog,/KeepTailBytes=256\*1024/);
+  assert.match(crashLog,/source\.Seek\(-keep,SeekOrigin\.End\)/);
+  assert.doesNotMatch(crashLog,/ReadAllBytes/);
+});
+
+test('multi-select favorites use a deterministic add or remove action',()=>{
+  assert.match(favorites,/public bool Set\(string id,bool isFavorite\)/);
+  assert.match(code,/selected\.Any\(x=>!current\.Contains\(x\.Id\)\)/);
+  assert.match(xaml,/Content="Add to favorites"/);
+  assert.doesNotMatch(xaml,/Content="Toggle favorite"/);
+});
+
+test('web bounds stored sets and catalog search input',()=>{
+  assert.match(js,/const MAX_FAVORITES = 5000/);
+  assert.match(js,/const MAX_QUERY_LENGTH = 120/);
+  assert.match(js,/readSet\(STORAGE\.selection, MAX_SELECTION\)/);
+  assert.match(js,/slice\(0, MAX_QUERY_LENGTH\)/);
+  assert.match(html,/id="searchInput"[^>]+maxlength="120"/);
+});
+
+test('stable releases are built and published by GitHub Actions',()=>{
+  assert.match(releaseWorkflow,/branches: \[ main \]/);
+  assert.match(releaseWorkflow,/contents: write/);
+  assert.match(releaseWorkflow,/build-production\.ps1/);
+  assert.match(releaseWorkflow,/gh release create/);
+  assert.match(releaseWorkflow,/actions\/upload-artifact@v4/);
+  assert.match(releaseWorkflow,/Orvexa-Setup-\$version-x64\.exe/);
+});
+
+test('CI smoke-tests the same production Windows release pipeline',()=>{
+  assert.match(ci,/Windows release build smoke test/);
+  assert.match(ci,/choco install innosetup/);
+  assert.match(ci,/build-production\.ps1/);
+  assert.match(ci,/SHA256SUMS\.txt/);
 });

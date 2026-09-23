@@ -2,7 +2,7 @@ import fs from 'node:fs';
 
 const input=(process.argv[2]||'').trim();
 if(!/^\d+\.\d+\.\d+(?:-rc\.\d+)?$/.test(input)){
-  console.error('Usage: node tools/set-version.mjs 0.0.2 OR 0.0.2-rc.1');
+  console.error('Usage: node tools/set-version.mjs <major.minor.patch[-rc.N]>');
   process.exit(2);
 }
 
@@ -33,6 +33,10 @@ write('apps/web/data/product.json',JSON.stringify(product,null,2)+'\n');
 
 let readme=read('README.md');
 readme=readme.replace(/Current version: `?\d+\.\d+\.\d+(?:-rc\.\d+)?`?/,`Current version: ${input}`);
+const stableExample=base;
+const rcExample=channel==='rc'?input:`${major}.${minor}.${patch+1}-rc.1`;
+readme=readme.replace(/node tools\/set-version\.mjs \d+\.\d+\.\d+(?!-rc)/,`node tools/set-version.mjs ${stableExample}`);
+readme=readme.replace(/node tools\/set-version\.mjs \d+\.\d+\.\d+-rc\.\d+/,`node tools/set-version.mjs ${rcExample}`);
 readme=readme.replace(/Orvexa-Portable-[0-9A-Za-z.\-]+-x64\.zip/g,`Orvexa-Portable-${input}-x64.zip`);
 readme=readme.replace(/Orvexa-Setup-[0-9A-Za-z.\-]+-x64\.exe/g,`Orvexa-Setup-${input}-x64.exe`);
 write('README.md',readme);

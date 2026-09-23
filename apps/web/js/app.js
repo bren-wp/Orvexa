@@ -5,6 +5,8 @@
   const $$ = selector => [...document.querySelectorAll(selector)];
 
   const MAX_SELECTION = 100;
+  const MAX_FAVORITES = 5000;
+  const MAX_QUERY_LENGTH = 120;
   const PAGE_SIZE = 48;
   const STORAGE = Object.freeze({
     selection: 'orvexa:selection',
@@ -124,8 +126,8 @@
   }
 
   function loadLocalState() {
-    state.selected = readSet(STORAGE.selection);
-    state.favorites = readSet(STORAGE.favorites);
+    state.selected = readSet(STORAGE.selection, MAX_SELECTION);
+    state.favorites = readSet(STORAGE.favorites, MAX_FAVORITES);
 
     const savedTheme = safeStorageGet(STORAGE.theme);
     state.theme = ['system', 'light', 'dark'].includes(savedTheme) ? savedTheme : 'system';
@@ -134,10 +136,11 @@
     state.os = ['windows-11', 'windows-10'].includes(savedOs) ? savedOs : 'windows-11';
   }
 
-  function readSet(key) {
+  function readSet(key, limit) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || '[]');
-      return new Set(Array.isArray(value) ? value.filter(x => typeof x === 'string') : []);
+      if (!Array.isArray(value)) return new Set();
+      return new Set(value.filter(x => typeof x === 'string').slice(0, Math.max(0, limit)));
     } catch {
       return new Set();
     }
@@ -158,7 +161,7 @@
   function sanitizeStoredIds() {
     const allowed = new Set(state.catalog.apps.filter(x => x.enabled).map(x => x.id));
     state.selected = new Set([...state.selected].filter(x => allowed.has(x)).slice(0, MAX_SELECTION));
-    state.favorites = new Set([...state.favorites].filter(x => allowed.has(x)));
+    state.favorites = new Set([...state.favorites].filter(x => allowed.has(x)).slice(0, MAX_FAVORITES));
     saveSet(STORAGE.selection, state.selected);
     saveSet(STORAGE.favorites, state.favorites);
   }
@@ -174,7 +177,9 @@
     refs.headerSelection.addEventListener('click', openReview);
 
     refs.search.addEventListener('input', event => {
-      state.query = event.target.value.trim().toLowerCase();
+      const bounded = String(event.target.value || '').slice(0, MAX_QUERY_LENGTH);
+      if (event.target.value !== bounded) event.target.value = bounded;
+      state.query = bounded.trim().toLowerCase();
       refs.clearSearch.hidden = state.query.length === 0;
       resetVisibleLimit();
       renderCatalog();
@@ -610,7 +615,7 @@
   }
 
   function updateVersionUi() {
-    const version = typeof state.product?.version === 'string' ? state.product.version : '0.0.2';
+    const version = typeof state.product?.version === 'string' ? state.product.version : '—';
     refs.footerVersion.textContent = `Version ${version}`;
   }
 

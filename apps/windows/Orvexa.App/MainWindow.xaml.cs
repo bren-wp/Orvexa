@@ -10,6 +10,8 @@ namespace Orvexa.App;
 
 public sealed partial class MainWindow : Window
 {
+    const long MaxBundledCatalogBytes=16L*1024*1024;
+    const long MaxBundledProfilesBytes=2L*1024*1024;
     readonly WingetService winget=new();
     readonly DeviceService devices=new();
     readonly ActivityService activity=new();
@@ -96,15 +98,14 @@ public sealed partial class MainWindow : Window
             return;
         }
 
-        var catalogPath=Path.Combine(AppContext.BaseDirectory,"data","catalog.json");
-        if(!File.Exists(catalogPath))
+        if(!TryReadBundledData("catalog.json",MaxBundledCatalogBytes,out var catalogJson))
         {
             QueueStatus.Text="The local Orvexa catalog is unavailable.";
             return;
         }
 
         IReadOnlyList<ResolvedPackage> packages;
-        try { packages=catalogResolver.Resolve(ids,File.ReadAllText(catalogPath)); }
+        try { packages=catalogResolver.Resolve(ids,catalogJson); }
         catch(Exception ex)
         {
             crashLog.Write(ex);
@@ -134,6 +135,14 @@ public sealed partial class MainWindow : Window
                 activity.Add(new(DateTimeOffset.Now,result.PackageId,"install",result.Success?"success":"failed",result.Detail));
             QueueStatus.Text=$"Installed {results.Count(x=>x.Success)}/{results.Count} validated package(s).";
         });
+    }
+
+    static bool TryReadBundledData(string fileName,long maxBytes,out string text)
+    {
+        text="";
+        if(string.IsNullOrWhiteSpace(fileName) || fileName.IndexOfAny(Path.GetInvalidFileNameChars())>=0) return false;
+        var path=Path.Combine(AppContext.BaseDirectory,"data",fileName);
+        return AtomicFile.TryReadText(path,maxBytes,out text);
     }
 
     void ApplyVersionText()
@@ -204,16 +213,15 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-            var profilePath=Path.Combine(AppContext.BaseDirectory,"data","device-profiles.json");
-            var catalogPath=Path.Combine(AppContext.BaseDirectory,"data","catalog.json");
-            if(!File.Exists(profilePath) || !File.Exists(catalogPath))
+            if(!TryReadBundledData("device-profiles.json",MaxBundledProfilesBytes,out var profilesJson) ||
+               !TryReadBundledData("catalog.json",MaxBundledCatalogBytes,out var catalogJson))
             {
                 Recommendations.ItemsSource=Array.Empty<ResolvedPackage>();
                 return;
             }
 
-            var ids=new RecommendationService().ForDevice(p,File.ReadAllText(profilePath));
-            Recommendations.ItemsSource=catalogResolver.Resolve(ids,File.ReadAllText(catalogPath));
+            var ids=new RecommendationService().ForDevice(p,profilesJson);
+            Recommendations.ItemsSource=catalogResolver.Resolve(ids,catalogJson);
         }
         catch(Exception ex)
         {
@@ -302,14 +310,14 @@ public sealed partial class MainWindow : Window
 
         try
         {
-            var catalogPath=Path.Combine(AppContext.BaseDirectory,"data","catalog.json");
-            if(!File.Exists(catalogPath))
+            if(!TryReadBundledData("catalog.json",MaxBundledCatalogBytes,out var catalogJson))
             {
                 CatalogEmptyState.Visibility=Visibility.Visible;
+                QueueStatus.Text="The local catalog could not be loaded.";
                 return;
             }
 
-            catalogItems=catalogSeed.FromBundledCatalog(File.ReadAllText(catalogPath));
+            catalogItems=catalogSeed.FromBundledCatalog(catalogJson);
             cache.Merge(catalogItems);
             ApplyCatalogFilter();
             QueueStatus.Text=$"Catalog ready | {catalogItems.Count} curated packages";
@@ -353,9 +361,21 @@ public sealed partial class MainWindow : Window
 
     void CatalogResults_SelectionChanged(object sender,SelectionChangedEventArgs e)
     {
-        var hasSelection=CatalogResults.SelectedItems.Count>0;
+        var selected=CatalogResults.SelectedItems.Cast<PackageItem>().ToArray();
+        var hasSelection=selected.Length>0;
         InstallSelectedButton.IsEnabled=hasSelection;
         FavoriteSelectedButton.IsEnabled=hasSelection;
+
+        if(!hasSelection)
+        {
+            FavoriteSelectedButton.Content="Add to favorites";
+            return;
+        }
+
+        var current=favorites.Read();
+        FavoriteSelectedButton.Content=selected.All(x=>current.Contains(x.Id))
+            ? "Remove from favorites"
+            : "Add to favorites";
     }
 
     void ApplyCatalogFilter()
@@ -386,10 +406,17 @@ public sealed partial class MainWindow : Window
         if(selected.Length==0){QueueStatus.Text="Select one or more packages first.";return;}
         try
         {
-            foreach(var item in selected) favorites.Toggle(item.Id);
+            var current=favorites.Read();
+            var add=selected.Any(x=>!current.Contains(x.Id));
+            foreach(var item in selected) favorites.Set(item.Id,add);
+
             CatalogResults.SelectedItems.Clear();
+            FavoriteSelectedButton.IsEnabled=false;
+            FavoriteSelectedButton.Content="Add to favorites";
             ApplyCatalogFilter();
-            QueueStatus.Text=$"Updated favorites for {selected.Length} package(s).";
+            QueueStatus.Text=add
+                ? $"Added {selected.Length} package(s) to favorites."
+                : $"Removed {selected.Length} package(s) from favorites.";
         }
         catch(Exception ex)
         {
@@ -403,9 +430,8 @@ public sealed partial class MainWindow : Window
         var catalogId=(sender as Button)?.Tag?.ToString();
         if(!PackagePolicy.IsSafeId(catalogId)) return;
 
-        var catalogPath=Path.Combine(AppContext.BaseDirectory,"data","catalog.json");
-        if(!File.Exists(catalogPath)) return;
-        var resolved=catalogResolver.Resolve([catalogId],File.ReadAllText(catalogPath)).FirstOrDefault();
+        if(!TryReadBundledData("catalog.json",MaxBundledCatalogBytes,out var catalogJson)) return;
+        var resolved=catalogResolver.Resolve([catalogId],catalogJson).FirstOrDefault();
         if(resolved is null) return;
 
         SearchBox.Text=resolved.Name;
@@ -472,14 +498,14 @@ public sealed partial class MainWindow : Window
     {
         await RunOperationAsync("Refreshing local catalog...",async ct=>{
             ct.ThrowIfCancellationRequested();
-            var catalogPath=Path.Combine(AppContext.BaseDirectory,"data","catalog.json");
-            if(!File.Exists(catalogPath))
+            if(!TryReadBundledData("catalog.json",MaxBundledCatalogBytes,out var catalogJson))
             {
                 QueueStatus.Text="The bundled Orvexa catalog is unavailable.";
                 return;
             }
 
-            var packages=catalogSeed.FromBundledCatalog(await File.ReadAllTextAsync(catalogPath,ct));
+            ct.ThrowIfCancellationRequested();
+            var packages=catalogSeed.FromBundledCatalog(catalogJson);
             cache.Merge(packages);
             catalogItems=packages;
             ApplyCatalogFilter();

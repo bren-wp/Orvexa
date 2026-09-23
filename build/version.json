@@ -1,7 +1,7 @@
 {
   "product": "Orvexa",
-  "version": "0.0.3",
-  "baseVersion": "0.0.3",
+  "version": "0.0.4",
+  "baseVersion": "0.0.4",
   "channel": "stable",
   "rc": null
 }
