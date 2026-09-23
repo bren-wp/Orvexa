@@ -134,7 +134,7 @@ test('protocol activation is bounded, allowlisted and capped',()=>{
   assert.match(protocol,/MaxUriLength=8192/);
   assert.match(protocol,/uri\.Scheme,"orvexa"/);
   assert.match(protocol,/uri\.Host,"install"/);
-  assert.match(protocol,/Take\(100\)/);
+  assert.match(protocol,/requested\.Length==0 \|\| requested\.Length>100/);
   assert.match(protocol,/PackagePolicy\.IsSafeId/);
   assert.match(code,/catalogResolver\.Resolve/);
 });
