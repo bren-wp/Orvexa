@@ -23,15 +23,6 @@ dotnet publish $app `
     -r win-x64 `
     --self-contained true `
     -o "$publish\win-x64" `
-    /p:PublishSingleFile=false `
-    /p:WindowsAppSDKSelfContained=true
-Assert-NativeSuccess "dotnet publish"
-
-dotnet publish $app `
-    -c Release `
-    -r win-x64 `
-    --self-contained true `
-    -o "$publish\portable-win-x64" `
     /p:PublishSingleFile=true `
     /p:PublishReadyToRun=false `
     /p:EnableMsixTooling=true `
@@ -39,7 +30,7 @@ dotnet publish $app `
     /p:IncludeAllContentForSelfExtract=true `
     /p:EnableCompressionInSingleFile=true `
     /p:WindowsAppSDKSelfContained=true
-Assert-NativeSuccess "dotnet portable single-file publish"
+Assert-NativeSuccess "dotnet single-file publish"
 
 $appExe=Join-Path $publish "win-x64\Orvexa.App.exe"
 if(-not (Test-Path $appExe)) { throw "Orvexa.App.exe was not produced." }
@@ -71,11 +62,8 @@ function Sign-Artifact([string]$path) {
 
 Sign-Artifact $appExe
 
-$singleFileExe=Join-Path $publish "portable-win-x64\Orvexa.App.exe"
-if(-not (Test-Path $singleFileExe)) { throw "Portable single-file Orvexa.App.exe was not produced." }
-Copy-Item $singleFileExe $portableExe -Force
+Copy-Item $appExe $portableExe -Force
 if(-not (Test-Path $portableExe)) { throw "Portable single-file executable was not produced." }
-Sign-Artifact $portableExe
 
 Compress-Archive `
     -Path "$publish\win-x64\*" `
