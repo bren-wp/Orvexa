@@ -382,3 +382,9 @@ test('protocol queue persists only validated install URIs and enforces its UTF-8
   assert.match(protocol,/if\(!TryParseInstall\(value,out _\)\) return;/);
   assert.match(protocol,/Encoding\.UTF8\.GetByteCount\(json\)<=MaxQueueBytes/);
 });
+
+
+test('stable release can also be started manually without changing the automatic main release path',()=>{
+  assert.match(releaseWorkflow,/push:\s*\n\s*branches: \[ main \]/);
+  assert.match(releaseWorkflow,/workflow_dispatch:/);
+});
