@@ -44,9 +44,9 @@ test('release metadata is synchronized',()=>{
   assert.equal(product.version,v);
   assert.match(proj,new RegExp(`<Version>${v.replaceAll('.','\\.')}<\\/Version>`));
   assert.ok(installer.includes(`MyAppVersion "${v}"`));
-  assert.ok(build.includes(`Orvexa-Portable-${v}-x64.exe`));
-  assert.ok(build.includes(`Orvexa-Portable-${v}-x64.zip`));
-  assert.ok(build.includes(`Orvexa-Setup-${v}-x64.exe`));
+  assert.match(build,/Get-Content .*build\\version\.json/);
+  assert.match(build,/\$portableBaseName="Orvexa-Portable-\$version-x64"/);
+  assert.match(build,/\$setup=Join-Path \$dist "Orvexa-Setup-\$version-x64\.exe"/);
   assert.ok(read('README.md').includes(`Current version: ${v}`));
   assert.ok(read('README.md').includes(`node tools/set-version.mjs ${meta.baseVersion}`));
 });
@@ -174,7 +174,8 @@ test('Setup does not recursively wipe the install directory on uninstall',()=>{
 
 test('production build explicitly checks native command failures and artifacts',()=>{
   assert.match(build,/Assert-NativeSuccess "dotnet restore"/);
-  assert.match(build,/Assert-NativeSuccess "dotnet single-file publish"/);
+  assert.match(build,/Assert-NativeSuccess "dotnet folder publish"/);
+  assert.match(build,/Assert-NativeSuccess "dotnet portable single-file publish"/);
   assert.match(build,/Orvexa\.App\.exe was not produced/);
   assert.match(build,/Portable archive was not produced/);
   assert.match(build,/Setup\.exe was not produced/);
@@ -391,10 +392,50 @@ test('stable release can also be started manually without changing the automatic
 });
 
 
-test('standalone Portable EXE is built and published as a release asset',()=>{
+test('standalone Portable EXE is built with its final filename and published as a release asset',()=>{
+  assert.match(build,/\$portableBaseName="Orvexa-Portable-\$version-x64"/);
+  assert.match(build,/PortableAssemblyName=\$portableBaseName/);
   assert.match(build,/PublishSingleFile=true/);
   assert.match(build,/IncludeNativeLibrariesForSelfExtract=true/);
-  assert.match(build,/Orvexa-Portable-0\.0\.5-x64\.exe/);
+  assert.match(build,/IncludeAllContentForSelfExtract=true/);
+  assert.match(build,/published executable is renamed after publishing/);
+  assert.doesNotMatch(build,/Copy-Item \$setupAppExe \$portableExe/);
   assert.match(ci,/Orvexa-Portable-\$version-x64\.exe/);
   assert.match(releaseWorkflow,/Orvexa-Portable-\$version-x64\.exe/);
+});
+
+
+test('portable publish rejects unexpected sidecar files and keeps folder ZIP separate',()=>{
+  assert.match(build,/unexpected external runtime\/content files/);
+  assert.match(build,/Compress-Archive/);
+  assert.match(build,/\$setupPublish\\\*/);
+  assert.match(build,/Copy without renaming/);
+});
+
+
+test('Portable assembly naming is scoped to the WinUI app project only',()=>{
+  assert.match(proj,/PortableAssemblyName/);
+  assert.match(proj,/AssemblyName Condition=/);
+  assert.match(build,/PortableAssemblyName=\$portableBaseName/);
+  assert.doesNotMatch(build,/\/p:AssemblyName=\$portableBaseName/);
+});
+
+
+test('production publish removes debug sidecars before Portable validation',()=>{
+  assert.match(build,/Get-ChildItem \$setupPublish -Recurse -File -Filter \*\.pdb \| Remove-Item -Force/);
+  assert.match(build,/Get-ChildItem \$portablePublish -Recurse -File -Filter \*\.pdb \| Remove-Item -Force/);
+  assert.match(build,/unexpected external runtime\/content files/);
+});
+
+
+test('production packaging strips PDB metadata before sidecar validation',()=>{
+  assert.match(build,/PDB files are debugging metadata/);
+  assert.match(build,/Filter \*\.pdb \| Remove-Item -Force/);
+  assert.match(build,/Portable publish produced unexpected external runtime\/content files/);
+});
+
+
+test('This PC navigation uses a valid WinUI Symbol value',()=>{
+  assert.match(xaml,/Content="This PC" Tag="device" Icon="Remote"/);
+  assert.doesNotMatch(xaml,/Icon="Computer"/);
 });

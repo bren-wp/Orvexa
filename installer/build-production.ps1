@@ -4,36 +4,82 @@ $root=Resolve-Path "$PSScriptRoot\.."
 $app=Join-Path $root "apps\windows\Orvexa.App\Orvexa.App.csproj"
 $publish=Join-Path $root "publish"
 $dist=Join-Path $root "dist"
-$portable=Join-Path $dist "Orvexa-Portable-0.0.5-x64.zip"
-$portableExe=Join-Path $dist "Orvexa-Portable-0.0.5-x64.exe"
-$setup=Join-Path $dist "Orvexa-Setup-0.0.5-x64.exe"
+$meta=Get-Content (Join-Path $root "build\version.json") -Raw | ConvertFrom-Json
+$version=$meta.version
+
+$setupPublish=Join-Path $publish "win-x64"
+$portablePublish=Join-Path $publish "portable-win-x64"
+$portableBaseName="Orvexa-Portable-$version-x64"
+$portableExe=Join-Path $dist "$portableBaseName.exe"
+$portableZip=Join-Path $dist "$portableBaseName.zip"
+$setup=Join-Path $dist "Orvexa-Setup-$version-x64.exe"
 
 function Assert-NativeSuccess([string]$step) {
     if($LASTEXITCODE -ne 0) { throw "$step failed with exit code $LASTEXITCODE." }
 }
 
 Remove-Item $publish,$dist -Recurse -Force -ErrorAction SilentlyContinue
-New-Item $publish,$dist -ItemType Directory -Force | Out-Null
+New-Item $setupPublish,$portablePublish,$dist -ItemType Directory -Force | Out-Null
 
 dotnet restore $app
 Assert-NativeSuccess "dotnet restore"
 
+# Setup and ZIP use a normal unpackaged self-contained folder.
+# Keeping the canonical Orvexa.App.exe name here also keeps Setup shortcuts
+# and the orvexa:// protocol registration stable.
 dotnet publish $app `
     -c Release `
     -r win-x64 `
     --self-contained true `
-    -o "$publish\win-x64" `
+    -o $setupPublish `
+    /p:PublishSingleFile=false `
+    /p:PublishTrimmed=false `
+    /p:PublishReadyToRun=false `
+    /p:EnableMsixTooling=true `
+    /p:WindowsAppSDKSelfContained=true
+Assert-NativeSuccess "dotnet folder publish"
+
+$setupAppExe=Join-Path $setupPublish "Orvexa.App.exe"
+if(-not (Test-Path $setupAppExe)) { throw "Orvexa.App.exe was not produced for Setup." }
+Get-ChildItem $setupPublish -Recurse -File -Filter *.pdb | Remove-Item -Force
+
+# The Portable EXE must be published with its FINAL filename.
+# Windows App SDK 1.8 single-file apps can fail during XAML startup if the
+# published executable is renamed after publishing.
+dotnet publish $app `
+    -c Release `
+    -r win-x64 `
+    --self-contained true `
+    -o $portablePublish `
+    /p:PortableAssemblyName=$portableBaseName `
     /p:PublishSingleFile=true `
+    /p:PublishTrimmed=false `
     /p:PublishReadyToRun=false `
     /p:EnableMsixTooling=true `
     /p:IncludeNativeLibrariesForSelfExtract=true `
     /p:IncludeAllContentForSelfExtract=true `
     /p:EnableCompressionInSingleFile=true `
-    /p:WindowsAppSDKSelfContained=true
-Assert-NativeSuccess "dotnet single-file publish"
+    /p:WindowsAppSDKSelfContained=true `
+    /p:SelfContained=true
+Assert-NativeSuccess "dotnet portable single-file publish"
 
-$appExe=Join-Path $publish "win-x64\Orvexa.App.exe"
-if(-not (Test-Path $appExe)) { throw "Orvexa.App.exe was not produced." }
+$publishedPortableExe=Join-Path $portablePublish "$portableBaseName.exe"
+if(-not (Test-Path $publishedPortableExe)) {
+    throw "Portable single-file executable was not produced with its final release name."
+}
+
+# PDB files are debugging metadata, not runtime dependencies.
+Get-ChildItem $portablePublish -Recurse -File -Filter *.pdb | Remove-Item -Force
+
+$extraPortableFiles=@(
+    Get-ChildItem $portablePublish -File -Recurse |
+    Where-Object { $_.FullName -ne $publishedPortableExe }
+)
+if($extraPortableFiles.Count -gt 0) {
+    Write-Host "Portable publish sidecar files:"
+    $extraPortableFiles | ForEach-Object { Write-Host " - $($_.FullName.Substring($portablePublish.Length+1))" }
+    throw "Portable publish produced unexpected external runtime/content files."
+}
 
 $signTool=(Get-Command signtool.exe -ErrorAction SilentlyContinue)
 $thumbprint=$env:ORVEXA_SIGN_CERT_SHA1
@@ -60,17 +106,19 @@ function Sign-Artifact([string]$path) {
     Assert-NativeSuccess "Authenticode signing"
 }
 
-Sign-Artifact $appExe
+Sign-Artifact $setupAppExe
+Sign-Artifact $publishedPortableExe
 
-Copy-Item $appExe $portableExe -Force
-if(-not (Test-Path $portableExe)) { throw "Portable single-file executable was not produced." }
+# Copy without renaming: the publish-time name and release asset name are identical.
+Copy-Item $publishedPortableExe $portableExe -Force
+if(-not (Test-Path $portableExe)) { throw "Portable executable was not copied to dist." }
 
+# ZIP remains the robust folder-based portable option.
 Compress-Archive `
-    -Path "$publish\win-x64\*" `
-    -DestinationPath $portable `
+    -Path "$setupPublish\*" `
+    -DestinationPath $portableZip `
     -CompressionLevel Optimal
-
-if(-not (Test-Path $portable)) { throw "Portable archive was not produced." }
+if(-not (Test-Path $portableZip)) { throw "Portable archive was not produced." }
 
 $iscc=(Get-Command ISCC.exe -ErrorAction SilentlyContinue)
 if(-not $iscc) {
@@ -95,7 +143,8 @@ Copy-Item $setup (Join-Path $webDownloads "Orvexa-Setup-x64.exe") -Force
 
 Copy-Item (Join-Path $root "build\version.json") (Join-Path $dist "version.json") -Force
 
-$hashes=@($portable,$portableExe,$setup) | ForEach-Object { Get-FileHash -LiteralPath $_ -Algorithm SHA256 }
+$hashes=@($portableExe,$portableZip,$setup) |
+    ForEach-Object { Get-FileHash -LiteralPath $_ -Algorithm SHA256 }
 $hashes |
     ForEach-Object { "$($_.Hash)  $([IO.Path]::GetFileName($_.Path))" } |
     Set-Content (Join-Path $dist "SHA256SUMS.txt") -Encoding ascii

@@ -17,7 +17,7 @@
                 <NavigationViewItem Content="Catalog" Tag="catalog" Icon="Find"/>
                 <NavigationViewItem Content="Updates" Tag="updates" Icon="Sync"/>
                 <NavigationViewItem Content="Installed" Tag="installed" Icon="Library"/>
-                <NavigationViewItem Content="This PC" Tag="device" Icon="Computer"/>
+                <NavigationViewItem Content="This PC" Tag="device" Icon="Remote"/>
                 <NavigationViewItem Content="Activity" Tag="activity" Icon="Clock"/>
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>

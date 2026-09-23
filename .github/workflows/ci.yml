@@ -46,3 +46,36 @@ jobs:
           if(-not (Test-Path "dist/Orvexa-Portable-$version-x64.zip")) { throw "Portable archive missing." }
           if(-not (Test-Path "dist/Orvexa-Setup-$version-x64.exe")) { throw "Setup artifact missing." }
           if(-not (Test-Path "dist/SHA256SUMS.txt")) { throw "Checksum manifest missing." }
+
+      - name: Launch Portable EXE
+        shell: powershell
+        run: |
+          $version=(Get-Content build/version.json -Raw | ConvertFrom-Json).version
+          $exe=Resolve-Path "dist/Orvexa-Portable-$version-x64.exe"
+          $state=Join-Path $env:LOCALAPPDATA "Orvexa"
+          $diagnostics=Join-Path $PWD "diagnostics"
+          Remove-Item $state -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item $diagnostics -ItemType Directory -Force | Out-Null
+
+          $process=Start-Process -FilePath $exe -PassThru
+          Start-Sleep -Seconds 12
+
+          if($process.HasExited) {
+            $log=Join-Path $state "crash.log"
+            if(Test-Path $log) {
+              Copy-Item $log (Join-Path $diagnostics "portable-crash.log") -Force
+              Get-Content $log -Raw
+            }
+            throw "Portable EXE exited during startup smoke test with code $($process.ExitCode)."
+          }
+
+          Stop-Process -Id $process.Id -Force
+
+      - name: Upload Portable startup diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Orvexa-portable-startup-diagnostics
+          path: diagnostics/*
+          if-no-files-found: ignore
+          retention-days: 14

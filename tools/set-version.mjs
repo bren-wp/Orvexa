@@ -37,7 +37,8 @@ const stableExample=base;
 const rcExample=channel==='rc'?input:`${major}.${minor}.${patch+1}-rc.1`;
 readme=readme.replace(/node tools\/set-version\.mjs \d+\.\d+\.\d+(?!-rc)/,`node tools/set-version.mjs ${stableExample}`);
 readme=readme.replace(/node tools\/set-version\.mjs \d+\.\d+\.\d+-rc\.\d+/,`node tools/set-version.mjs ${rcExample}`);
-readme=readme.replace(/Orvexa-Portable-[0-9A-Za-z.\-]+-x64\.exe/g,`Orvexa-Portable-${input}-x64.exe`);\nreadme=readme.replace(/Orvexa-Portable-[0-9A-Za-z.\-]+-x64\.zip/g,`Orvexa-Portable-${input}-x64.zip`);
+readme=readme.replace(/Orvexa-Portable-[0-9A-Za-z.\-]+-x64\.exe/g,`Orvexa-Portable-${input}-x64.exe`);
+readme=readme.replace(/Orvexa-Portable-[0-9A-Za-z.\-]+-x64\.zip/g,`Orvexa-Portable-${input}-x64.zip`);
 readme=readme.replace(/Orvexa-Setup-[0-9A-Za-z.\-]+-x64\.exe/g,`Orvexa-Setup-${input}-x64.exe`);
 write('README.md',readme);
 
@@ -56,9 +57,5 @@ iss=iss.replace(/#define MyAppVersion "[^"]+"/,`#define MyAppVersion "${input}"`
 iss=iss.replace(/OutputBaseFilename=Orvexa-Setup-[^\r\n]+/,`OutputBaseFilename=Orvexa-Setup-${input}-x64`);
 write('installer/Orvexa.iss',iss);
 
-let ps=read('installer/build-production.ps1');
-ps=ps.replace(/Orvexa-Portable-[0-9A-Za-z.\-]+-x64\.exe/g,`Orvexa-Portable-${input}-x64.exe`);\nps=ps.replace(/Orvexa-Portable-[0-9A-Za-z.\-]+-x64\.zip/g,`Orvexa-Portable-${input}-x64.zip`);
-ps=ps.replace(/Orvexa-Setup-[0-9A-Za-z.\-]+-x64\.exe/g,`Orvexa-Setup-${input}-x64.exe`);
-write('installer/build-production.ps1',ps);
 
 console.log(`Orvexa ${input} (${channel})`);

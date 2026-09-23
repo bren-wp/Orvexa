@@ -32,7 +32,7 @@ Orvexa is a modern Windows software control center built around a simple idea: i
 
 It combines a curated application catalog, WinGet, device recommendations and local system information in one native Windows experience. The companion Orvexa Web interface lets you prepare an app selection in the browser and hand only trusted catalog IDs to the Windows application through the `orvexa://` protocol.
 
-**Current version: 0.0.5**
+**Current version: 0.0.6**
 
 <table>
   <tr>
@@ -173,8 +173,8 @@ Release candidates use:
 Set the version from the repository root:
 
 ```bash
-node tools/set-version.mjs 0.0.5
-node tools/set-version.mjs 0.0.6-rc.1
+node tools/set-version.mjs 0.0.6
+node tools/set-version.mjs 0.0.7-rc.1
 ```
 
 The version tool synchronizes package metadata, .NET metadata, assembly/file version, Windows manifest, Setup configuration, web metadata/footer, build metadata and release artifact names.
@@ -184,26 +184,28 @@ The version tool synchronizes package metadata, .NET metadata, assembly/file ver
 Stable GitHub releases publish source-oriented artifacts directly from the tagged repository state:
 
 ```text
-Orvexa-0.0.5.zip
-Orvexa-Web-0.0.5.zip
-Orvexa-QA-0.0.5.zip
+Orvexa-0.0.6.zip
+Orvexa-Web-0.0.6.zip
+Orvexa-QA-0.0.6.zip
 ```
 
 Windows production packaging is handled separately by `installer/build-production.ps1` and produces the versioned Portable and Setup artifacts when the Windows build environment is available:
 
 ```text
-Orvexa-Portable-0.0.5-x64.exe
-Orvexa-Portable-0.0.5-x64.zip
-Orvexa-Setup-0.0.5-x64.exe
+Orvexa-Portable-0.0.6-x64.exe
+Orvexa-Portable-0.0.6-x64.zip
+Orvexa-Setup-0.0.6-x64.exe
 ```
 
 > Signing certificates and private keys are never committed to the repository.
 
 ### Portable EXE
 
-`Orvexa-Portable-0.0.5-x64.exe` is a **self-contained single-file Windows build**. It does not require Setup and is built from the same release source and version metadata as the installer.
+**0.0.6 fixes the Portable startup path.** The WinUI executable is now published directly with its final release filename instead of being renamed after publish, avoiding a Windows App SDK 1.8 XAML resource-resolution failure.
 
-The Portable EXE is included in the SHA-256 manifest and published as a first-class GitHub Release asset.
+`Orvexa-Portable-0.0.6-x64.exe` is a **self-contained single-file Windows build**. It does not require Setup and is built from the same release source and version metadata as the installer.
+
+The Portable EXE is included in the SHA-256 manifest and published as a first-class GitHub Release asset. **Portable startup is tested on Windows before release**; CI fails if the process exits during the startup smoke-test window.
 
 ## Build
 
