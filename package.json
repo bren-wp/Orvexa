@@ -8,6 +8,6 @@
     "validate": "node tools/validate-catalog.mjs",
     "version:set": "node tools/set-version.mjs",
     "test": "node --test qa/orvexa.test.mjs",
-    "qa": "node --test qa/orvexa.test.mjs && node --check apps/web/js/app.js && node tools/validate-catalog.mjs"
+    "qa": "node --test qa/orvexa.test.mjs && node --check apps/web/js/app.js && node --check tools/set-version.mjs && node tools/validate-catalog.mjs"
   }
 }
