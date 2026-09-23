@@ -393,7 +393,7 @@ test('stable release can also be started manually without changing the automatic
 
 test('standalone Portable EXE is built with its final filename and published as a release asset',()=>{
   assert.match(build,/\$portableBaseName="Orvexa-Portable-\$version-x64"/);
-  assert.match(build,/AssemblyName=\$portableBaseName/);
+  assert.match(build,/PortableAssemblyName=\$portableBaseName/);
   assert.match(build,/PublishSingleFile=true/);
   assert.match(build,/IncludeNativeLibrariesForSelfExtract=true/);
   assert.match(build,/IncludeAllContentForSelfExtract=true/);
@@ -409,4 +409,12 @@ test('portable publish rejects unexpected sidecar files and keeps folder ZIP sep
   assert.match(build,/Compress-Archive/);
   assert.match(build,/\$setupPublish\\\*/);
   assert.match(build,/Copy without renaming/);
+});
+
+
+test('Portable assembly naming is scoped to the WinUI app project only',()=>{
+  assert.match(proj,/PortableAssemblyName/);
+  assert.match(proj,/AssemblyName Condition=/);
+  assert.match(build,/PortableAssemblyName=\$portableBaseName/);
+  assert.doesNotMatch(build,/\/p:AssemblyName=\$portableBaseName/);
 });
