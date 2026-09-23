@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.5 — 2026-09-24
+- Hardened the `orvexa://install` parser so oversized requests are rejected instead of silently truncated.
+- Rejects ambiguous protocol requests containing multiple `ids=` parameters and rejects the entire request when any package ID is invalid.
+- Protocol handoff queue now persists only validated install URIs and enforces its storage cap using actual UTF-8 byte length.
+- Expanded release QA with protocol boundary and queue-persistence assertions.
+- Upgraded the main GitHub README with stronger product positioning, Orvexa logo/hero artwork, local category and application iconography, release badges, clearer download CTAs and security messaging.
+- Added manual `workflow_dispatch` support to the stable release workflow while preserving automatic publishing from `main`.
+- Synchronized Windows, web, Setup, Portable and GitHub release metadata for 0.0.5.
+
+
 ## 0.0.4 — 2026-09-23
 - Rebuilt the main GitHub README as a product-focused landing page using real Orvexa logo, hero artwork, product icons, catalog icons, release links and architecture/security sections.
 - Hardened atomic state reads against file-growth races by enforcing byte limits while streaming the file instead of checking size and then calling `ReadAllText`.
