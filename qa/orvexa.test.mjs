@@ -27,6 +27,7 @@ const atomic=read('apps/windows/Orvexa.Core/AtomicFile.cs');
 const health=read('apps/windows/Orvexa.Core/HealthService.cs');
 const crashLog=read('apps/windows/Orvexa.Core/CrashLogService.cs');
 const favorites=read('apps/windows/Orvexa.Core/FavoritesService.cs');
+const license=read('apps/windows/Orvexa.Core/LicenseService.cs');
 const ci=read('.github/workflows/ci.yml');
 const releaseWorkflow=read('.github/workflows/release.yml');
 const catalog=json('apps/web/data/catalog.json');
@@ -337,4 +338,11 @@ test('CI smoke-tests the same production Windows release pipeline',()=>{
   assert.match(ci,/choco install innosetup/);
   assert.match(ci,/build-production\.ps1/);
   assert.match(ci,/SHA256SUMS\.txt/);
+});
+
+
+test('embedded Windows license uses a valid multiline raw string',()=>{
+  assert.match(license,/Text=>"""\r?\nORVEXA SOFTWARE LICENSE AGREEMENT/);
+  assert.doesNotMatch(license,/Text=>"""ORVEXA/);
+  assert.match(license,/\r?\n""";/);
 });
