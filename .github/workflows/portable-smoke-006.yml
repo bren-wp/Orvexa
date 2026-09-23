@@ -1,5 +1,5 @@
 name: Diagnose Portable startup
-# final Portable launch validation
+# validate XAML-fixed Portable startup
 
 on:
   push:
