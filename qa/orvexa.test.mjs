@@ -432,3 +432,9 @@ test('production packaging strips PDB metadata before sidecar validation',()=>{
   assert.match(build,/Filter \*\.pdb \| Remove-Item -Force/);
   assert.match(build,/Portable publish produced unexpected external runtime\/content files/);
 });
+
+
+test('This PC navigation uses a valid WinUI Symbol value',()=>{
+  assert.match(xaml,/Content="This PC" Tag="device" Icon="Remote"/);
+  assert.doesNotMatch(xaml,/Icon="Computer"/);
+});
