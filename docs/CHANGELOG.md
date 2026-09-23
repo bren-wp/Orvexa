@@ -11,7 +11,8 @@
 - Fixed the embedded Windows license raw-string syntax error exposed by the real production publish smoke test.
 - Fixed production and GitHub Release SHA-256 generation so artifact paths are hashed explicitly instead of relying on unsupported `Get-FileHash` pipeline binding.
 - Added an explicit GitHub Actions identity before creating the annotated stable release tag.
-- Expanded release QA from 39 to 49 checks, including compile-risk validation for the embedded license source and checksum/tag generation.
+- Fixed first-release detection so a missing GitHub Release is treated as publishable state instead of a fatal CLI error.
+- Expanded release QA from 39 to 50 checks, including compile-risk validation for the embedded license source, checksum/tag generation and first-release detection.
 - Upgraded CI to smoke-test the full production Windows Portable and Setup build with Inno Setup.
 - Added automatic stable GitHub Releases with source, web, QA, Portable, Setup, checksum and version assets.
 
