@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.0.4 — 2026-09-23
+- Rebuilt the main GitHub README as a product-focused landing page using real Orvexa logo, hero artwork, product icons, catalog icons, release links and architecture/security sections.
 - Hardened atomic state reads against file-growth races by enforcing byte limits while streaming the file instead of checking size and then calling `ReadAllText`.
 - Made atomic writes more durable with unique `CreateNew` temporary files, UTF-8 without BOM and an explicit flush-to-disk before replacement.
 - Reworked crash-log rotation so oversized logs retain only a bounded tail instead of loading the entire file into memory.

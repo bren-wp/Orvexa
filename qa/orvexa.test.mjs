@@ -35,6 +35,7 @@ const categories=json('apps/web/data/categories.json');
 const packs=json('apps/web/data/packs.json').packs;
 const osCatalog=json('apps/web/data/os-catalog.json').systems;
 const manifest=json('apps/web/manifest.webmanifest');
+const readmeDoc=read('README.md');
 
 test('release metadata is synchronized',()=>{
   const v=meta.version;
@@ -357,4 +358,14 @@ test('embedded Windows license uses a valid multiline raw string',()=>{
   assert.match(license,/Text=>"""\r?\nORVEXA SOFTWARE LICENSE AGREEMENT/);
   assert.doesNotMatch(license,/Text=>"""ORVEXA/);
   assert.match(license,/\r?\n""";/);
+});
+
+test('README local image references resolve inside the repository',()=>{
+  const refs=[...readmeDoc.matchAll(/src="([^"]+\.(?:svg|png|jpg|jpeg|webp))"/gi)]
+    .map(match=>match[1])
+    .filter(ref=>!ref.startsWith('http://')&&!ref.startsWith('https://'));
+  assert.ok(refs.length>=10,'README should use real local Orvexa artwork');
+  for(const ref of refs){
+    assert.equal(exists(ref),true,'Missing README asset: '+ref);
+  }
 });
