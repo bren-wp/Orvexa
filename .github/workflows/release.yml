@@ -64,6 +64,26 @@ jobs:
         shell: powershell
         run: ./installer/build-production.ps1
 
+      - name: Smoke-test Portable EXE
+        if: steps.meta.outputs.publish == 'true'
+        shell: powershell
+        run: |
+          $version='${{ steps.meta.outputs.version }}'
+          $exe=Resolve-Path "dist/Orvexa-Portable-$version-x64.exe"
+          $state=Join-Path $env:LOCALAPPDATA "Orvexa"
+          Remove-Item $state -Recurse -Force -ErrorAction SilentlyContinue
+
+          $process=Start-Process -FilePath $exe -PassThru
+          Start-Sleep -Seconds 12
+
+          if($process.HasExited) {
+            $log=Join-Path $state "crash.log"
+            if(Test-Path $log) { Get-Content $log -Raw }
+            throw "Portable EXE exited during release startup smoke test with code $($process.ExitCode)."
+          }
+
+          Stop-Process -Id $process.Id -Force
+
       - name: Package source, web and QA
         if: steps.meta.outputs.publish == 'true'
         shell: powershell
