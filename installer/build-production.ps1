@@ -72,6 +72,8 @@ $extraPortableFiles=@(
     Where-Object { $_.FullName -ne $publishedPortableExe }
 )
 if($extraPortableFiles.Count -gt 0) {
+    Write-Host "Portable publish sidecar files:"
+    $extraPortableFiles | ForEach-Object { Write-Host " - $($_.FullName.Substring($portablePublish.Length+1))" }
     throw "Portable publish produced unexpected external runtime/content files."
 }
 
