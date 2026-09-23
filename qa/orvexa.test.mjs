@@ -391,10 +391,22 @@ test('stable release can also be started manually without changing the automatic
 });
 
 
-test('standalone Portable EXE is built and published as a release asset',()=>{
+test('standalone Portable EXE is built with its final filename and published as a release asset',()=>{
+  assert.match(build,/\$portableBaseName="Orvexa-Portable-\$version-x64"/);
+  assert.match(build,/AssemblyName=\$portableBaseName/);
   assert.match(build,/PublishSingleFile=true/);
   assert.match(build,/IncludeNativeLibrariesForSelfExtract=true/);
-  assert.match(build,/Orvexa-Portable-0\.0\.5-x64\.exe/);
+  assert.match(build,/IncludeAllContentForSelfExtract=true/);
+  assert.match(build,/published executable is renamed after publishing/);
+  assert.doesNotMatch(build,/Copy-Item \$setupAppExe \$portableExe/);
   assert.match(ci,/Orvexa-Portable-\$version-x64\.exe/);
   assert.match(releaseWorkflow,/Orvexa-Portable-\$version-x64\.exe/);
+});
+
+
+test('portable publish rejects unexpected sidecar files and keeps folder ZIP separate',()=>{
+  assert.match(build,/unexpected external runtime\/content files/);
+  assert.match(build,/Compress-Archive/);
+  assert.match(build,/\$setupPublish\\\*/);
+  assert.match(build,/Copy without renaming/);
 });
