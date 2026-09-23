@@ -9,7 +9,8 @@
 - Bounded browser-restored selection/favorite state and catalog search text; removed a duplicate selection UI update and a stale web version fallback.
 - Added the missing privacy document referenced by the repository README.
 - Fixed the embedded Windows license raw-string syntax error exposed by the real production publish smoke test.
-- Expanded release QA from 39 to 47 checks, including compile-risk validation for the embedded license source.
+- Fixed production SHA-256 generation so Portable and Setup paths are hashed explicitly instead of relying on unsupported `Get-FileHash` pipeline binding.
+- Expanded release QA from 39 to 48 checks, including compile-risk validation for the embedded license source and checksum generation.
 - Upgraded CI to smoke-test the full production Windows Portable and Setup build with Inno Setup.
 - Added automatic stable GitHub Releases with source, web, QA, Portable, Setup, checksum and version assets.
 
