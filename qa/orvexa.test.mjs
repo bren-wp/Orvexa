@@ -174,7 +174,7 @@ test('Setup does not recursively wipe the install directory on uninstall',()=>{
 
 test('production build explicitly checks native command failures and artifacts',()=>{
   assert.match(build,/Assert-NativeSuccess "dotnet restore"/);
-  assert.match(build,/Assert-NativeSuccess "dotnet single-file publish"/);
+  assert.match(build,/Assert-NativeSuccess "dotnet folder publish"/);\n  assert.match(build,/Assert-NativeSuccess "dotnet portable single-file publish"/);
   assert.match(build,/Orvexa\.App\.exe was not produced/);
   assert.match(build,/Portable archive was not produced/);
   assert.match(build,/Setup\.exe was not produced/);
@@ -420,9 +420,9 @@ test('Portable assembly naming is scoped to the WinUI app project only',()=>{
 });
 
 
-test('production publish disables debug sidecars for Portable and Setup outputs',()=>{
-  assert.match(build,/DebugType=None/);
-  assert.match(build,/DebugSymbols=false/);
+test('production publish removes debug sidecars before Portable validation',()=>{
+  assert.match(build,/Get-ChildItem \$setupPublish -Recurse -File -Filter \*\.pdb \| Remove-Item -Force/);
+  assert.match(build,/Get-ChildItem \$portablePublish -Recurse -File -Filter \*\.pdb \| Remove-Item -Force/);
   assert.match(build,/unexpected external runtime\/content files/);
 });
 
