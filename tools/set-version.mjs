@@ -57,10 +57,5 @@ iss=iss.replace(/#define MyAppVersion "[^"]+"/,`#define MyAppVersion "${input}"`
 iss=iss.replace(/OutputBaseFilename=Orvexa-Setup-[^\r\n]+/,`OutputBaseFilename=Orvexa-Setup-${input}-x64`);
 write('installer/Orvexa.iss',iss);
 
-let ps=read('installer/build-production.ps1');
-ps=ps.replace(/Orvexa-Portable-[0-9A-Za-z.\-]+-x64\.exe/g,`Orvexa-Portable-${input}-x64.exe`);
-ps=ps.replace(/Orvexa-Portable-[0-9A-Za-z.\-]+-x64\.zip/g,`Orvexa-Portable-${input}-x64.zip`);
-ps=ps.replace(/Orvexa-Setup-[0-9A-Za-z.\-]+-x64\.exe/g,`Orvexa-Setup-${input}-x64.exe`);
-write('installer/build-production.ps1',ps);
 
 console.log(`Orvexa ${input} (${channel})`);
