@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "systems": [
+    {
+      "id": "windows-11",
+      "name": "Windows 11",
+      "publisher": "Microsoft",
+      "type": "Windows",
+      "description": "Official Windows 11 download and installation media.",
+      "url": "https://www.microsoft.com/software-download/windows11",
+      "supported": true
+    },
+    {
+      "id": "windows-10",
+      "name": "Windows 10",
+      "publisher": "Microsoft",
+      "type": "Windows",
+      "description": "Official Windows 10 installation media and ISO download.",
+      "url": "https://www.microsoft.com/software-download/windows10",
+      "supported": true
+    },
+    {
+      "id": "ubuntu",
+      "name": "Ubuntu Desktop",
+      "publisher": "Canonical",
+      "type": "Linux",
+      "description": "Ubuntu Desktop installation image from the official publisher.",
+      "url": "https://ubuntu.com/download/desktop",
+      "supported": false
+    },
+    {
+      "id": "linux-mint",
+      "name": "Linux Mint",
+      "publisher": "Linux Mint",
+      "type": "Linux",
+      "description": "Linux Mint desktop installation images.",
+      "url": "https://linuxmint.com/download.php",
+      "supported": false
+    },
+    {
+      "id": "fedora",
+      "name": "Fedora Workstation",
+      "publisher": "Fedora Project",
+      "type": "Linux",
+      "description": "Fedora Workstation installation image.",
+      "url": "https://fedoraproject.org/workstation/download",
+      "supported": false
+    }
+  ]
+}

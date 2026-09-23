@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d0f14">
+  <meta name="color-scheme" content="dark light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'">
+  <meta name="description" content="Orvexa helps you choose trusted Windows software, build a clean app pack and open the validated selection in the Orvexa Windows app.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Orvexa — Your software. One control center.">
+  <meta property="og:description" content="Choose Windows software, review your selection and install it through the Orvexa Windows app.">
+  <meta property="og:image" content="assets/brand/icon-512.png">
+  <title>Orvexa — Your software. One control center.</title>
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/brand/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="assets/brand/hero.svg" as="image" type="image/svg+xml">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Orvexa home">
+      <img src="assets/brand/logo.svg" alt="Orvexa" width="154" height="36">
+    </a>
+
+    <button class="nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mainNav">
+      Menu
+    </button>
+
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a href="#catalog">Apps</a>
+      <a href="#packs">Packs</a>
+      <a href="#how">How it works</a>
+      <a href="#security">Security</a>
+      <a href="#downloads">Windows</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="ghost-button compact header-selection" id="headerSelectionButton" type="button" hidden>
+        <span id="headerSelectionCount">0</span> selected
+      </button>
+      <button class="ghost-button compact" id="themeToggle" type="button" aria-label="Change color theme">Theme: System</button>
+      <button class="primary-button compact" id="windowsDownloadButton" type="button">Get Orvexa</button>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Orvexa for Windows</p>
+        <h1>Your software. <span>One control center.</span></h1>
+        <p>Choose trusted Windows apps, build a clean pack and hand the same validated selection to Orvexa for installation.</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#catalog">Choose apps</a>
+          <button class="secondary-button" id="heroDownloadButton" type="button">Download Orvexa</button>
+        </div>
+        <div class="trust-row" aria-label="Product highlights">
+          <span>Validated catalog</span>
+          <span>No arbitrary web commands</span>
+          <span>Local-first preferences</span>
+        </div>
+        <div class="hero-stats" aria-label="Catalog status">
+          <div><strong id="catalogAppCount">—</strong><span>curated apps</span></div>
+          <div><strong id="catalogCategoryCount">—</strong><span>categories</span></div>
+          <div><strong id="catalogRevisionHero">—</strong><span>catalog revision</span></div>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <img src="assets/brand/hero.svg" alt="Orvexa software control center interface" width="720" height="520">
+      </div>
+    </section>
+
+    <section class="windows-product" aria-labelledby="windowsProductTitle">
+      <div class="windows-copy">
+        <p class="eyebrow">Windows app</p>
+        <h2 id="windowsProductTitle">One focused Orvexa window.</h2>
+        <p>Home, Catalog, Updates, Installed, This PC, Activity, Settings and About stay inside one modern Windows application.</p>
+        <div class="feature-chips" aria-label="Windows app features">
+          <span>Catalog search</span>
+          <span>Batch install</span>
+          <span>Update review</span>
+          <span>Installed apps</span>
+          <span>Favorites</span>
+          <span>Activity history</span>
+        </div>
+        <div class="windows-actions">
+          <button class="primary-button" id="productDownloadButton" type="button">Get Orvexa for Windows</button>
+          <a class="ghost-button" href="#catalog">Explore catalog</a>
+        </div>
+      </div>
+
+      <div class="windows-preview" aria-label="Orvexa Windows interface preview">
+        <div class="preview-bar">
+          <img src="assets/brand/mark.svg" alt="" width="24" height="24">
+          <strong>Orvexa</strong>
+          <span>Home</span><span>Catalog</span><span>Updates</span><span>Installed</span>
+        </div>
+        <div class="preview-body">
+          <small>SOFTWARE CONTROL CENTER</small>
+          <strong>Everything your Windows PC needs, in one place.</strong>
+          <div class="preview-cards" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="workflow-section" id="how">
+      <div class="section-heading">
+        <div><p class="eyebrow">Workflow</p><h2>Choose once. Review twice.</h2></div>
+        <p>The website sends only Orvexa catalog IDs. The Windows app validates them again before offering installation.</p>
+      </div>
+      <div class="workflow-line">
+        <article><b>01</b><strong>Search</strong><span>Browse the curated catalog</span></article>
+        <article><b>02</b><strong>Select</strong><span>Choose one or many apps</span></article>
+        <article><b>03</b><strong>Review</strong><span>Check the pack in your browser</span></article>
+        <article><b>04</b><strong>Confirm</strong><span>Approve it again inside Orvexa</span></article>
+      </div>
+    </section>
+
+    <section class="packs-section" id="packs">
+      <div class="section-heading">
+        <div><p class="eyebrow">Curated sets</p><h2>Start with a pack</h2></div>
+        <p>Packs add compatible apps to your current selection. You stay in control of every item before continuing.</p>
+      </div>
+      <div class="packs-grid" id="packsGrid"></div>
+    </section>
+
+    <section class="os-section" aria-labelledby="windowsVersionTitle">
+      <div class="section-heading">
+        <div><p class="kicker">Compatibility</p><h2 id="windowsVersionTitle">Choose your Windows version</h2></div>
+        <p>The catalog filters apps by the Windows workflow you are preparing.</p>
+      </div>
+      <div class="os-picker" role="radiogroup" aria-label="Windows version">
+        <button class="os-card active" type="button" data-os="windows-11" role="radio" aria-checked="true">
+          <span class="os-mark">11</span>
+          <span><strong>Windows 11</strong><small>Recommended workflow</small></span>
+          <span class="selection-label">Selected</span>
+        </button>
+        <button class="os-card" type="button" data-os="windows-10" role="radio" aria-checked="false">
+          <span class="os-mark">10</span>
+          <span><strong>Windows 10</strong><small>Package workflow</small></span>
+          <span class="selection-label">Select</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="catalog-shell" id="catalog">
+      <aside class="category-panel" aria-label="App categories">
+        <div class="aside-heading"><p class="kicker">Catalog</p><h3>Browse</h3></div>
+        <button class="category-link active" type="button" data-category="all" aria-pressed="true">
+          <span>All apps</span><span id="allCount"></span>
+        </button>
+        <div id="categoryLinks"></div>
+        <div class="catalog-revision">
+          <span>Catalog</span>
+          <strong id="catalogRevision">Revision</strong>
+          <small id="catalogUpdated">Updated recently</small>
+        </div>
+      </aside>
+
+      <section class="catalog-content" aria-labelledby="catalogTitle">
+        <div class="catalog-toolbar">
+          <div>
+            <p class="kicker">Apps</p>
+            <h2 id="catalogTitle">Choose your apps</h2>
+          </div>
+          <div class="search-controls">
+            <label class="search-box">
+              <span class="sr-only">Search catalog</span>
+              <input id="searchInput" type="search" placeholder="Search apps, publishers or package IDs" autocomplete="off" spellcheck="false">
+            </label>
+            <button class="ghost-button compact" id="clearSearchButton" type="button" hidden>Clear</button>
+          </div>
+        </div>
+
+        <div class="catalog-control-row">
+          <div class="filter-row" aria-label="Catalog filters">
+            <button class="filter-pill active" type="button" data-filter="all" aria-pressed="true">All</button>
+            <button class="filter-pill" type="button" data-filter="popular" aria-pressed="false">Popular</button>
+            <button class="filter-pill" type="button" data-filter="favorites" aria-pressed="false">Favorites</button>
+            <button class="filter-pill" type="button" data-filter="selected" aria-pressed="false">Selected</button>
+          </div>
+
+          <label class="sort-control">
+            <span>Sort</span>
+            <select id="sortSelect">
+              <option value="featured">Featured</option>
+              <option value="name">Name A–Z</option>
+              <option value="publisher">Publisher</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="catalog-summary">
+          <span id="resultsCount" aria-live="polite">Loading catalog…</span>
+          <span id="selectionLimitNote">Up to 100 apps per Orvexa handoff</span>
+        </div>
+
+        <div class="apps-grid" id="appsGrid"></div>
+
+        <div class="empty-state" id="emptyState" hidden>
+          <strong>No apps found</strong>
+          <p>Try a different search, Windows version, category or filter.</p>
+          <button class="ghost-button compact" id="resetCatalogButton" type="button">Reset filters</button>
+        </div>
+
+        <div class="load-more-wrap" id="loadMoreWrap" hidden>
+          <button class="secondary-button" id="loadMoreButton" type="button">Show more apps</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="os-library" id="downloads">
+      <div class="section-heading">
+        <div><p class="eyebrow">Official media</p><h2>Windows downloads</h2></div>
+        <p>Orvexa links to official Microsoft pages and does not repackage Windows installation images.</p>
+      </div>
+      <div class="os-library-grid" id="osLibraryGrid"></div>
+    </section>
+
+    <section class="info-grid" aria-label="Orvexa installation flow">
+      <article><span>01</span><h3>Select</h3><p>Your browser stores the current Orvexa selection locally on this device.</p></article>
+      <article><span>02</span><h3>Open Orvexa</h3><p>Only catalog IDs are sent through the local <code>orvexa://</code> handoff.</p></article>
+      <article><span>03</span><h3>Validate</h3><p>The Windows app resolves those IDs against its bundled allowlist before installation.</p></article>
+    </section>
+
+    <section class="security-section" id="security">
+      <div>
+        <p class="kicker">Security</p>
+        <h2>The website never sends arbitrary shell commands.</h2>
+        <p class="security-intro">Orvexa keeps the browser-to-Windows boundary intentionally narrow.</p>
+      </div>
+      <div class="security-points">
+        <p><strong>Catalog validation</strong><span>Protocol IDs must resolve to enabled WinGet entries in the bundled Orvexa catalog.</span></p>
+        <p><strong>Structured arguments</strong><span>Windows package operations use structured process arguments rather than command-string concatenation.</span></p>
+        <p><strong>User confirmation</strong><span>Install, update-all and uninstall workflows are confirmed inside the Orvexa window.</span></p>
+        <p><strong>Local preferences</strong><span>Selections, favorites and theme preferences stay in browser storage on this device.</span></p>
+      </div>
+    </section>
+
+    <section class="faq-section" aria-labelledby="faqTitle">
+      <div class="section-heading">
+        <div><p class="eyebrow">Questions</p><h2 id="faqTitle">Before you install</h2></div>
+        <p>A few important boundaries of the web experience.</p>
+      </div>
+      <div class="faq-grid">
+        <details>
+          <summary>Can the website install apps by itself?</summary>
+          <p>No. The browser can only hand catalog IDs to the installed Orvexa Windows app. Orvexa validates and confirms them again.</p>
+        </details>
+        <details>
+          <summary>Does Orvexa host third-party installers?</summary>
+          <p>No. Package operations are delegated to Windows Package Manager and the relevant publisher sources.</p>
+        </details>
+        <details>
+          <summary>What happens if Orvexa is not installed?</summary>
+          <p>The site offers the Orvexa Setup download after a protocol handoff does not appear to open the Windows app.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <img src="assets/brand/mark.svg" alt="" width="26" height="26">
+      <strong>Orvexa</strong>
+      <span id="footerVersion">Version 0.0.3</span>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="#catalog">Apps</a>
+      <a href="#packs">Packs</a>
+      <a href="#security">Security</a>
+      <a href="#downloads">Windows</a>
+    </nav>
+    <p>Choose once. Install cleanly. Stay current.</p>
+  </footer>
+
+  <div class="selection-tray" id="selectionTray" hidden>
+    <div class="tray-summary">
+      <strong><span id="selectionCount">0</span> selected</strong>
+      <small id="selectionNames">Ready to review</small>
+    </div>
+    <button class="ghost-button compact" id="clearSelection" type="button">Clear</button>
+    <button class="primary-button" id="installSelected" type="button">Review selection</button>
+  </div>
+
+  <dialog class="modal" id="reviewModal" aria-labelledby="reviewTitle">
+    <div class="modal-card">
+      <button class="modal-close" type="button" data-close-modal="reviewModal">Close</button>
+      <p class="kicker">Review</p>
+      <h2 id="reviewTitle">Review your app pack</h2>
+      <p class="modal-copy">Only Orvexa catalog IDs are sent. The Windows app validates them again before installation.</p>
+      <div class="review-list" id="reviewList"></div>
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" data-close-modal="reviewModal">Back</button>
+        <button class="primary-button" id="confirmInstall" type="button">Open in Orvexa</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="downloadModal" aria-labelledby="downloadTitle">
+    <div class="modal-card small">
+      <button class="modal-close" type="button" data-close-modal="downloadModal">Close</button>
+      <img class="modal-mark" src="assets/brand/mark.svg" alt="" width="70" height="70">
+      <p class="kicker">Windows</p>
+      <h2 id="downloadTitle">Orvexa Setup</h2>
+      <p class="modal-copy" id="downloadStatus">Orvexa Setup installs the app for the current Windows user and registers the secure Orvexa link handler.</p>
+      <a class="primary-button full" id="downloadWindows" href="downloads/Orvexa-Setup-x64.exe">Download Orvexa Setup</a>
+      <button class="secondary-button full" type="button" data-close-modal="downloadModal">Close</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">JavaScript is required to browse and build an Orvexa app selection.</p></noscript>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

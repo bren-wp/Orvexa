@@ -1,0 +1,6533 @@
+{
+  "schemaVersion": 1,
+  "revision": 7,
+  "lastUpdated": "2026-09-23T13:32:00+02:00",
+  "channel": "stable",
+  "apps": [
+    {
+      "id": "chrome",
+      "name": "Google Chrome",
+      "publisher": "Google",
+      "category": "Browsers",
+      "description": "Fast Chromium browser with Google sync.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Google.Chrome",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/chrome.svg",
+      "popular": true,
+      "featured": true,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "firefox",
+      "name": "Mozilla Firefox",
+      "publisher": "Mozilla",
+      "category": "Browsers",
+      "description": "Independent, privacy-focused web browser.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Mozilla.Firefox",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/firefox.svg",
+      "popular": true,
+      "featured": true,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "brave",
+      "name": "Brave",
+      "publisher": "Brave Software",
+      "category": "Browsers",
+      "description": "Privacy-first Chromium browser with built-in protections.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Brave.Brave",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/brave.svg",
+      "popular": true,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "edge",
+      "name": "Microsoft Edge",
+      "publisher": "Microsoft",
+      "category": "Browsers",
+      "description": "Microsoft Chromium browser for Windows.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.Edge",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/edge.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "publisher": "Discord Inc.",
+      "category": "Messaging",
+      "description": "Voice, video and community messaging.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Discord.Discord",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/discord.svg",
+      "popular": true,
+      "featured": true,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "telegram",
+      "name": "Telegram Desktop",
+      "publisher": "Telegram",
+      "category": "Messaging",
+      "description": "Fast cross-platform messaging client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Telegram.TelegramDesktop",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/telegram.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "zoom",
+      "name": "Zoom Workplace",
+      "publisher": "Zoom",
+      "category": "Messaging",
+      "description": "Meetings, calls and collaboration.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Zoom.Zoom",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/zoom.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "publisher": "Salesforce",
+      "category": "Messaging",
+      "description": "Team messaging and work collaboration.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "SlackTechnologies.Slack",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/slack.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "teams",
+      "name": "Microsoft Teams",
+      "publisher": "Microsoft",
+      "category": "Messaging",
+      "description": "Business chat, meetings and collaboration.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.Teams",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/teams.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "vlc",
+      "name": "VLC media player",
+      "publisher": "VideoLAN",
+      "category": "Media",
+      "description": "Versatile open-source media player.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "VideoLAN.VLC",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/vlc.svg",
+      "popular": true,
+      "featured": true,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "publisher": "Spotify",
+      "category": "Media",
+      "description": "Music and podcast streaming desktop client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Spotify.Spotify",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/spotify.svg",
+      "popular": true,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "audacity",
+      "name": "Audacity",
+      "publisher": "Audacity Team",
+      "category": "Media",
+      "description": "Open-source audio editor and recorder.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Audacity.Audacity",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/audacity.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "handbrake",
+      "name": "HandBrake",
+      "publisher": "HandBrake Team",
+      "category": "Media",
+      "description": "Video transcoder for common modern formats.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "HandBrake.HandBrake",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/handbrake.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "obs",
+      "name": "OBS Studio",
+      "publisher": "OBS Project",
+      "category": "Media",
+      "description": "Recording and live streaming studio.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "OBSProject.OBSStudio",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/obs.svg",
+      "popular": true,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "libreoffice",
+      "name": "LibreOffice",
+      "publisher": "The Document Foundation",
+      "category": "Office",
+      "description": "Open-source productivity and office suite.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TheDocumentFoundation.LibreOffice",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/libreoffice.svg",
+      "popular": true,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "thunderbird",
+      "name": "Thunderbird",
+      "publisher": "Mozilla",
+      "category": "Office",
+      "description": "Email, calendar and contacts client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Mozilla.Thunderbird",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/thunderbird.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "sumatra",
+      "name": "SumatraPDF",
+      "publisher": "Krzysztof Kowalczyk",
+      "category": "Office",
+      "description": "Lightweight PDF and ebook reader.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "SumatraPDF.SumatraPDF",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/sumatra.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "acrobat",
+      "name": "Adobe Acrobat Reader",
+      "publisher": "Adobe",
+      "category": "Office",
+      "description": "PDF viewer and document signing client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Adobe.Acrobat.Reader.64-bit",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/acrobat.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "git",
+      "name": "Git",
+      "publisher": "Git Project",
+      "category": "Developer",
+      "description": "Distributed version-control system.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Git.Git",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/git.svg",
+      "popular": true,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "githubdesktop",
+      "name": "GitHub Desktop",
+      "publisher": "GitHub",
+      "category": "Developer",
+      "description": "Graphical Git client for GitHub workflows.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "GitHub.GitHubDesktop",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/githubdesktop.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "vscode",
+      "name": "Visual Studio Code",
+      "publisher": "Microsoft",
+      "category": "Developer",
+      "description": "Extensible code editor.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.VisualStudioCode",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/vscode.svg",
+      "popular": true,
+      "featured": true,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "vscodeinsiders",
+      "name": "VS Code Insiders",
+      "publisher": "Microsoft",
+      "category": "Developer",
+      "description": "Preview channel of Visual Studio Code.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.VisualStudioCode.Insiders",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/vscodeinsiders.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "node",
+      "name": "Node.js LTS",
+      "publisher": "OpenJS Foundation",
+      "category": "Developer",
+      "description": "Long-term-support Node.js runtime.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "OpenJS.NodeJS.LTS",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/node.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "publisher": "Python Software Foundation",
+      "category": "Developer",
+      "description": "Modern Python runtime and tools.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Python.Python.3.14",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/python.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "docker",
+      "name": "Docker Desktop",
+      "publisher": "Docker",
+      "category": "Developer",
+      "description": "Containers and local development platform.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Docker.DockerDesktop",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/docker.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "terminal",
+      "name": "Windows Terminal",
+      "publisher": "Microsoft",
+      "category": "Developer",
+      "description": "Modern terminal host for Windows shells.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.WindowsTerminal",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/terminal.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "postman",
+      "name": "Postman",
+      "publisher": "Postman",
+      "category": "Developer",
+      "description": "API development and testing client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Postman.Postman",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/postman.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "jetbrains",
+      "name": "JetBrains Toolbox",
+      "publisher": "JetBrains",
+      "category": "Developer",
+      "description": "Install and manage JetBrains developer tools.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "JetBrains.Toolbox",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/jetbrains.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "steam",
+      "name": "Steam",
+      "publisher": "Valve",
+      "category": "Gaming",
+      "description": "PC game store, library and community client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Valve.Steam",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/steam.svg",
+      "popular": true,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "epic",
+      "name": "Epic Games Launcher",
+      "publisher": "Epic Games",
+      "category": "Gaming",
+      "description": "Epic Games Store desktop launcher.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "EpicGames.EpicGamesLauncher",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/epic.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "sevenzip",
+      "name": "7-Zip",
+      "publisher": "Igor Pavlov",
+      "category": "Utilities",
+      "description": "High-ratio file archiver.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "7zip.7zip",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/sevenzip.svg",
+      "popular": true,
+      "featured": true,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "nanazip",
+      "name": "NanaZip",
+      "publisher": "M2-Team",
+      "category": "Utilities",
+      "description": "Modern Windows archive manager.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "M2Team.NanaZip",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/nanazip.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "winrar",
+      "name": "WinRAR",
+      "publisher": "RARLAB",
+      "category": "Utilities",
+      "description": "Archive manager with RAR support.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "RARLab.WinRAR",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/winrar.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "notepadpp",
+      "name": "Notepad++",
+      "publisher": "Notepad++ Team",
+      "category": "Utilities",
+      "description": "Fast source and text editor.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Notepad++.Notepad++",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/notepadpp.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "everything",
+      "name": "Everything",
+      "publisher": "voidtools",
+      "category": "Utilities",
+      "description": "Instant filename search for Windows.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "voidtools.Everything",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/everything.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "powertoys",
+      "name": "PowerToys",
+      "publisher": "Microsoft",
+      "category": "Utilities",
+      "description": "Advanced productivity utilities for Windows.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.PowerToys",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/powertoys.svg",
+      "popular": true,
+      "featured": true,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "sharex",
+      "name": "ShareX",
+      "publisher": "ShareX Team",
+      "category": "Utilities",
+      "description": "Screenshot, screen capture and sharing toolkit.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "ShareX.ShareX",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/sharex.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "winscp",
+      "name": "WinSCP",
+      "publisher": "WinSCP",
+      "category": "Utilities",
+      "description": "SFTP, SCP, FTP and WebDAV client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "WinSCP.WinSCP",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/winscp.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "putty",
+      "name": "PuTTY",
+      "publisher": "Simon Tatham",
+      "category": "Utilities",
+      "description": "SSH and terminal client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "PuTTY.PuTTY",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/putty.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "qbittorrent",
+      "name": "qBittorrent",
+      "publisher": "qBittorrent Project",
+      "category": "Utilities",
+      "description": "Open-source BitTorrent client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "qBittorrent.qBittorrent",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/qbittorrent.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "cpu-z",
+      "name": "CPU-Z",
+      "publisher": "CPUID",
+      "category": "Utilities",
+      "description": "Hardware information and CPU diagnostics.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "CPUID.CPU-Z",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/cpu-z.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "crystaldiskinfo",
+      "name": "CrystalDiskInfo",
+      "publisher": "Crystal Dew World",
+      "category": "Utilities",
+      "description": "Storage health and SMART monitor.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "CrystalDewWorld.CrystalDiskInfo",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/crystaldiskinfo.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "bitwarden",
+      "name": "Bitwarden",
+      "publisher": "Bitwarden",
+      "category": "Security",
+      "description": "Open-source password manager.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Bitwarden.Bitwarden",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/bitwarden.svg",
+      "popular": true,
+      "featured": true,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "keepassxc",
+      "name": "KeePassXC",
+      "publisher": "KeePassXC Team",
+      "category": "Security",
+      "description": "Offline password manager with encrypted vaults.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "KeePassXCTeam.KeePassXC",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/keepassxc.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "tailscale",
+      "name": "Tailscale",
+      "publisher": "Tailscale",
+      "category": "Security",
+      "description": "Private mesh networking built on WireGuard.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "tailscale.tailscale",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/tailscale.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "googledrive",
+      "name": "Google Drive",
+      "publisher": "Google",
+      "category": "Cloud & Sync",
+      "description": "Desktop file sync for Google Drive.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Google.GoogleDrive",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/googledrive.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "dropbox",
+      "name": "Dropbox",
+      "publisher": "Dropbox",
+      "category": "Cloud & Sync",
+      "description": "Cloud file sync and collaboration client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Dropbox.Dropbox",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/dropbox.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "gimp",
+      "name": "GIMP",
+      "publisher": "GIMP Team",
+      "category": "Creative",
+      "description": "Open-source image editor.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "GIMP.GIMP.3",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/gimp.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "inkscape",
+      "name": "Inkscape",
+      "publisher": "Inkscape Project",
+      "category": "Creative",
+      "description": "Open-source vector graphics editor.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Inkscape.Inkscape",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/inkscape.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "krita",
+      "name": "Krita",
+      "publisher": "KDE",
+      "category": "Creative",
+      "description": "Digital painting and illustration studio.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "KDE.Krita",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/krita.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "blender",
+      "name": "Blender",
+      "publisher": "Blender Foundation",
+      "category": "Creative",
+      "description": "3D creation, animation and rendering suite.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "BlenderFoundation.Blender",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/blender.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "anydesk",
+      "name": "AnyDesk",
+      "publisher": "AnyDesk Software",
+      "category": "Remote Access",
+      "description": "Remote desktop and support client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "AnyDeskSoftwareGmbH.AnyDesk",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/anydesk.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "rustdesk",
+      "name": "RustDesk",
+      "publisher": "RustDesk",
+      "category": "Remote Access",
+      "description": "Open-source remote desktop client.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "RustDesk.RustDesk",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/rustdesk.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "parsec",
+      "name": "Parsec",
+      "publisher": "Parsec Cloud",
+      "category": "Remote Access",
+      "description": "Low-latency remote desktop and streaming.",
+      "platforms": [
+        "windows-11",
+        "windows-10"
+      ],
+      "architectures": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Parsec.Parsec",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/parsec.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true,
+      "website": "",
+      "notes": ""
+    },
+    {
+      "id": "opera",
+      "name": "Opera",
+      "publisher": "Opera Software",
+      "category": "Browsers",
+      "description": "Opera for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Opera.Opera",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/opera.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "vivaldi",
+      "name": "Vivaldi",
+      "publisher": "Vivaldi Technologies",
+      "category": "Browsers",
+      "description": "Vivaldi for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Vivaldi.Vivaldi",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/vivaldi.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "chromium",
+      "name": "Chromium",
+      "publisher": "Chromium",
+      "category": "Browsers",
+      "description": "Chromium for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Hibbiki.Chromium",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/chromium.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "floorp",
+      "name": "Floorp",
+      "publisher": "Ablaze",
+      "category": "Browsers",
+      "description": "Floorp for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Ablaze.Floorp",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/floorp.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "signal",
+      "name": "Signal",
+      "publisher": "Signal",
+      "category": "Messaging",
+      "description": "Signal for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "OpenWhisperSystems.Signal",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/signal.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp",
+      "publisher": "Meta",
+      "category": "Messaging",
+      "description": "WhatsApp for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "WhatsApp.WhatsApp",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/whatsapp.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "element",
+      "name": "Element",
+      "publisher": "Element",
+      "category": "Messaging",
+      "description": "Element for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Element.Element",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/element.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "teamspeak",
+      "name": "TeamSpeak",
+      "publisher": "TeamSpeak",
+      "category": "Messaging",
+      "description": "TeamSpeak for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TeamSpeakSystems.TeamSpeakClient",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/teamspeak.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "foobar2000",
+      "name": "foobar2000",
+      "publisher": "Peter Pawlowski",
+      "category": "Media",
+      "description": "foobar2000 for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "PeterPawlowski.foobar2000",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/foobar2000.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "mpv",
+      "name": "mpv",
+      "publisher": "mpv",
+      "category": "Media",
+      "description": "mpv for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "mpv.net",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/mpv.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "musicbee",
+      "name": "MusicBee",
+      "publisher": "Steven Mayall",
+      "category": "Media",
+      "description": "MusicBee for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "MusicBee.MusicBee",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/musicbee.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "kodi",
+      "name": "Kodi",
+      "publisher": "Kodi Foundation",
+      "category": "Media",
+      "description": "Kodi for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "XBMCFoundation.Kodi",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/kodi.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "plex",
+      "name": "Plex",
+      "publisher": "Plex",
+      "category": "Media",
+      "description": "Plex for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Plex.Plex",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/plex.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "strawberry",
+      "name": "Strawberry",
+      "publisher": "Strawberry Music Player",
+      "category": "Media",
+      "description": "Strawberry for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "StrawberryMusicPlayer.Strawberry",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/strawberry.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "onlyoffice",
+      "name": "ONLYOFFICE",
+      "publisher": "Ascensio System",
+      "category": "Office",
+      "description": "ONLYOFFICE for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "ONLYOFFICE.DesktopEditors",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/onlyoffice.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "foxit-reader",
+      "name": "Foxit PDF Reader",
+      "publisher": "Foxit",
+      "category": "Office",
+      "description": "Foxit PDF Reader for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Foxit.FoxitReader",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/foxit-reader.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "calibre",
+      "name": "calibre",
+      "publisher": "Kovid Goyal",
+      "category": "Office",
+      "description": "calibre for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "calibre.calibre",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/calibre.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "joplin",
+      "name": "Joplin",
+      "publisher": "Joplin",
+      "category": "Office",
+      "description": "Joplin for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Joplin.Joplin",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/joplin.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "publisher": "Obsidian",
+      "category": "Office",
+      "description": "Obsidian for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Obsidian.Obsidian",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/obsidian.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "publisher": "Notion",
+      "category": "Office",
+      "description": "Notion for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Notion.Notion",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/notion.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "sublime-text",
+      "name": "Sublime Text",
+      "publisher": "Sublime HQ",
+      "category": "Developer",
+      "description": "Sublime Text for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "SublimeHQ.SublimeText.4",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/sublime-text.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "publisher": "Anysphere",
+      "category": "Developer",
+      "description": "Cursor for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Anysphere.Cursor",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/cursor.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "visual-studio-community",
+      "name": "Visual Studio Community",
+      "publisher": "Microsoft",
+      "category": "Developer",
+      "description": "Visual Studio Community for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.VisualStudio.2022.Community",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/visual-studio-community.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "powershell",
+      "name": "PowerShell",
+      "publisher": "Microsoft",
+      "category": "Developer",
+      "description": "PowerShell for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.PowerShell",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/powershell.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "dotnet-sdk",
+      "name": ".NET SDK",
+      "publisher": "Microsoft",
+      "category": "Developer",
+      "description": ".NET SDK for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.DotNet.SDK.8",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/dotnet-sdk.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "go",
+      "name": "Go",
+      "publisher": "Google",
+      "category": "Developer",
+      "description": "Go for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "GoLang.Go",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/go.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "rustup",
+      "name": "Rustup",
+      "publisher": "Rust",
+      "category": "Developer",
+      "description": "Rustup for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Rustlang.Rustup",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/rustup.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "cmake",
+      "name": "CMake",
+      "publisher": "Kitware",
+      "category": "Developer",
+      "description": "CMake for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Kitware.CMake",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/cmake.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "filezilla",
+      "name": "FileZilla",
+      "publisher": "FileZilla Project",
+      "category": "Developer",
+      "description": "FileZilla for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TimKosse.FileZilla.Client",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/filezilla.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "dbeaver",
+      "name": "DBeaver",
+      "publisher": "DBeaver",
+      "category": "Developer",
+      "description": "DBeaver for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "dbeaver.dbeaver",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/dbeaver.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "heidisql",
+      "name": "HeidiSQL",
+      "publisher": "HeidiSQL",
+      "category": "Developer",
+      "description": "HeidiSQL for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "HeidiSQL.HeidiSQL",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/heidisql.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "winscp-dev",
+      "name": "WinSCP",
+      "publisher": "WinSCP",
+      "category": "Developer",
+      "description": "WinSCP for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "WinSCP.WinSCP",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/winscp-dev.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "gog-galaxy",
+      "name": "GOG GALAXY",
+      "publisher": "GOG",
+      "category": "Gaming",
+      "description": "GOG GALAXY for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "GOG.Galaxy",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/gog-galaxy.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "ea-app",
+      "name": "EA app",
+      "publisher": "Electronic Arts",
+      "category": "Gaming",
+      "description": "EA app for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "ElectronicArts.EADesktop",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/ea-app.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "ubisoft-connect",
+      "name": "Ubisoft Connect",
+      "publisher": "Ubisoft",
+      "category": "Gaming",
+      "description": "Ubisoft Connect for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Ubisoft.Connect",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/ubisoft-connect.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "itch",
+      "name": "itch",
+      "publisher": "itch.io",
+      "category": "Gaming",
+      "description": "itch for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "ItchIo.Itch",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/itch.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "playnite",
+      "name": "Playnite",
+      "publisher": "Playnite",
+      "category": "Gaming",
+      "description": "Playnite for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Playnite.Playnite",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/playnite.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "heroic",
+      "name": "Heroic Games Launcher",
+      "publisher": "Heroic",
+      "category": "Gaming",
+      "description": "Heroic Games Launcher for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "HeroicGamesLauncher.HeroicGamesLauncher",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/heroic.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "peazip",
+      "name": "PeaZip",
+      "publisher": "Giorgio Tani",
+      "category": "Utilities",
+      "description": "PeaZip for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Giorgiotani.Peazip",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/peazip.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "rufus",
+      "name": "Rufus",
+      "publisher": "Pete Batard",
+      "category": "Utilities",
+      "description": "Rufus for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Rufus.Rufus",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/rufus.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "balena-etcher",
+      "name": "balenaEtcher",
+      "publisher": "balena",
+      "category": "Utilities",
+      "description": "balenaEtcher for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Balena.Etcher",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/balena-etcher.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "hwinfo",
+      "name": "HWiNFO",
+      "publisher": "REALiX",
+      "category": "Utilities",
+      "description": "HWiNFO for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "REALiX.HWiNFO",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/hwinfo.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "crystaldiskmark",
+      "name": "CrystalDiskMark",
+      "publisher": "Crystal Dew World",
+      "category": "Utilities",
+      "description": "CrystalDiskMark for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "CrystalDewWorld.CrystalDiskMark",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/crystaldiskmark.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "windirstat",
+      "name": "WinDirStat",
+      "publisher": "WinDirStat",
+      "category": "Utilities",
+      "description": "WinDirStat for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "WinDirStat.WinDirStat",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/windirstat.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "wiztree",
+      "name": "WizTree",
+      "publisher": "Antibody Software",
+      "category": "Utilities",
+      "description": "WizTree for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "AntibodySoftware.WizTree",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/wiztree.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "revo-uninstaller",
+      "name": "Revo Uninstaller",
+      "publisher": "VS Revo Group",
+      "category": "Utilities",
+      "description": "Revo Uninstaller for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "RevoUninstaller.RevoUninstaller",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/revo-uninstaller.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "bulk-crap-uninstaller",
+      "name": "Bulk Crap Uninstaller",
+      "publisher": "Klocman",
+      "category": "Utilities",
+      "description": "Bulk Crap Uninstaller for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Klocman.BulkCrapUninstaller",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/bulk-crap-uninstaller.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "sysinternals",
+      "name": "Sysinternals Suite",
+      "publisher": "Microsoft",
+      "category": "Utilities",
+      "description": "Sysinternals Suite for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.Sysinternals.Suite",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/sysinternals.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "advanced-ip-scanner",
+      "name": "Advanced IP Scanner",
+      "publisher": "Famatech",
+      "category": "Utilities",
+      "description": "Advanced IP Scanner for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Famatech.AdvancedIPScanner",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/advanced-ip-scanner.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "malwarebytes",
+      "name": "Malwarebytes",
+      "publisher": "Malwarebytes",
+      "category": "Security",
+      "description": "Malwarebytes for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Malwarebytes.Malwarebytes",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/malwarebytes.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "protonvpn",
+      "name": "Proton VPN",
+      "publisher": "Proton",
+      "category": "Security",
+      "description": "Proton VPN for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Proton.ProtonVPN",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/protonvpn.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "mullvad",
+      "name": "Mullvad VPN",
+      "publisher": "Mullvad",
+      "category": "Security",
+      "description": "Mullvad VPN for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "MullvadVPN.MullvadVPN",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/mullvad.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "veracrypt",
+      "name": "VeraCrypt",
+      "publisher": "IDRIX",
+      "category": "Security",
+      "description": "VeraCrypt for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "IDRIX.VeraCrypt",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/veracrypt.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "proton-pass",
+      "name": "Proton Pass",
+      "publisher": "Proton",
+      "category": "Security",
+      "description": "Proton Pass for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Proton.ProtonPass",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/proton-pass.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "onedrive",
+      "name": "OneDrive",
+      "publisher": "Microsoft",
+      "category": "Cloud & Sync",
+      "description": "OneDrive for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.OneDrive",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/onedrive.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "nextcloud",
+      "name": "Nextcloud",
+      "publisher": "Nextcloud",
+      "category": "Cloud & Sync",
+      "description": "Nextcloud for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Nextcloud.NextcloudDesktop",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/nextcloud.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "syncthing",
+      "name": "Syncthing",
+      "publisher": "Syncthing",
+      "category": "Cloud & Sync",
+      "description": "Syncthing for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Syncthing.Syncthing",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/syncthing.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "proton-drive",
+      "name": "Proton Drive",
+      "publisher": "Proton",
+      "category": "Cloud & Sync",
+      "description": "Proton Drive for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Proton.ProtonDrive",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/proton-drive.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "paint-net",
+      "name": "paint.net",
+      "publisher": "dotPDN",
+      "category": "Creative",
+      "description": "paint.net for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "dotPDN.PaintDotNet",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/paint-net.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "darktable",
+      "name": "darktable",
+      "publisher": "darktable",
+      "category": "Creative",
+      "description": "darktable for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "darktable.darktable",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/darktable.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "rawtherapee",
+      "name": "RawTherapee",
+      "publisher": "RawTherapee",
+      "category": "Creative",
+      "description": "RawTherapee for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "RawTherapee.RawTherapee",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/rawtherapee.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "freecad",
+      "name": "FreeCAD",
+      "publisher": "FreeCAD",
+      "category": "Creative",
+      "description": "FreeCAD for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "FreeCAD.FreeCAD",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/freecad.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "openscad",
+      "name": "OpenSCAD",
+      "publisher": "OpenSCAD",
+      "category": "Creative",
+      "description": "OpenSCAD for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "OpenSCAD.OpenSCAD",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/openscad.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "shotcut",
+      "name": "Shotcut",
+      "publisher": "Meltytech",
+      "category": "Creative",
+      "description": "Shotcut for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Meltytech.Shotcut",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/shotcut.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "kdenlive",
+      "name": "Kdenlive",
+      "publisher": "KDE",
+      "category": "Creative",
+      "description": "Kdenlive for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "KDE.Kdenlive",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/kdenlive.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "davinci-resolve",
+      "name": "DaVinci Resolve",
+      "publisher": "Blackmagic Design",
+      "category": "Creative",
+      "description": "DaVinci Resolve for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "BlackmagicDesign.DaVinciResolve",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/davinci-resolve.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "teamviewer",
+      "name": "TeamViewer",
+      "publisher": "TeamViewer",
+      "category": "Remote Access",
+      "description": "TeamViewer for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TeamViewer.TeamViewer",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/teamviewer.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "moonlight",
+      "name": "Moonlight",
+      "publisher": "Moonlight",
+      "category": "Remote Access",
+      "description": "Moonlight for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "MoonlightGameStreamingProject.Moonlight",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/moonlight.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "sunshine",
+      "name": "Sunshine",
+      "publisher": "LizardByte",
+      "category": "Remote Access",
+      "description": "Sunshine for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "LizardByte.Sunshine",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/sunshine.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "virtualbox",
+      "name": "VirtualBox",
+      "publisher": "Oracle",
+      "category": "Utilities",
+      "description": "VirtualBox for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Oracle.VirtualBox",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/virtualbox.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "vmware-workstation",
+      "name": "VMware Workstation",
+      "publisher": "Broadcom",
+      "category": "Utilities",
+      "description": "VMware Workstation for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "VMware.WorkstationPro",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/vmware-workstation.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "wireshark",
+      "name": "Wireshark",
+      "publisher": "Wireshark Foundation",
+      "category": "Developer",
+      "description": "Wireshark for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "WiresharkFoundation.Wireshark",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/wireshark.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "nmap",
+      "name": "Nmap",
+      "publisher": "Nmap Project",
+      "category": "Developer",
+      "description": "Nmap for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Insecure.Nmap",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/nmap.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "gitkraken",
+      "name": "GitKraken",
+      "publisher": "Axosoft",
+      "category": "Developer",
+      "description": "GitKraken for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Axosoft.GitKraken",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/gitkraken.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "fork",
+      "name": "Fork",
+      "publisher": "Fork",
+      "category": "Developer",
+      "description": "Fork for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Fork.Fork",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/fork.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "insomnia",
+      "name": "Insomnia",
+      "publisher": "Kong",
+      "category": "Developer",
+      "description": "Insomnia for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Kong.Insomnia",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/insomnia.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "beekeeper",
+      "name": "Beekeeper Studio",
+      "publisher": "Beekeeper Studio",
+      "category": "Developer",
+      "description": "Beekeeper Studio for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "beekeeper-studio.beekeeper-studio",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/beekeeper.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "localsend",
+      "name": "LocalSend",
+      "publisher": "LocalSend",
+      "category": "Utilities",
+      "description": "LocalSend for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "LocalSend.LocalSend",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/localsend.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "quicklook",
+      "name": "QuickLook",
+      "publisher": "QL-Win",
+      "category": "Utilities",
+      "description": "QuickLook for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "QL-Win.QuickLook",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/quicklook.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "eartrumpet",
+      "name": "EarTrumpet",
+      "publisher": "File-New-Project",
+      "category": "Utilities",
+      "description": "EarTrumpet for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "File-New-Project.EarTrumpet",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/eartrumpet.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "flow-launcher",
+      "name": "Flow Launcher",
+      "publisher": "Flow Launcher",
+      "category": "Utilities",
+      "description": "Flow Launcher for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Flow-Launcher.Flow-Launcher",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/flow-launcher.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "greenshot",
+      "name": "Greenshot",
+      "publisher": "Greenshot",
+      "category": "Utilities",
+      "description": "Greenshot for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Greenshot.Greenshot",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/greenshot.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "keepass",
+      "name": "KeePass",
+      "publisher": "Dominik Reichl",
+      "category": "Security",
+      "description": "KeePass for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "DominikReichl.KeePass",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/keepass.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "cryptomator",
+      "name": "Cryptomator",
+      "publisher": "Cryptomator",
+      "category": "Security",
+      "description": "Cryptomator for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Cryptomator.Cryptomator",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/cryptomator.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "proton-mail",
+      "name": "Proton Mail",
+      "publisher": "Proton",
+      "category": "Messaging",
+      "description": "Proton Mail for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Proton.ProtonMail",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/proton-mail.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "skype",
+      "name": "Skype",
+      "publisher": "Microsoft",
+      "category": "Messaging",
+      "description": "Skype for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.Skype",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/skype.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "webex",
+      "name": "Webex",
+      "publisher": "Cisco",
+      "category": "Messaging",
+      "description": "Webex for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Cisco.Webex",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/webex.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "mattermost",
+      "name": "Mattermost",
+      "publisher": "Mattermost",
+      "category": "Messaging",
+      "description": "Mattermost for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Mattermost.MattermostDesktop",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/mattermost.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "tidal",
+      "name": "TIDAL",
+      "publisher": "TIDAL",
+      "category": "Media",
+      "description": "TIDAL for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TIDALMusicAS.TIDAL",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/tidal.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "jellyfin-media-player",
+      "name": "Jellyfin Media Player",
+      "publisher": "Jellyfin",
+      "category": "Media",
+      "description": "Jellyfin Media Player for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Jellyfin.JellyfinMediaPlayer",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/jellyfin-media-player.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "mkvtoolnix",
+      "name": "MKVToolNix",
+      "publisher": "Moritz Bunkus",
+      "category": "Media",
+      "description": "MKVToolNix for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "MoritzBunkus.MKVToolNix",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/mkvtoolnix.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "losslesscut",
+      "name": "LosslessCut",
+      "publisher": "Mikael Finstad",
+      "category": "Media",
+      "description": "LosslessCut for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Mifi.LosslessCut",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/losslesscut.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "tor-browser",
+      "name": "Tor Browser",
+      "publisher": "Tor Project",
+      "category": "Browsers",
+      "description": "Tor Browser for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TorProject.TorBrowser",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/tor-browser.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "waterfox",
+      "name": "Waterfox",
+      "publisher": "Waterfox",
+      "category": "Browsers",
+      "description": "Waterfox for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Waterfox.Waterfox",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/waterfox.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "librewolf",
+      "name": "LibreWolf",
+      "publisher": "LibreWolf",
+      "category": "Browsers",
+      "description": "LibreWolf for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "LibreWolf.LibreWolf",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/librewolf.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "thunderbird-beta",
+      "name": "Thunderbird Beta",
+      "publisher": "Mozilla",
+      "category": "Office",
+      "description": "Thunderbird Beta for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Mozilla.Thunderbird.Beta",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/thunderbird-beta.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "proton-mail-bridge",
+      "name": "Proton Mail Bridge",
+      "publisher": "Proton",
+      "category": "Messaging",
+      "description": "Proton Mail Bridge for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Proton.ProtonMailBridge",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/proton-mail-bridge.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "zulip",
+      "name": "Zulip",
+      "publisher": "Zulip",
+      "category": "Messaging",
+      "description": "Zulip for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Zulip.Zulip",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/zulip.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "ferdium",
+      "name": "Ferdium",
+      "publisher": "Ferdium",
+      "category": "Messaging",
+      "description": "Ferdium for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Ferdium.Ferdium",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/ferdium.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "caprine",
+      "name": "Caprine",
+      "publisher": "Sindre Sorhus",
+      "category": "Messaging",
+      "description": "Caprine for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "sindresorhus.Caprine",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/caprine.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "vesktop",
+      "name": "Vesktop",
+      "publisher": "Vencord",
+      "category": "Messaging",
+      "description": "Vesktop for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Vencord.Vesktop",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/vesktop.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "vlc-nightly",
+      "name": "VLC Nightly",
+      "publisher": "VideoLAN",
+      "category": "Media",
+      "description": "VLC Nightly for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "VideoLAN.VLC.Nightly",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/vlc-nightly.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "aimp",
+      "name": "AIMP",
+      "publisher": "Artem Izmaylov",
+      "category": "Media",
+      "description": "AIMP for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "AIMP.AIMP",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/aimp.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "mediamonkey",
+      "name": "MediaMonkey",
+      "publisher": "Ventis Media",
+      "category": "Media",
+      "description": "MediaMonkey for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "VentisMedia.MediaMonkey",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/mediamonkey.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "smplayer",
+      "name": "SMPlayer",
+      "publisher": "Ricardo Villalba",
+      "category": "Media",
+      "description": "SMPlayer for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "SMPlayer.SMPlayer",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/smplayer.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "potplayer",
+      "name": "PotPlayer",
+      "publisher": "Kakao",
+      "category": "Media",
+      "description": "PotPlayer for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Daum.PotPlayer",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/potplayer.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "freac",
+      "name": "fre:ac",
+      "publisher": "Robert Kausch",
+      "category": "Media",
+      "description": "fre:ac for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "freac.freac",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/freac.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "ocenaudio",
+      "name": "ocenaudio",
+      "publisher": "ocenaudio",
+      "category": "Media",
+      "description": "ocenaudio for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Ocenaudio.Ocenaudio",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/ocenaudio.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "musescore",
+      "name": "MuseScore",
+      "publisher": "MuseScore",
+      "category": "Media",
+      "description": "MuseScore for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Musescore.Musescore",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/musescore.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "openoffice",
+      "name": "Apache OpenOffice",
+      "publisher": "Apache",
+      "category": "Office",
+      "description": "Apache OpenOffice for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Apache.OpenOffice",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/openoffice.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "wps-office",
+      "name": "WPS Office",
+      "publisher": "Kingsoft",
+      "category": "Office",
+      "description": "WPS Office for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Kingsoft.WPSOffice",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/wps-office.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "freeoffice",
+      "name": "FreeOffice",
+      "publisher": "SoftMaker",
+      "category": "Office",
+      "description": "FreeOffice for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "SoftMaker.FreeOffice",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/freeoffice.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "xournalpp",
+      "name": "Xournal++",
+      "publisher": "Xournal++",
+      "category": "Office",
+      "description": "Xournal++ for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Xournal++.Xournal++",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/xournalpp.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "simplenote",
+      "name": "Simplenote",
+      "publisher": "Automattic",
+      "category": "Office",
+      "description": "Simplenote for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Automattic.Simplenote",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/simplenote.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "logseq",
+      "name": "Logseq",
+      "publisher": "Logseq",
+      "category": "Office",
+      "description": "Logseq for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Logseq.Logseq",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/logseq.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "zettlr",
+      "name": "Zettlr",
+      "publisher": "Hendrik Erz",
+      "category": "Office",
+      "description": "Zettlr for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Zettlr.Zettlr",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/zettlr.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "marktext",
+      "name": "MarkText",
+      "publisher": "MarkText",
+      "category": "Office",
+      "description": "MarkText for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "MarkText.MarkText",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/marktext.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "typora",
+      "name": "Typora",
+      "publisher": "Abner Lee",
+      "category": "Office",
+      "description": "Typora for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Typora.Typora",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/typora.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "pandoc",
+      "name": "Pandoc",
+      "publisher": "John MacFarlane",
+      "category": "Office",
+      "description": "Pandoc for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "JohnMacFarlane.Pandoc",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/pandoc.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "vscodium",
+      "name": "VSCodium",
+      "publisher": "VSCodium",
+      "category": "Developer",
+      "description": "VSCodium for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "VSCodium.VSCodium",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/vscodium.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "zed",
+      "name": "Zed",
+      "publisher": "Zed Industries",
+      "category": "Developer",
+      "description": "Zed for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "ZedIndustries.Zed",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/zed.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "neovim",
+      "name": "Neovim",
+      "publisher": "Neovim",
+      "category": "Developer",
+      "description": "Neovim for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Neovim.Neovim",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/neovim.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "vim",
+      "name": "Vim",
+      "publisher": "Vim",
+      "category": "Developer",
+      "description": "Vim for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "vim.vim",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/vim.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "notepad3",
+      "name": "Notepad3",
+      "publisher": "Rizonesoft",
+      "category": "Developer",
+      "description": "Notepad3 for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Rizonesoft.Notepad3",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/notepad3.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "kate",
+      "name": "Kate",
+      "publisher": "KDE",
+      "category": "Developer",
+      "description": "Kate for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "KDE.Kate",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/kate.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "eclipse-java",
+      "name": "Eclipse IDE",
+      "publisher": "Eclipse Foundation",
+      "category": "Developer",
+      "description": "Eclipse IDE for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "EclipseFoundation.EclipseIDEforJavaDevelopers",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/eclipse-java.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "intellij-community",
+      "name": "IntelliJ IDEA Community",
+      "publisher": "JetBrains",
+      "category": "Developer",
+      "description": "IntelliJ IDEA Community for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "JetBrains.IntelliJIDEA.Community",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/intellij-community.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "pycharm-community",
+      "name": "PyCharm Community",
+      "publisher": "JetBrains",
+      "category": "Developer",
+      "description": "PyCharm Community for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "JetBrains.PyCharm.Community",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/pycharm-community.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "android-studio",
+      "name": "Android Studio",
+      "publisher": "Google",
+      "category": "Developer",
+      "description": "Android Studio for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Google.AndroidStudio",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/android-studio.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "flutter",
+      "name": "Flutter",
+      "publisher": "Google",
+      "category": "Developer",
+      "description": "Flutter for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Google.Flutter",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/flutter.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "php",
+      "name": "PHP",
+      "publisher": "PHP Group",
+      "category": "Developer",
+      "description": "PHP for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "PHP.PHP.8.4",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/php.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "ruby",
+      "name": "Ruby",
+      "publisher": "RubyInstaller",
+      "category": "Developer",
+      "description": "Ruby for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "RubyInstallerTeam.RubyWithDevKit.3.3",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/ruby.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "perl",
+      "name": "Strawberry Perl",
+      "publisher": "Strawberry Perl",
+      "category": "Developer",
+      "description": "Strawberry Perl for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "StrawberryPerl.StrawberryPerl",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/perl.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "jdk",
+      "name": "OpenJDK",
+      "publisher": "Microsoft",
+      "category": "Developer",
+      "description": "OpenJDK for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.OpenJDK.21",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/jdk.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "gradle",
+      "name": "Gradle",
+      "publisher": "Gradle",
+      "category": "Developer",
+      "description": "Gradle for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Gradle.Gradle",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/gradle.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "maven",
+      "name": "Maven",
+      "publisher": "Apache",
+      "category": "Developer",
+      "description": "Maven for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Apache.Maven",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/maven.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "github-cli",
+      "name": "GitHub CLI",
+      "publisher": "GitHub",
+      "category": "Developer",
+      "description": "GitHub CLI for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "GitHub.cli",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/github-cli.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "git-lfs",
+      "name": "Git LFS",
+      "publisher": "GitHub",
+      "category": "Developer",
+      "description": "Git LFS for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "GitHub.GitLFS",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/git-lfs.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "lazygit",
+      "name": "lazygit",
+      "publisher": "Jesse Duffield",
+      "category": "Developer",
+      "description": "lazygit for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "JesseDuffield.lazygit",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/lazygit.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "mobaxterm",
+      "name": "MobaXterm",
+      "publisher": "Mobatek",
+      "category": "Developer",
+      "description": "MobaXterm for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Mobatek.MobaXterm",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/mobaxterm.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "termius",
+      "name": "Termius",
+      "publisher": "Termius",
+      "category": "Developer",
+      "description": "Termius for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Termius.Termius",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/termius.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "wezterm",
+      "name": "WezTerm",
+      "publisher": "Wez Furlong",
+      "category": "Developer",
+      "description": "WezTerm for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "wez.wezterm",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/wezterm.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "alacritty",
+      "name": "Alacritty",
+      "publisher": "Alacritty",
+      "category": "Developer",
+      "description": "Alacritty for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Alacritty.Alacritty",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/alacritty.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "hyper",
+      "name": "Hyper",
+      "publisher": "Vercel",
+      "category": "Developer",
+      "description": "Hyper for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Vercel.Hyper",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/hyper.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "mysql-workbench",
+      "name": "MySQL Workbench",
+      "publisher": "Oracle",
+      "category": "Developer",
+      "description": "MySQL Workbench for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Oracle.MySQLWorkbench",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/mysql-workbench.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "pgadmin",
+      "name": "pgAdmin",
+      "publisher": "pgAdmin",
+      "category": "Developer",
+      "description": "pgAdmin for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "PostgreSQL.pgAdmin",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/pgadmin.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "mongodb-compass",
+      "name": "MongoDB Compass",
+      "publisher": "MongoDB",
+      "category": "Developer",
+      "description": "MongoDB Compass for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "MongoDB.Compass.Full",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/mongodb-compass.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "redis-insight",
+      "name": "Redis Insight",
+      "publisher": "Redis",
+      "category": "Developer",
+      "description": "Redis Insight for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Redis.RedisInsight",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/redis-insight.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "tableplus",
+      "name": "TablePlus",
+      "publisher": "TablePlus",
+      "category": "Developer",
+      "description": "TablePlus for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TablePlus.TablePlus",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/tableplus.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "sourcetree",
+      "name": "Sourcetree",
+      "publisher": "Atlassian",
+      "category": "Developer",
+      "description": "Sourcetree for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Atlassian.Sourcetree",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/sourcetree.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "tortoisegit",
+      "name": "TortoiseGit",
+      "publisher": "TortoiseGit",
+      "category": "Developer",
+      "description": "TortoiseGit for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TortoiseGit.TortoiseGit",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/tortoisegit.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "tortoisesvn",
+      "name": "TortoiseSVN",
+      "publisher": "TortoiseSVN",
+      "category": "Developer",
+      "description": "TortoiseSVN for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TortoiseSVN.TortoiseSVN",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/tortoisesvn.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "unity-hub",
+      "name": "Unity Hub",
+      "publisher": "Unity",
+      "category": "Developer",
+      "description": "Unity Hub for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Unity.UnityHub",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/unity-hub.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "godot",
+      "name": "Godot",
+      "publisher": "Godot Engine",
+      "category": "Developer",
+      "description": "Godot for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "GodotEngine.GodotEngine",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/godot.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "epic-ue",
+      "name": "Epic Games Launcher",
+      "publisher": "Epic Games",
+      "category": "Developer",
+      "description": "Epic Games Launcher for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "EpicGames.EpicGamesLauncher",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/epic-ue.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "prismlauncher",
+      "name": "Prism Launcher",
+      "publisher": "Prism Launcher",
+      "category": "Gaming",
+      "description": "Prism Launcher for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "PrismLauncher.PrismLauncher",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/prismlauncher.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "curseforge",
+      "name": "CurseForge",
+      "publisher": "Overwolf",
+      "category": "Gaming",
+      "description": "CurseForge for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Overwolf.CurseForge",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/curseforge.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "bluestacks",
+      "name": "BlueStacks",
+      "publisher": "BlueStack Systems",
+      "category": "Gaming",
+      "description": "BlueStacks for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "BlueStack.BlueStacks",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/bluestacks.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "retroarch",
+      "name": "RetroArch",
+      "publisher": "Libretro",
+      "category": "Gaming",
+      "description": "RetroArch for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Libretro.RetroArch",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/retroarch.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "dolphin",
+      "name": "Dolphin Emulator",
+      "publisher": "Dolphin",
+      "category": "Gaming",
+      "description": "Dolphin Emulator for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "DolphinEmulator.Dolphin",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/dolphin.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "pcsx2",
+      "name": "PCSX2",
+      "publisher": "PCSX2",
+      "category": "Gaming",
+      "description": "PCSX2 for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "PCSX2Team.PCSX2",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/pcsx2.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "cemu",
+      "name": "Cemu",
+      "publisher": "Cemu",
+      "category": "Gaming",
+      "description": "Cemu for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Cemu.Cemu",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/cemu.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "ryujinx",
+      "name": "Ryujinx",
+      "publisher": "Ryujinx",
+      "category": "Gaming",
+      "description": "Ryujinx for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Ryujinx.Ryujinx",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/ryujinx.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "everything-toolbar",
+      "name": "EverythingToolbar",
+      "publisher": "stnkl",
+      "category": "Utilities",
+      "description": "EverythingToolbar for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "stnkl.EverythingToolbar",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/everything-toolbar.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "autohotkey",
+      "name": "AutoHotkey",
+      "publisher": "AutoHotkey",
+      "category": "Utilities",
+      "description": "AutoHotkey for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "AutoHotkey.AutoHotkey",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/autohotkey.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "autohotkey-v2",
+      "name": "AutoHotkey v2",
+      "publisher": "AutoHotkey",
+      "category": "Utilities",
+      "description": "AutoHotkey v2 for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "AutoHotkey.AutoHotkey.V2",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/autohotkey-v2.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "ditto",
+      "name": "Ditto",
+      "publisher": "Ditto",
+      "category": "Utilities",
+      "description": "Ditto for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Ditto.Ditto",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/ditto.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "copyq",
+      "name": "CopyQ",
+      "publisher": "hluk",
+      "category": "Utilities",
+      "description": "CopyQ for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "hluk.CopyQ",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/copyq.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "espanso",
+      "name": "Espanso",
+      "publisher": "Federico Terzi",
+      "category": "Utilities",
+      "description": "Espanso for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "FedericoTerzi.espanso",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/espanso.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "twinkle-tray",
+      "name": "Twinkle Tray",
+      "publisher": "Xander Frangos",
+      "category": "Utilities",
+      "description": "Twinkle Tray for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "xanderfrangos.twinkletray",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/twinkle-tray.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "translucenttb",
+      "name": "TranslucentTB",
+      "publisher": "Charles Milette",
+      "category": "Utilities",
+      "description": "TranslucentTB for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "CharlesMilette.TranslucentTB",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/translucenttb.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "modernflyouts",
+      "name": "ModernFlyouts",
+      "publisher": "ModernFlyouts",
+      "category": "Utilities",
+      "description": "ModernFlyouts for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "ModernFlyouts.ModernFlyouts",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/modernflyouts.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "windhawk",
+      "name": "Windhawk",
+      "publisher": "Ramen Software",
+      "category": "Utilities",
+      "description": "Windhawk for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "RamenSoftware.Windhawk",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/windhawk.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "open-shell",
+      "name": "Open-Shell",
+      "publisher": "Open-Shell",
+      "category": "Utilities",
+      "description": "Open-Shell for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Open-Shell.Open-Shell-Menu",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/open-shell.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "7zip-zstd",
+      "name": "7-Zip ZS",
+      "publisher": "Tino Reichardt",
+      "category": "Utilities",
+      "description": "7-Zip ZS for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "mcmilk.7zip-zstd",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/7zip-zstd.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "nanazip-preview",
+      "name": "NanaZip Preview",
+      "publisher": "M2-Team",
+      "category": "Utilities",
+      "description": "NanaZip Preview for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "M2Team.NanaZip.Preview",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/nanazip-preview.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "files-app",
+      "name": "Files",
+      "publisher": "Files Community",
+      "category": "Utilities",
+      "description": "Files for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "FilesCommunity.Files",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/files-app.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "freefilesync",
+      "name": "FreeFileSync",
+      "publisher": "FreeFileSync",
+      "category": "Utilities",
+      "description": "FreeFileSync for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "FreeFileSync.FreeFileSync",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/freefilesync.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "syncovery",
+      "name": "Syncovery",
+      "publisher": "Super Flexible Software",
+      "category": "Utilities",
+      "description": "Syncovery for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Syncovery.Syncovery",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/syncovery.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "teracopy",
+      "name": "TeraCopy",
+      "publisher": "Code Sector",
+      "category": "Utilities",
+      "description": "TeraCopy for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "CodeSector.TeraCopy",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/teracopy.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "ventoy",
+      "name": "Ventoy",
+      "publisher": "Ventoy",
+      "category": "Utilities",
+      "description": "Ventoy for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Ventoy.Ventoy",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/ventoy.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "unetbootin",
+      "name": "UNetbootin",
+      "publisher": "Geza Kovacs",
+      "category": "Utilities",
+      "description": "UNetbootin for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "GezaKovacs.UNetbootin",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/unetbootin.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "etcher",
+      "name": "Etcher",
+      "publisher": "balena",
+      "category": "Utilities",
+      "description": "Etcher for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Balena.Etcher",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/etcher.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "speccy",
+      "name": "Speccy",
+      "publisher": "Piriform",
+      "category": "Utilities",
+      "description": "Speccy for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Piriform.Speccy",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/speccy.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "coretemp",
+      "name": "Core Temp",
+      "publisher": "ALCPU",
+      "category": "Utilities",
+      "description": "Core Temp for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "ALCPU.CoreTemp",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/coretemp.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "gpu-z",
+      "name": "GPU-Z",
+      "publisher": "TechPowerUp",
+      "category": "Utilities",
+      "description": "GPU-Z for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "TechPowerUp.GPU-Z",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/gpu-z.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "fancontrol",
+      "name": "Fan Control",
+      "publisher": "Rem0o",
+      "category": "Utilities",
+      "description": "Fan Control for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Rem0o.FanControl",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/fancontrol.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "process-explorer",
+      "name": "Process Explorer",
+      "publisher": "Microsoft",
+      "category": "Utilities",
+      "description": "Process Explorer for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.Sysinternals.ProcessExplorer",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/process-explorer.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "autoruns",
+      "name": "Autoruns",
+      "publisher": "Microsoft",
+      "category": "Utilities",
+      "description": "Autoruns for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.Sysinternals.Autoruns",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/autoruns.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "process-monitor",
+      "name": "Process Monitor",
+      "publisher": "Microsoft",
+      "category": "Utilities",
+      "description": "Process Monitor for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.Sysinternals.ProcessMonitor",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/process-monitor.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "tcpview",
+      "name": "TCPView",
+      "publisher": "Microsoft",
+      "category": "Utilities",
+      "description": "TCPView for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Microsoft.Sysinternals.TCPView",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/tcpview.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "protonvpn-beta",
+      "name": "Proton VPN Beta",
+      "publisher": "Proton",
+      "category": "Security",
+      "description": "Proton VPN Beta for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Proton.ProtonVPN.Beta",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/protonvpn-beta.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "wireguard",
+      "name": "WireGuard",
+      "publisher": "WireGuard",
+      "category": "Security",
+      "description": "WireGuard for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "WireGuard.WireGuard",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/wireguard.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "openvpn",
+      "name": "OpenVPN Connect",
+      "publisher": "OpenVPN",
+      "category": "Security",
+      "description": "OpenVPN Connect for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "OpenVPNTechnologies.OpenVPNConnect",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/openvpn.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "simplewall",
+      "name": "simplewall",
+      "publisher": "Henry++",
+      "category": "Security",
+      "description": "simplewall for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Henry++.simplewall",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/simplewall.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "portmaster",
+      "name": "Portmaster",
+      "publisher": "Safing",
+      "category": "Security",
+      "description": "Portmaster for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Safing.Portmaster",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/portmaster.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "yubico-authenticator",
+      "name": "Yubico Authenticator",
+      "publisher": "Yubico",
+      "category": "Security",
+      "description": "Yubico Authenticator for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Yubico.Authenticator",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/yubico-authenticator.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "authy",
+      "name": "Authy Desktop",
+      "publisher": "Twilio",
+      "category": "Security",
+      "description": "Authy Desktop for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Twilio.Authy",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/authy.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "enpass",
+      "name": "Enpass",
+      "publisher": "Sinew Software",
+      "category": "Security",
+      "description": "Enpass for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Sinew.Enpass",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/enpass.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "1password",
+      "name": "1Password",
+      "publisher": "1Password",
+      "category": "Security",
+      "description": "1Password for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "AgileBits.1Password",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/1password.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "nordpass",
+      "name": "NordPass",
+      "publisher": "Nord Security",
+      "category": "Security",
+      "description": "NordPass for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "NordSecurity.NordPass",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/nordpass.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "megasync",
+      "name": "MEGAsync",
+      "publisher": "Mega",
+      "category": "Cloud & Sync",
+      "description": "MEGAsync for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Mega.MEGASync",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/megasync.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "pcloud",
+      "name": "pCloud Drive",
+      "publisher": "pCloud",
+      "category": "Cloud & Sync",
+      "description": "pCloud Drive for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "pCloudAG.pCloudDrive",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/pcloud.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "rclone",
+      "name": "rclone",
+      "publisher": "rclone",
+      "category": "Cloud & Sync",
+      "description": "rclone for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Rclone.Rclone",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/rclone.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "resilio-sync",
+      "name": "Resilio Sync",
+      "publisher": "Resilio",
+      "category": "Cloud & Sync",
+      "description": "Resilio Sync for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Resilio.Sync",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/resilio-sync.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "seafile",
+      "name": "Seafile",
+      "publisher": "Seafile",
+      "category": "Cloud & Sync",
+      "description": "Seafile for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Seafile.Seafile",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/seafile.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "filen",
+      "name": "Filen",
+      "publisher": "Filen",
+      "category": "Cloud & Sync",
+      "description": "Filen for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "FilenCloudDienste.Filen",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/filen.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "affinity-photo",
+      "name": "Affinity Photo",
+      "publisher": "Serif",
+      "category": "Creative",
+      "description": "Affinity Photo for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Serif.AffinityPhoto2",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/affinity-photo.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "affinity-designer",
+      "name": "Affinity Designer",
+      "publisher": "Serif",
+      "category": "Creative",
+      "description": "Affinity Designer for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Serif.AffinityDesigner2",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/affinity-designer.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "affinity-publisher",
+      "name": "Affinity Publisher",
+      "publisher": "Serif",
+      "category": "Creative",
+      "description": "Affinity Publisher for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Serif.AffinityPublisher2",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/affinity-publisher.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "scribus",
+      "name": "Scribus",
+      "publisher": "Scribus",
+      "category": "Creative",
+      "description": "Scribus for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Scribus.Scribus",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/scribus.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "pencil2d",
+      "name": "Pencil2D",
+      "publisher": "Pencil2D",
+      "category": "Creative",
+      "description": "Pencil2D for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Pencil2D.Pencil2D",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/pencil2d.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "opentoonz",
+      "name": "OpenToonz",
+      "publisher": "OpenToonz",
+      "category": "Creative",
+      "description": "OpenToonz for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "OpenToonz.OpenToonz",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/opentoonz.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "natron",
+      "name": "Natron",
+      "publisher": "Natron",
+      "category": "Creative",
+      "description": "Natron for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Natron.Natron",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/natron.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "olive",
+      "name": "Olive",
+      "publisher": "Olive Team",
+      "category": "Creative",
+      "description": "Olive for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "OliveTeam.OliveVideoEditor",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/olive.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "lmms",
+      "name": "LMMS",
+      "publisher": "LMMS",
+      "category": "Creative",
+      "description": "LMMS for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "LMMS.LMMS",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/lmms.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "inkscape-dev",
+      "name": "Inkscape Development",
+      "publisher": "Inkscape",
+      "category": "Creative",
+      "description": "Inkscape Development for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Inkscape.Inkscape",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/inkscape-dev.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "nomacs",
+      "name": "nomacs",
+      "publisher": "nomacs",
+      "category": "Creative",
+      "description": "nomacs for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "nomacs.nomacs",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/nomacs.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "imageglass",
+      "name": "ImageGlass",
+      "publisher": "Duong Dieu Phap",
+      "category": "Creative",
+      "description": "ImageGlass for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "DuongDieuPhap.ImageGlass",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/imageglass.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "xnviewmp",
+      "name": "XnView MP",
+      "publisher": "XnSoft",
+      "category": "Creative",
+      "description": "XnView MP for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "XnSoft.XnViewMP",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/xnviewmp.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "irfanview",
+      "name": "IrfanView",
+      "publisher": "Irfan Skiljan",
+      "category": "Creative",
+      "description": "IrfanView for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "IrfanSkiljan.IrfanView",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/irfanview.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "remmina",
+      "name": "Remmina",
+      "publisher": "Remmina",
+      "category": "Remote Access",
+      "description": "Remmina for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Remmina.Remmina",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/remmina.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "rustdesk-nightly",
+      "name": "RustDesk Nightly",
+      "publisher": "RustDesk",
+      "category": "Remote Access",
+      "description": "RustDesk Nightly for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "RustDesk.RustDesk.Nightly",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/rustdesk-nightly.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "parsec-vdd",
+      "name": "Parsec VDD",
+      "publisher": "Parsec",
+      "category": "Remote Access",
+      "description": "Parsec VDD for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Parsec.VDD",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/parsec-vdd.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    },
+    {
+      "id": "tailscale-ipn",
+      "name": "Tailscale",
+      "publisher": "Tailscale",
+      "category": "Remote Access",
+      "description": "Tailscale for Windows, managed through the Orvexa catalog.",
+      "platforms": [
+        "Windows 10",
+        "Windows 11"
+      ],
+      "architecture": [
+        "x64"
+      ],
+      "provider": "winget",
+      "wingetId": "Tailscale.Tailscale",
+      "versionStrategy": "latest",
+      "versionLabel": "Latest via WinGet",
+      "icon": "assets/apps/tailscale-ipn.svg",
+      "popular": false,
+      "featured": false,
+      "enabled": true,
+      "silentInstall": true
+    }
+  ]
+}

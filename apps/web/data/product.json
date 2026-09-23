@@ -1,0 +1,20 @@
+{
+  "name": "Orvexa",
+  "category": "Windows software manager",
+  "platform": "Windows",
+  "desktopTechnology": "WinUI 3 / Windows App SDK",
+  "architecture": [
+    "x64",
+    "ARM64"
+  ],
+  "features": [
+    "software catalog",
+    "batch install handoff",
+    "updates",
+    "installed apps",
+    "favorites",
+    "device-aware recommendations",
+    "activity"
+  ],
+  "version": "0.0.3"
+}

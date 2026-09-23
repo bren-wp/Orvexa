@@ -1,0 +1,57 @@
+[
+  {
+    "id": "browsers",
+    "name": "Browsers",
+    "icon": "assets/categories/browsers.svg"
+  },
+  {
+    "id": "messaging",
+    "name": "Messaging",
+    "icon": "assets/categories/messaging.svg"
+  },
+  {
+    "id": "media",
+    "name": "Media",
+    "icon": "assets/categories/media.svg"
+  },
+  {
+    "id": "office",
+    "name": "Office",
+    "icon": "assets/categories/office.svg"
+  },
+  {
+    "id": "developer",
+    "name": "Developer",
+    "icon": "assets/categories/developer.svg"
+  },
+  {
+    "id": "gaming",
+    "name": "Gaming",
+    "icon": "assets/categories/gaming.svg"
+  },
+  {
+    "id": "utilities",
+    "name": "Utilities",
+    "icon": "assets/categories/utilities.svg"
+  },
+  {
+    "id": "security",
+    "name": "Security",
+    "icon": "assets/categories/security.svg"
+  },
+  {
+    "id": "cloud-sync",
+    "name": "Cloud & Sync",
+    "icon": "assets/categories/cloud-sync.svg"
+  },
+  {
+    "id": "creative",
+    "name": "Creative",
+    "icon": "assets/categories/creative.svg"
+  },
+  {
+    "id": "remote-access",
+    "name": "Remote Access",
+    "icon": "assets/categories/remote-access.svg"
+  }
+]
