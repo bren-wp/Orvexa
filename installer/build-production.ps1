@@ -4,8 +4,8 @@ $root=Resolve-Path "$PSScriptRoot\.."
 $app=Join-Path $root "apps\windows\Orvexa.App\Orvexa.App.csproj"
 $publish=Join-Path $root "publish"
 $dist=Join-Path $root "dist"
-$portable=Join-Path $dist "Orvexa-Portable-0.0.3-x64.zip"
-$setup=Join-Path $dist "Orvexa-Setup-0.0.3-x64.exe"
+$portable=Join-Path $dist "Orvexa-Portable-0.0.4-x64.zip"
+$setup=Join-Path $dist "Orvexa-Setup-0.0.4-x64.exe"
 
 function Assert-NativeSuccess([string]$step) {
     if($LASTEXITCODE -ne 0) { throw "$step failed with exit code $LASTEXITCODE." }
@@ -86,7 +86,7 @@ Copy-Item $setup (Join-Path $webDownloads "Orvexa-Setup-x64.exe") -Force
 
 Copy-Item (Join-Path $root "build\version.json") (Join-Path $dist "version.json") -Force
 
-$hashes=@($portable,$setup) | Get-FileHash -Algorithm SHA256
+$hashes=@($portable,$setup) | ForEach-Object { Get-FileHash -LiteralPath $_ -Algorithm SHA256 }
 $hashes |
     ForEach-Object { "$($_.Hash)  $([IO.Path]::GetFileName($_.Path))" } |
     Set-Content (Join-Path $dist "SHA256SUMS.txt") -Encoding ascii

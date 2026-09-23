@@ -13,8 +13,8 @@ Orvexa treats package metadata as data, never as executable command text.
 - Website selections contain catalog IDs only; the Windows app resolves them through its bundled enabled WinGet catalog before presenting confirmation.
 - A second Orvexa launch can hand a validated activation request to the existing application instance without opening a second application window.
 - Local JSON state is validated on startup; malformed state is quarantined instead of trusted.
-- Crash and activity details redact the current user/profile path and are size-bounded.
-- Settings, favorites, activity, catalog cache, window state and protocol handoff use bounded reads and atomic temporary-file replacement.
+- Crash and activity details redact the current user/profile path and are size-bounded; oversized crash logs retain only a bounded tail.
+- Settings, favorites, activity, catalog cache, window state and protocol handoff use byte-bounded streaming reads and durable atomic temporary-file replacement.
 - No telemetry transport is implemented.
 - Production builds support Authenticode signing and generate SHA-256 checksum manifests.
 

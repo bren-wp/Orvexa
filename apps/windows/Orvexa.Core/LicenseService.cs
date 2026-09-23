@@ -1,7 +1,11 @@
 namespace Orvexa.Core;
-public sealed class LicenseService{
- public const string Version="1.0";
- public static string Text=>"""ORVEXA SOFTWARE LICENSE AGREEMENT
+
+public sealed class LicenseService
+{
+    public const string Version="1.0";
+
+    public static string Text=>"""
+ORVEXA SOFTWARE LICENSE AGREEMENT
 
 By installing or using Orvexa, you agree to this license.
 

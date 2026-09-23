@@ -105,7 +105,7 @@
                         <Button Content="Search" Click="Search_Click" Style="{StaticResource AccentButtonStyle}"/>
                         <Button Content="Refresh local catalog" Click="BuildIndex_Click"/>
                         <Button x:Name="InstallSelectedButton" Content="Install selected" Click="InstallSelected_Click" IsEnabled="False" Style="{StaticResource AccentButtonStyle}"/>
-                        <Button x:Name="FavoriteSelectedButton" Content="Toggle favorite" Click="FavoriteSelected_Click" IsEnabled="False"/>
+                        <Button x:Name="FavoriteSelectedButton" Content="Add to favorites" Click="FavoriteSelected_Click" IsEnabled="False"/>
                         <ToggleButton x:Name="FavoritesOnlyToggle" Content="Favorites only" Click="FavoritesOnly_Click"/>
                     </StackPanel>
                     <Grid Grid.Row="2">
