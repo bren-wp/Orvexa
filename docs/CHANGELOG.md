@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.0.5 — 2026-09-24
+- Added a standalone self-contained `Orvexa-Portable-0.0.5-x64.exe` alongside the expanded Portable ZIP and guided Setup executable.
 - Hardened the `orvexa://install` parser so oversized requests are rejected instead of silently truncated.
 - Rejects ambiguous protocol requests containing multiple `ids=` parameters and rejects the entire request when any package ID is invalid.
 - Protocol handoff queue now persists only validated install URIs and enforces its storage cap using actual UTF-8 byte length.
