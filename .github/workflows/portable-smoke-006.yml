@@ -1,5 +1,5 @@
 name: Diagnose Portable startup
-# inspect final-name publish sidecars
+# final Portable startup validation
 
 on:
   push:
