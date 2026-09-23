@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "revision": 3,
+  "packs": [
+    {
+      "id": "essentials",
+      "name": "PC Essentials",
+      "description": "Browser, archive utility, media player, search and PDF basics.",
+      "apps": [
+        "chrome",
+        "vlc",
+        "everything"
+      ],
+      "appCount": 3,
+      "recommended": false
+    },
+    {
+      "id": "developer",
+      "name": "Developer Setup",
+      "description": "Core tools for a modern Windows development workstation.",
+      "apps": [
+        "git",
+        "vscode",
+        "python",
+        "postman"
+      ],
+      "appCount": 4,
+      "recommended": false
+    },
+    {
+      "id": "creator",
+      "name": "Creator Kit",
+      "description": "Capture, edit and create graphics, video and audio.",
+      "apps": [
+        "gimp",
+        "inkscape",
+        "krita",
+        "audacity",
+        "handbrake"
+      ],
+      "appCount": 5,
+      "recommended": false
+    },
+    {
+      "id": "privacy",
+      "name": "Privacy & Remote",
+      "description": "Password, private networking and secure remote utilities.",
+      "apps": [
+        "bitwarden",
+        "keepassxc",
+        "tailscale",
+        "rustdesk"
+      ],
+      "appCount": 4,
+      "recommended": false
+    },
+    {
+      "id": "new-pc",
+      "name": "New PC Setup",
+      "description": "A practical starting set for a fresh Windows installation.",
+      "apps": [
+        "firefox",
+        "vlc",
+        "libreoffice",
+        "everything",
+        "powertoys",
+        "bitwarden",
+        "localsend"
+      ],
+      "appCount": 7,
+      "recommended": true
+    },
+    {
+      "id": "power-user",
+      "name": "Power User",
+      "description": "Fast search, automation, monitoring and advanced Windows utilities.",
+      "apps": [
+        "powertoys",
+        "everything",
+        "flow-launcher",
+        "autohotkey-v2",
+        "hwinfo",
+        "sysinternals",
+        "windirstat",
+        "quicklook"
+      ],
+      "appCount": 8,
+      "recommended": false
+    },
+    {
+      "id": "gaming-pc",
+      "name": "Gaming PC",
+      "description": "Popular launchers, voice chat and game utilities.",
+      "apps": [
+        "steam",
+        "gog-galaxy",
+        "discord",
+        "playnite"
+      ],
+      "appCount": 4,
+      "recommended": false
+    },
+    {
+      "id": "web-dev",
+      "name": "Web Developer",
+      "description": "Editor, source control, runtimes, API tools and terminals.",
+      "apps": [
+        "vscode",
+        "git",
+        "python",
+        "postman"
+      ],
+      "appCount": 4,
+      "recommended": false
+    },
+    {
+      "id": "open-source",
+      "name": "Open Source Essentials",
+      "description": "A broad open-source desktop toolkit.",
+      "apps": [
+        "firefox",
+        "libreoffice",
+        "vlc",
+        "gimp",
+        "inkscape",
+        "keepassxc",
+        "localsend"
+      ],
+      "appCount": 7,
+      "recommended": false
+    }
+  ]
+}

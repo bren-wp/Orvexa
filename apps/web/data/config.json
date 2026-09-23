@@ -1,0 +1,18 @@
+{
+  "brand": {
+    "name": "Orvexa",
+    "company": "Orvexa",
+    "tagline": "Your software. One control center.",
+    "protocol": "orvexa",
+    "accent": "#6d5dfc"
+  },
+  "catalog": {
+    "remoteUrl": "",
+    "requireSignature": false,
+    "publicKeyPem": "",
+    "refreshMinutes": 30
+  },
+  "download": {
+    "windowsUrl": "downloads/Orvexa-Setup-x64.exe"
+  }
+}

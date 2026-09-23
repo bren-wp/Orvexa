@@ -1,0 +1,14 @@
+ORVEXA SOFTWARE LICENSE AGREEMENT
+
+By installing or using Orvexa, you agree to this license.
+
+1. You receive a limited, non-exclusive right to install and use Orvexa.
+2. Third-party packages remain subject to their publishers' licenses and terms.
+3. Package discovery, downloads and updates may contact configured Windows Package Manager sources.
+4. Orvexa stores preferences, favorites, catalog cache, activity and diagnostics locally on the device.
+5. Review package identity and publisher information before installing third-party software.
+6. Orvexa is provided without warranties to the maximum extent permitted by applicable law.
+7. Liability is limited to the maximum extent permitted by applicable law.
+8. You may stop using and uninstall Orvexa at any time.
+
+If you do not accept these terms, do not install Orvexa.

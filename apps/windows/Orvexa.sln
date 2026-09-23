@@ -1,0 +1,8 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orvexa.Core", "Orvexa.Core\Orvexa.Core.csproj", "{A15A2A7E-42A0-4C85-A2F1-90D0CC3B9141}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orvexa.App", "Orvexa.App\Orvexa.App.csproj", "{4B77BEBE-0914-43B8-9F37-28B1B55A3E61}"
+EndProject
+Global
+EndGlobal

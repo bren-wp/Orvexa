@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "revision": 2,
+  "vendors": {
+    "general": {
+      "label": "Any Windows PC",
+      "recommended": [
+        "Microsoft.PowerToys",
+        "7zip.7zip",
+        "VideoLAN.VLC",
+        "Mozilla.Firefox",
+        "Bitwarden.Bitwarden"
+      ]
+    },
+    "dell": {
+      "label": "Dell",
+      "recommended": [
+        "Dell.CommandUpdate",
+        "Dell.DisplayManager",
+        "Microsoft.PowerToys"
+      ]
+    },
+    "lenovo": {
+      "label": "Lenovo",
+      "recommended": [
+        "Lenovo.SystemUpdate",
+        "Microsoft.PowerToys"
+      ]
+    },
+    "hp": {
+      "label": "HP",
+      "recommended": [
+        "HP.HPSupportAssistant",
+        "Microsoft.PowerToys"
+      ]
+    },
+    "asus": {
+      "label": "ASUS",
+      "recommended": [
+        "ASUS.ArmouryCrate",
+        "Microsoft.PowerToys"
+      ]
+    },
+    "acer": {
+      "label": "Acer",
+      "recommended": [
+        "Microsoft.PowerToys"
+      ]
+    },
+    "msi": {
+      "label": "MSI",
+      "recommended": [
+        "Microsoft.PowerToys"
+      ]
+    },
+    "surface": {
+      "label": "Microsoft Surface",
+      "recommended": [
+        "Microsoft.PowerToys",
+        "Microsoft.WindowsTerminal"
+      ]
+    }
+  },
+  "useCases": {
+    "everyday": {
+      "label": "Everyday",
+      "recommended": [
+        "Mozilla.Firefox",
+        "7zip.7zip",
+        "VideoLAN.VLC",
+        "Bitwarden.Bitwarden",
+        "TheDocumentFoundation.LibreOffice"
+      ]
+    },
+    "work": {
+      "label": "Work & Office",
+      "recommended": [
+        "Microsoft.PowerToys",
+        "Microsoft.Teams",
+        "Notion.Notion",
+        "Zoom.Zoom",
+        "Adobe.Acrobat.Reader.64-bit"
+      ]
+    },
+    "developer": {
+      "label": "Developer",
+      "recommended": [
+        "Microsoft.VisualStudioCode",
+        "Git.Git",
+        "OpenJS.NodeJS.LTS",
+        "Python.Python.3.13",
+        "Docker.DockerDesktop"
+      ]
+    },
+    "creator": {
+      "label": "Creator",
+      "recommended": [
+        "OBSProject.OBSStudio",
+        "GIMP.GIMP.3",
+        "Inkscape.Inkscape",
+        "Audacity.Audacity",
+        "BlenderFoundation.Blender"
+      ]
+    },
+    "gaming": {
+      "label": "Gaming",
+      "recommended": [
+        "Valve.Steam",
+        "Discord.Discord",
+        "GOG.Galaxy",
+        "Playnite.Playnite",
+        "OBSProject.OBSStudio"
+      ]
+    }
+  }
+}
