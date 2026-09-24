@@ -27,7 +27,7 @@ jobs:
       - name: Render approved Orvexa mark
         shell: bash
         run: |
-          cat > "$RUNNER_TEMP/render-brand.mjs" <<'NODE'
+          cat > ".render-brand.mjs" <<'NODE'
           import fs from 'node:fs/promises';
           import path from 'node:path';
           import sharp from 'sharp';
@@ -52,7 +52,7 @@ jobs:
           const ico=await pngToIco([16,24,32,48,64,128,256].map(x=>files.get(x)));
           await fs.writeFile('build/icon.ico',ico);
           NODE
-          node "$RUNNER_TEMP/render-brand.mjs"
+          node ".render-brand.mjs"\n          rm -f ".render-brand.mjs"
       - name: Commit generated icon sizes
         run: |
           git config user.name "github-actions[bot]"
