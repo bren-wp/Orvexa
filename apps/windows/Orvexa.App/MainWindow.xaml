@@ -551,7 +551,7 @@
 
                             <Border Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource OrvexaCardStyle}">
                                 <StackPanel Spacing="8">
-                                    <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="ProtectedDocument" Foreground="#60A5FA"/><TextBlock Text="Security & Package Health" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="ProtectedDocument" Foreground="#60A5FA"/><TextBlock Text="Security &amp; Package Health" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
                                     <TextBlock Text="Orvexa keeps package actions explicit, validates package IDs, and runs WinGet with bounded process output and timeouts."
                                                Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                 </StackPanel>
@@ -706,7 +706,7 @@
                                 <Grid ColumnSpacing="12">
                                     <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                     <StackPanel>
-                                        <TextBlock Text="Diagnostics & Reset" Style="{StaticResource OrvexaSectionTitleStyle}"/>
+                                        <TextBlock Text="Diagnostics &amp; Reset" Style="{StaticResource OrvexaSectionTitleStyle}"/>
                                         <TextBlock Text="Save your preferences or restore the default Orvexa configuration." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                     </StackPanel>
                                     <Button Grid.Column="1" Content="Save Settings" Click="SaveSettings_Click" Style="{StaticResource OrvexaPrimaryButtonStyle}"/>
@@ -788,7 +788,7 @@
                             </Border>
                             <Border Grid.Column="1" Style="{StaticResource OrvexaCardStyle}">
                                 <StackPanel Spacing="8">
-                                    <TextBlock Text="Privacy & Security" Style="{StaticResource OrvexaSectionTitleStyle}"/>
+                                    <TextBlock Text="Privacy &amp; Security" Style="{StaticResource OrvexaSectionTitleStyle}"/>
                                     <TextBlock Text="No telemetry transport is required for normal application operation. Settings, favorites, activity, cache and diagnostics are kept locally."
                                                Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                 </StackPanel>
@@ -804,7 +804,7 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <ProgressRing x:Name="Busy" Width="22" Height="22" IsActive="False" VerticalAlignment="Center"/>
                         <TextBlock x:Name="QueueStatus" Grid.Column="1" Text="Ready" Margin="10,0" VerticalAlignment="Center" Foreground="#CBD5E1" TextTrimming="CharacterEllipsis"/>
-                        <Button x:Name="CancelButton" Grid.Column="2" Content="Cancel" Click="Cancel_Click" IsEnabled="False" Style="{StaticResource OrvexaSecondaryButtonStyle}" Padding="10,5"/>
+                        <Button x:Name="CancelButton" Grid.Column="2" Content="Cancel" Click="Cancel_Click" Visibility="Collapsed" Style="{StaticResource OrvexaSecondaryButtonStyle}" Padding="10,5"/>
                     </Grid>
                 </Border>
             </Grid>
