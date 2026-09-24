@@ -1,13 +1,13 @@
 {
   "name": "orvexa",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "description": "Orvexa software control center",
   "scripts": {
     "sync": "node tools/sync-shared.mjs",
     "validate": "node tools/validate-catalog.mjs",
     "version:set": "node tools/set-version.mjs",
-    "test": "node --test qa/orvexa.test.mjs",
-    "qa": "node --test qa/orvexa.test.mjs && node --check apps/web/js/app.js && node --check tools/set-version.mjs && node tools/validate-catalog.mjs"
+    "test": "node --test qa/orvexa.test.mjs qa/ui-parity.test.mjs",
+    "qa": "node --test qa/orvexa.test.mjs qa/ui-parity.test.mjs && node --check apps/web/js/app.js && node --check tools/set-version.mjs && node tools/validate-catalog.mjs"
   }
 }
