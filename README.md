@@ -24,6 +24,7 @@
     <a href="https://github.com/bren-wp/Orvexa/releases/latest"><img src="https://img.shields.io/github/v/release/bren-wp/Orvexa?label=release" alt="Latest release"></a>
     <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-3B82FF" alt="Windows 10 and 11">
     <img src="https://img.shields.io/badge/WinUI%203-.NET%208-2563EB" alt="WinUI 3 and .NET 8">
+    <img src="https://img.shields.io/badge/catalog-354%20apps-0B1B3D" alt="354 curated catalog apps">
   </p>
 </div>
 
@@ -39,7 +40,7 @@ Orvexa is a native Windows software control center designed to make package mana
 
 **Current version: 0.0.8**
 
-Version 0.0.8 keeps the approved Orvexa visual mockup direction from 0.0.7 and adds a permanent UI parity QA layer so the real WinUI app cannot silently drift back toward a generic prototype. The new checks protect navigation order, design tokens, local artwork, primary action wiring, README links and the UI implementation contract.
+Version 0.0.8 keeps the approved Orvexa visual mockup direction from 0.0.7, adds a permanent UI parity QA layer and expands the bundled app catalog to **354 unique curated Windows applications**. Catalog validation now rejects duplicate app IDs, duplicate names and duplicate WinGet package IDs, so new catalog work cannot silently reintroduce repeated entries.
 
 <table>
 <tr>
@@ -104,6 +105,8 @@ Catalog uses responsive native cards rather than a plain default list. Each card
 
 Presentation metadata is read from the same bounded bundled catalog used by package logic. Descriptions are not duplicated in XAML.
 
+Version 0.0.8 expands the curated catalog to **354 unique applications** across Browsers, Messaging, Media, Office, Developer, Gaming, Utilities, Security, Cloud & Sync, Creative and Remote Access. The validator blocks duplicate `id`, duplicate app name and duplicate `wingetId`, and also enforces consistent `windows-11` / `windows-10` platform metadata plus local SVG icons for every catalog app.
+
 ### Updates
 
 Updates uses the approved management layout with summary cards, search, explicit scan actions and a structured result list. Each package row shows the installed and available versions plus a real single-package Update action.
@@ -130,7 +133,7 @@ Settings uses grouped cards for Appearance, Behavior, Confirmations, Catalog and
 
 About uses the large Orvexa brand hero followed by Version, Technologies, License, product information and Privacy/Security cards.
 
-## 0.0.8 UI parity QA
+## 0.0.8 UI parity and catalog QA
 
 Version 0.0.8 adds `qa/ui-parity.test.mjs` and runs it as part of `npm run qa`.
 
@@ -143,6 +146,16 @@ It verifies:
 - Catalog cards use bundled catalog presentation metadata;
 - primary card actions are wired to real package operations;
 - README and UI-DESIGN remain connected to the approved visual direction.
+
+Catalog validation also verifies:
+
+- at least 300 curated catalog apps;
+- no duplicate app IDs;
+- no duplicate normalized app names;
+- no duplicate normalized WinGet package IDs;
+- every app has a known category;
+- every app has normalized platform and architecture metadata;
+- every app icon exists locally under `apps/web/assets/apps`.
 
 ## Real catalog artwork
 
@@ -157,7 +170,10 @@ Orvexa ships local SVG artwork for the curated app catalog. Native cards use tha
   <img src="apps/web/assets/apps/docker.svg" width="48" alt="Docker Desktop">&nbsp;&nbsp;
   <img src="apps/web/assets/apps/discord.svg" width="48" alt="Discord">&nbsp;&nbsp;
   <img src="apps/web/assets/apps/vlc.svg" width="48" alt="VLC">&nbsp;&nbsp;
-  <img src="apps/web/assets/apps/obs.svg" width="48" alt="OBS Studio">
+  <img src="apps/web/assets/apps/obs.svg" width="48" alt="OBS Studio">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/devtoys.svg" width="48" alt="DevToys">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/figma.svg" width="48" alt="Figma">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/zotero.svg" width="48" alt="Zotero">
 </div>
 
 ## Browser to Windows, without arbitrary commands
@@ -202,6 +218,7 @@ The Windows release path verifies:
 
 - repository QA;
 - UI parity QA;
+- strict catalog validation with no duplicate applications;
 - WinUI 3 production publish;
 - local brand and app asset availability;
 - version synchronization;
@@ -306,6 +323,7 @@ Orvexa/
 5. Local state and external inputs stay bounded.
 6. No fake interactive controls solely to imitate mockups.
 7. A release is complete only after QA, production build and Portable launch validation succeed.
+8. Catalog changes must not introduce duplicate app IDs, app names or WinGet package IDs.
 
 ---
 
