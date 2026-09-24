@@ -33,7 +33,9 @@ test('native app uses local brand and application artwork, not remote UI images'
   assert.match(csproj,/Assets\\Categories\\%\(Filename\)%\(Extension\)/);
   assert.match(xaml,/ms-appx:\/\/\/Assets\/Brand\/mark\.svg/);
   assert.match(presentation,/ms-appx:\/\/\/Assets\/Apps\//);
-  assert.doesNotMatch(xaml,/https?:\/\//);
+
+  const remoteUiAssets=[...xaml.matchAll(/(?:Source|UriSource)="(https?:[^"]+)"/g)].map(x=>x[1]);
+  assert.deepEqual(remoteUiAssets,[]);
 });
 
 test('catalog cards are backed by bundled catalog presentation metadata',()=>{
