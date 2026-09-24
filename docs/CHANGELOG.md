@@ -6,7 +6,11 @@
 - Locked the approved navigation order: Home, Catalog, Updates, Installed, This PC, Activity, Settings and About.
 - Added regression coverage for the blue/navy Orvexa WinUI design tokens, local SVG asset pipeline and catalog-presentation metadata converters.
 - Added regression coverage that primary card actions remain wired to real install, update and uninstall operations rather than decorative mockup controls.
-- Updated the README for 0.0.8 and documented the new UI parity QA layer.
+- Expanded the bundled curated catalog to 354 unique Windows applications across Browsers, Messaging, Media, Office, Developer, Gaming, Utilities, Security, Cloud & Sync, Creative and Remote Access.
+- Added 80 new local SVG application icons and kept the catalog artwork pipeline local with no remote image dependency.
+- Removed 5 duplicate catalog entries while preserving one canonical entry per normalized application name and WinGet package ID.
+- Hardened catalog validation so QA now rejects duplicate app IDs, duplicate normalized names, duplicate normalized WinGet IDs, unknown categories, missing local icons, legacy singular `architecture` metadata and inconsistent platform or architecture values.
+- Updated the README for 0.0.8 and documented the new UI parity and catalog QA layers.
 - Synchronized package, build, web, WinUI, manifest and Setup version metadata for 0.0.8.
 
 ## 0.0.7 — 2026-09-24
