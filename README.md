@@ -1,211 +1,226 @@
 <div align="center">
-  <img src="apps/web/assets/brand/logo.svg" alt="Orvexa" width="360" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="apps/web/assets/brand/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="apps/web/assets/brand/logo.svg">
+    <img src="apps/web/assets/brand/logo.svg" alt="Orvexa" width="360">
+  </picture>
 
   <h1>Windows software, under control.</h1>
 
-  <p><strong>Discover, install, update and manage trusted Windows applications from one modern control center.</strong></p>
+  <p><strong>Discover, install, update and manage trusted Windows applications from one native control center.</strong></p>
 
   <p>
     <a href="https://github.com/bren-wp/Orvexa/releases/latest"><strong>Download latest release</strong></a>
-    ·
-    <a href="apps/web/">Explore Orvexa Web</a>
-    ·
+    &nbsp; | &nbsp;
+    <a href="docs/UI-DESIGN.md">UI design</a>
+    &nbsp; | &nbsp;
     <a href="docs/SECURITY.md">Security</a>
-    ·
+    &nbsp; | &nbsp;
     <a href="docs/PRIVACY.md">Privacy</a>
   </p>
 
-  <a href="https://github.com/bren-wp/Orvexa/actions/workflows/ci.yml">
-    <img src="https://github.com/bren-wp/Orvexa/actions/workflows/ci.yml/badge.svg" alt="Orvexa CI" />
-  </a>
+  <p>
+    <a href="https://github.com/bren-wp/Orvexa/actions/workflows/ci.yml"><img src="https://github.com/bren-wp/Orvexa/actions/workflows/ci.yml/badge.svg" alt="Orvexa CI"></a>
+    <a href="https://github.com/bren-wp/Orvexa/releases/latest"><img src="https://img.shields.io/github/v/release/bren-wp/Orvexa?label=release" alt="Latest release"></a>
+    <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-3B82FF" alt="Windows 10 and 11">
+    <img src="https://img.shields.io/badge/WinUI%203-.NET%208-2563EB" alt="WinUI 3 and .NET 8">
+  </p>
 </div>
 
 ---
 
 <div align="center">
-  <img src="apps/web/assets/brand/hero.svg" alt="Orvexa interface preview" width="100%" />
+  <img src="apps/web/assets/brand/hero.svg" alt="Orvexa native Windows dashboard" width="100%">
 </div>
 
 ## Meet Orvexa
 
-Orvexa is a modern Windows software control center built around a simple idea: installing and maintaining trusted Windows apps should not feel like managing a package manager.
+Orvexa is a native Windows software control center designed to make package management feel like a polished product instead of a command-line workflow. It combines a curated application catalog, Windows Package Manager, local device information, favorites, update management and bounded local activity history inside one focused WinUI 3 application.
 
-It combines a curated application catalog, WinGet, device recommendations and local system information in one native Windows experience. The companion Orvexa Web interface lets you prepare an app selection in the browser and hand only trusted catalog IDs to the Windows application through the `orvexa://` protocol.
+**Current version: 0.0.7**
 
-**Current version: 0.0.6**
+Version 0.0.7 introduces the new Orvexa visual system based directly on the approved product mockups: a deep navy Windows 11 shell, blue selection and action states, geometric Orvexa branding, elevated cards, local app artwork and a consistent layout across every primary page.
 
 <table>
-  <tr>
-    <td width="72" align="center"><img src="build/icon-64.png" width="48" alt="Orvexa icon" /></td>
-    <td><strong>Native Windows app</strong><br/>WinUI 3 · .NET 8 · Windows App SDK</td>
-    <td width="72" align="center"><img src="apps/web/assets/brand/mark.svg" width="48" alt="Orvexa mark" /></td>
-    <td><strong>Orvexa Web</strong><br/>Responsive · local assets · curated catalog</td>
-  </tr>
+<tr>
+<td width="50%" valign="top">
+
+### Native Windows UI
+
+Built with **WinUI 3, .NET 8 and Windows App SDK**. Orvexa is not Electron, not a WebView application shell, and not a legacy WinForms/WPF interface.
+
+</td>
+<td width="50%" valign="top">
+
+### Local-first product architecture
+
+Settings, favorites, activity, catalog cache, protocol handoff and diagnostics remain local. Package operations use explicit validated WinGet arguments.
+
+</td>
+</tr>
 </table>
 
-## What makes Orvexa different
+## The 0.0.7 visual system
 
-Orvexa is designed as a product, not a thin wrapper around a package-manager command. The catalog is useful immediately, package operations stay reviewable, local state is bounded and recoverable, and the browser-to-Windows bridge never carries arbitrary shell commands.
+The Windows application, website branding and this README now share one visual language.
 
-<div align="center">
-  <img src="apps/web/assets/categories/utilities.svg" width="38" alt="Utilities" />&nbsp;&nbsp;&nbsp;
-  <img src="apps/web/assets/categories/security.svg" width="38" alt="Security" />&nbsp;&nbsp;&nbsp;
-  <img src="apps/web/assets/categories/developer.svg" width="38" alt="Developer tools" />&nbsp;&nbsp;&nbsp;
-  <img src="apps/web/assets/categories/cloud-sync.svg" width="38" alt="Cloud tools" />
-</div>
-
-- **Curated first-run experience** — the trusted catalog is populated before the first search.
-- **Native Windows UX** — WinUI 3, .NET 8 and Windows App SDK, with one primary application window.
-- **Safe web handoff** — only validated Orvexa catalog IDs cross the `orvexa://` boundary.
-- **Local-first privacy** — no telemetry transport; settings, favorites, activity and cache remain local.
-- **Release-grade automation** — QA, native build, Setup, checksums and GitHub Releases are part of the release gate.
-
-## Why Orvexa
-
-| | Capability | What it means |
+| Token | Value | Purpose |
 |---|---|---|
-| <img src="apps/web/assets/brand/mark.svg" width="24" alt="" /> | **Curated catalog** | A trusted, bundled app catalog is visible immediately — no empty first-run experience. |
-| <img src="build/icon-32.png" width="24" alt="" /> | **One-window Windows UX** | Home, Catalog, Updates, Installed, This PC, Activity, Settings and About stay inside one main app window. |
-| <img src="apps/web/assets/categories/utilities.svg" width="24" alt="" /> | **WinGet powered** | Search, install, update, uninstall and health operations use validated WinGet arguments instead of arbitrary shell commands. |
-| <img src="apps/web/assets/categories/security.svg" width="24" alt="" /> | **Security-first protocol** | Browser requests contain only bounded Orvexa catalog IDs. The Windows app resolves and validates them again before execution. |
-| <img src="apps/web/assets/categories/developer.svg" width="24" alt="" /> | **Release automation** | CI validates QA and native Windows builds. Stable releases are packaged and published from GitHub automatically. |
-| <img src="apps/web/assets/categories/cloud-sync.svg" width="24" alt="" /> | **Local-first state** | Settings, favorites, activity, cache and diagnostics remain local with bounded reads, atomic writes and recovery handling. |
+| Primary Blue | `#3B82FF` | Primary actions, active states and selection |
+| Deep Blue | `#2563EB` | Strong accents and gradients |
+| Navy | `#0B1B3D` | Product background and brand depth |
+| Card | `#101C2F` | Main elevated surfaces |
+| Border | `#334155` | Dividers and subtle outlines |
+| Muted | `#94A3B8` | Secondary text |
+| Surface | `#F8FAFC` | Primary light text |
+| Success | `#4ADE80` | Healthy and completed states |
 
-## A catalog built for real Windows setups
+The geometric six-segment Orvexa mark uses white, light-blue and deep-blue facets and appears consistently in the native shell, web assets and documentation.
 
-Orvexa ships with a curated catalog covering browsers, development tools, utilities, media, communication, productivity, security, cloud tools and more.
+Read the implementation contract in **[docs/UI-DESIGN.md](docs/UI-DESIGN.md)**.
+
+## One shell, eight focused surfaces
+
+The approved navigation order is fixed:
+
+**Home -> Catalog -> Updates -> Installed -> This PC -> Activity -> Settings -> About**
+
+### Home
+
+The dashboard follows the approved composition:
+
+- Trusted App Catalog hero
+- Available Updates
+- Installed Applications
+- Device Health
+- Quick Actions
+- Recommended Tools
+
+The hero uses the strongest brand gradient and local application artwork.
+
+### Catalog
+
+Catalog now uses responsive native cards rather than a plain default list. Each card can display the local app icon, name, canonical package metadata, category, Windows compatibility, version and a real install action.
+
+Presentation metadata is read from the same bounded bundled catalog used by package logic. Descriptions are not duplicated in XAML.
+
+### Updates
+
+Updates uses the approved management layout with summary cards, search, explicit scan actions and a structured result list. Each package row shows the installed and available versions plus a real single-package Update action.
+
+Update Selected and Update All remain confirmation-gated.
+
+### Installed
+
+Installed software uses a structured native list with local icons, package identity, version information, source and real uninstall actions. Destructive operations remain explicit and confirmed.
+
+### This PC
+
+The device page uses a large overview hero, quick actions and system/health cards. Orvexa only displays data it can actually collect safely; the application does not invent hardware values simply to imitate example mockup text.
+
+### Activity
+
+Activity keeps the approved summary-card feel while preserving Orvexa's bounded local activity store. Package, action, result, time and bounded detail remain local.
+
+### Settings
+
+Settings now uses grouped cards for Appearance, Behavior, Confirmations, Catalog and Diagnostics. Only settings backed by persisted application behavior are interactive.
+
+### About
+
+About uses the large Orvexa brand hero followed by Version, Technologies, License, product information and Privacy/Security cards.
+
+## Real catalog artwork
+
+Orvexa already ships local SVG artwork for the curated app catalog. Version 0.0.7 links that same asset set into the WinUI build, so native cards can use real local artwork without remote image dependencies.
 
 <div align="center">
-  <img src="apps/web/assets/apps/firefox.svg" width="46" alt="Firefox" />&nbsp;&nbsp;
-  <img src="apps/web/assets/apps/chrome.svg" width="46" alt="Chrome" />&nbsp;&nbsp;
-  <img src="apps/web/assets/apps/brave.svg" width="46" alt="Brave" />&nbsp;&nbsp;
-  <img src="apps/web/assets/apps/githubdesktop.svg" width="46" alt="GitHub Desktop" />&nbsp;&nbsp;
-  <img src="apps/web/assets/apps/docker.svg" width="46" alt="Docker" />&nbsp;&nbsp;
-  <img src="apps/web/assets/apps/discord.svg" width="46" alt="Discord" />&nbsp;&nbsp;
-  <img src="apps/web/assets/apps/vlc.svg" width="46" alt="VLC" />&nbsp;&nbsp;
-  <img src="apps/web/assets/apps/obs.svg" width="46" alt="OBS Studio" />&nbsp;&nbsp;
-  <img src="apps/web/assets/apps/7zip-zstd.svg" width="46" alt="7-Zip" />
+  <img src="apps/web/assets/apps/firefox.svg" width="48" alt="Firefox">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/chrome.svg" width="48" alt="Google Chrome">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/brave.svg" width="48" alt="Brave">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/vscode.svg" width="48" alt="Visual Studio Code">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/githubdesktop.svg" width="48" alt="GitHub Desktop">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/docker.svg" width="48" alt="Docker Desktop">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/discord.svg" width="48" alt="Discord">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/vlc.svg" width="48" alt="VLC">&nbsp;&nbsp;
+  <img src="apps/web/assets/apps/obs.svg" width="48" alt="OBS Studio">
 </div>
 
-The catalog is deduplicated by canonical package ID, compared case-insensitively and designed for bounded local caching and incremental rendering instead of trying to display thousands of entries at once.
-
-## Windows experience
-
-The native Orvexa application is built with **WinUI 3, .NET 8 and Windows App SDK** — not Electron, not a WebView shell and not a legacy WinForms/WPF interface.
-
-### Main sections
-
-- **Home** — overview, recommendations and shortcuts
-- **Catalog** — curated apps, search, favorites, multi-select and installation
-- **Updates** — scan, filter, update selected or update all with confirmation
-- **Installed** — local package inventory, filtering and selected uninstall
-- **This PC** — WinGet status, architecture, Windows version, memory and disk health
-- **Activity** — bounded local operation history
-- **Settings** — theme, confirmation policy, refresh behavior and search limits
-- **About** — version, licensing and product information
-
-## Orvexa Web
-
-Orvexa Web is the browser companion to the Windows application. It is built with static HTML, CSS and JavaScript and uses local brand and catalog assets.
-
-It includes:
-
-- responsive sticky navigation and mobile menu
-- Windows 10 / Windows 11 selection
-- categories, filters, sorting and local search
-- favorites and multi-select
-- curated packs
-- incremental catalog rendering
-- selection tray and review dialog
-- Orvexa protocol handoff
-- Setup fallback flow
-- accessibility states, reduced-motion support and keyboard handling
-
-## Secure install flow
+## Browser to Windows, without arbitrary commands
 
 ```text
-Browser selection
-      ↓
+Choose apps in Orvexa Web
+          |
+          v
 Orvexa catalog IDs only
-      ↓
+          |
+          v
 orvexa://install?ids=...
-      ↓
-URI + action validation
-      ↓
+          |
+          v
+Strict URI, action and ID validation
+          |
+          v
 Bundled trusted catalog resolution
-      ↓
-Enabled WinGet entry verification
-      ↓
+          |
+          v
 User confirmation
-      ↓
-WinGet execution
+          |
+          v
+WinGet queue
 ```
 
-The browser never sends an arbitrary shell command. **Orvexa 0.0.5 further hardens the web-to-Windows boundary** by rejecting oversized, ambiguous or invalid protocol requests instead of partially processing them. WinGet processes use `ProcessStartInfo.ArgumentList`, bounded output capture, cancellation, timeouts and process-tree termination where required.
-
-Read the full model in [`docs/SECURITY.md`](docs/SECURITY.md).
+The browser never sends an arbitrary shell command. Oversized, ambiguous and invalid protocol requests are rejected instead of partially processed.
 
 ## Privacy by design
 
-Orvexa does not include a telemetry transport. Product state such as settings, favorites, activity, catalog cache, diagnostics and window state is stored locally.
+Orvexa does not require a telemetry transport for normal operation. Product state is kept locally, including settings, favorites, activity, catalog cache, diagnostics and window state.
 
-Local JSON storage uses bounded reads, atomic replacement writes, unique temporary files and bounded corruption quarantine/recovery behavior.
+Persistent JSON state uses bounded reads, atomic replacement writes, unique temporary files and bounded corruption recovery.
 
-Read [`docs/PRIVACY.md`](docs/PRIVACY.md).
+Read **[docs/PRIVACY.md](docs/PRIVACY.md)**.
 
-## Release channels
+## Release quality
 
-Stable releases use:
+Every stable release is gated by GitHub Actions.
 
-```text
-0.0.4
-0.0.5
-0.0.6
-```
+The Windows release path verifies:
 
-Release candidates use:
+- repository QA
+- WinUI 3 production publish
+- local brand and app asset availability
+- version synchronization
+- Portable EXE generation
+- Portable ZIP generation
+- guided Inno Setup generation
+- SHA-256 manifests
+- a real Portable EXE startup smoke test
+- GitHub Release publication
 
-```text
-0.0.5-rc.1
-0.0.5-rc.2
-```
+A Windows artifact is not considered valid just because it compiled.
 
-Set the version from the repository root:
+## Download
 
-```bash
-node tools/set-version.mjs 0.0.6
-node tools/set-version.mjs 0.0.7-rc.1
-```
+Latest stable release:
 
-The version tool synchronizes package metadata, .NET metadata, assembly/file version, Windows manifest, Setup configuration, web metadata/footer, build metadata and release artifact names.
+**[GitHub Releases ->](https://github.com/bren-wp/Orvexa/releases/latest)**
 
-## Download and release artifacts
-
-Stable GitHub releases publish source-oriented artifacts directly from the tagged repository state:
+Version 0.0.7 produces:
 
 ```text
-Orvexa-0.0.6.zip
-Orvexa-Web-0.0.6.zip
-Orvexa-QA-0.0.6.zip
+Orvexa-0.0.7.zip
+Orvexa-Web-0.0.7.zip
+Orvexa-QA-0.0.7.zip
+Orvexa-Portable-0.0.7-x64.exe
+Orvexa-Portable-0.0.7-x64.zip
+Orvexa-Setup-0.0.7-x64.exe
+SHA256SUMS.txt
+version.json
 ```
-
-Windows production packaging is handled separately by `installer/build-production.ps1` and produces the versioned Portable and Setup artifacts when the Windows build environment is available:
-
-```text
-Orvexa-Portable-0.0.6-x64.exe
-Orvexa-Portable-0.0.6-x64.zip
-Orvexa-Setup-0.0.6-x64.exe
-```
-
-> Signing certificates and private keys are never committed to the repository.
 
 ### Portable EXE
 
-**0.0.6 fixes the Portable startup path.** The WinUI executable is now published directly with its final release filename instead of being renamed after publish, avoiding a Windows App SDK 1.8 XAML resource-resolution failure.
-
-`Orvexa-Portable-0.0.6-x64.exe` is a **self-contained single-file Windows build**. It does not require Setup and is built from the same release source and version metadata as the installer.
-
-The Portable EXE is included in the SHA-256 manifest and published as a first-class GitHub Release asset. **Portable startup is tested on Windows before release**; CI fails if the process exits during the startup smoke-test window.
+`Orvexa-Portable-0.0.7-x64.exe` is built as a self-contained Windows x64 single-file application. The release pipeline launches the generated EXE and requires it to remain alive through the startup smoke window before release publication can proceed.
 
 ## Build
 
@@ -215,64 +230,74 @@ The Portable EXE is included in the SHA-256 manifest and published as a first-cl
 npm run qa
 ```
 
-The QA suite checks version synchronization, catalog integrity, single-window wiring, protocol safety, bounded storage, Setup configuration, web integrity, accessibility wiring, JavaScript syntax and release assumptions.
-
-### Windows source build
+### Windows source
 
 ```powershell
 dotnet restore apps/windows/Orvexa.sln
 dotnet build apps/windows/Orvexa.sln -c Release --no-restore
 ```
 
-### Production Windows artifacts
+### Production artifacts
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File installer/build-production.ps1
 ```
 
-## Repository map
+## Versioning
+
+Stable:
+
+```text
+0.0.7
+0.0.8
+0.0.9
+```
+
+Release candidates:
+
+```text
+0.0.8-rc.1
+0.0.8-rc.2
+```
+
+Central update:
+
+```bash
+node tools/set-version.mjs 0.0.7
+node tools/set-version.mjs 0.0.8-rc.1
+```
+
+## Repository
 
 ```text
 Orvexa/
-├─ apps/
-│  ├─ windows/      # WinUI 3 application + reusable core
-│  └─ web/          # public Orvexa Web experience
-├─ build/            # version metadata + product icons
-├─ docs/             # architecture, security, privacy and release docs
-├─ installer/        # production build + Setup scripts
-├─ qa/               # release QA suite
-├─ shared/           # canonical catalog and shared metadata
-└─ tools/            # version, catalog and synchronization tooling
+|-- apps/
+|   |-- windows/      Native WinUI 3 application
+|   `-- web/          Orvexa Web and shared visual assets
+|-- build/             Version metadata and Windows icons
+|-- docs/              UI design, architecture, security, privacy, changelog
+|-- installer/         Production packaging and Setup
+|-- qa/                Release QA
+|-- shared/            Canonical catalog and device metadata
+`-- tools/             Version and catalog tooling
 ```
 
-## Technology
+## Project rules
 
-| Layer | Technology |
-|---|---|
-| Windows UI | WinUI 3 |
-| Runtime | .NET 8 |
-| Windows platform | Windows App SDK |
-| Package operations | WinGet |
-| Web | HTML · CSS · JavaScript |
-| Setup | Inno Setup |
-| QA / tooling | Node.js |
-| CI | GitHub Actions |
-
-## Project principles
-
-1. **Stability before feature count.**
-2. **One clear window instead of fragmented dialogs.**
-3. **No arbitrary shell commands from the browser.**
-4. **Bounded local state and resilient recovery.**
-5. **Fast, responsive interfaces across desktop and mobile web.**
-6. **A release is not complete until QA and GitHub CI pass.**
+1. Stability before feature count.
+2. One primary native Windows window.
+3. The approved Orvexa visual system is shared across every screen.
+4. No arbitrary shell commands from browser handoff.
+5. Local state and external inputs stay bounded.
+6. No fake interactive controls solely to imitate mockups.
+7. A release is complete only after QA, production build and Portable launch validation succeed.
 
 ---
 
 <div align="center">
-  <img src="apps/web/assets/brand/mark.svg" width="56" alt="Orvexa" />
-  <br/>
-  <strong>Orvexa</strong><br/>
-  <sub>A modern Windows software control center.</sub><br/>
+  <img src="apps/web/assets/brand/mark.svg" width="64" alt="Orvexa">
+  <br><br>
+  <strong>Orvexa</strong><br>
+  <sub>A modern Windows software control center.</sub><br>
   <sub>Built and maintained by Brendigo.</sub>
 </div>
