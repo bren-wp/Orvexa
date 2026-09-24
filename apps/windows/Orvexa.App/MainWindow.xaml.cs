@@ -749,8 +749,8 @@ public sealed partial class MainWindow : Window
     void LoadSettingsToUi()
     {
         var value=settings.Read();
-        ConfirmInstall.IsChecked=value.ConfirmBeforeInstall;
-        AutoRefresh.IsChecked=value.AutoRefresh;
+        ConfirmInstall.IsOn=value.ConfirmBeforeInstall;
+        AutoRefresh.IsOn=value.AutoRefresh;
         SearchLimitBox.Value=value.SearchLimit;
 
         foreach(var item in ThemeBox.Items.OfType<ComboBoxItem>())
@@ -819,7 +819,7 @@ public sealed partial class MainWindow : Window
         {
             var theme=(ThemeBox.SelectedItem as ComboBoxItem)?.Tag?.ToString()??"system";
             var limit=double.IsNaN(SearchLimitBox.Value)?100:(int)SearchLimitBox.Value;
-            var value=new AppSettings(theme,ConfirmInstall.IsChecked==true,AutoRefresh.IsChecked==true,limit);
+            var value=new AppSettings(theme,ConfirmInstall.IsOn,AutoRefresh.IsOn,limit);
             settings.Save(value);
             ApplyTheme(theme);
             QueueStatus.Text="Settings saved.";
