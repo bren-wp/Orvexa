@@ -97,10 +97,7 @@ async function loadPackageIconIndex() {
   const index = new Map();
   for (const [fileName, meta] of Object.entries(manifest?.icons || {})) {
     for (const id of meta.winget || []) {
-      index.set(normalizeKey(id), {
-        url: `https://cdn.jsdelivr.net/gh/${packageIconsRepo}@${commit}/icons/${encodeURIComponent(fileName)}`,
-        source: 'package-icons-curated', name: meta.name || '', sha256: meta.sha256 || ''
-      });
+      index.set(normalizeKey(id), { url: `https://cdn.jsdelivr.net/gh/${packageIconsRepo}@${commit}/icons/${encodeURIComponent(fileName)}`, source: 'package-icons-curated', name: meta.name || '', sha256: meta.sha256 || '' });
     }
   }
   console.log(`Package-icons index: ${index.size} WinGet mappings from ${packageIconsRepo}@${commit}`);
@@ -113,14 +110,12 @@ async function loadWingetCandidates() {
   const byId = new Map();
   const directories = letters.filter(x => x.type === 'dir' && x.git_url).sort((a, b) => a.name.localeCompare(b.name));
   console.log(`WinGet manifest root directories: ${directories.length}`);
-
   for (const directory of directories) {
     const tree = await fetchJson(`${directory.git_url}?recursive=1`);
     if (!tree?.tree) continue;
     let before = byId.size;
     for (const entry of tree.tree) {
-      if (entry.type !== 'blob') continue;
-      if (!/\.locale\.en-US\.ya?ml$/i.test(entry.path)) continue;
+      if (entry.type !== 'blob' || !/\.locale\.en-US\.ya?ml$/i.test(entry.path)) continue;
       const id = entry.path.split('/').pop()?.replace(/\.locale\.en-US\.ya?ml$/i, '') || '';
       if (!/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(id)) continue;
       if (!byId.has(normalizeKey(id))) {
@@ -160,68 +155,52 @@ async function buildEntry(candidate, curated, seenIds) {
   const baseId = slug(identifier);
   let id = baseId;
   if (seenIds.has(id)) id = `${baseId}-${hash(identifier)}`;
-  return {
-    id, name, publisher: publisherName, category, description: description.slice(0, 220),
-    platforms: ['windows-11', 'windows-10'], architectures: ['x64'], provider: 'winget', wingetId: identifier,
-    versionStrategy: 'latest', versionLabel: 'Latest via WinGet', icon: categoryIconByName.get(category) || 'assets/categories/utilities.svg',
-    logoUrl: logo.url, logoSource: logo.source, logoStatus: logo.status, logoSha256: logo.sha256 || '',
-    popular: false, featured: false, enabled: true, silentInstall: true, website: meta.packageUrl || meta.publisherUrl || '',
-    notes: logo.status === 'verified' ? `Logo resolved from ${logo.source}.` : logo.status === 'fallback' ? 'Logo resolved from publisher/package website favicon because no package icon was exposed.' : 'No upstream package logo was exposed; Orvexa uses the local category icon fallback.'
-  };
+  return { id, name, publisher: publisherName, category, description: description.slice(0, 220), platforms: ['windows-11', 'windows-10'], architectures: ['x64'], provider: 'winget', wingetId: identifier, versionStrategy: 'latest', versionLabel: 'Latest via WinGet', icon: categoryIconByName.get(category) || 'assets/categories/utilities.svg', logoUrl: logo.url, logoSource: logo.source, logoStatus: logo.status, logoSha256: logo.sha256 || '', popular: false, featured: false, enabled: true, silentInstall: true, website: meta.packageUrl || meta.publisherUrl || '', notes: logo.status === 'verified' ? `Logo resolved from ${logo.source}.` : logo.status === 'fallback' ? 'Logo resolved from publisher/package website favicon because no package icon was exposed.' : 'No upstream package logo was exposed; Orvexa uses the local category icon fallback.' };
 }
 
 async function main() {
   console.log(`Fetching WinGet manifests by subtree from ${manifestsUrl}`);
   const [candidates, icons] = await Promise.all([loadWingetCandidates(), loadPackageIconIndex()]);
   console.log(`Candidate package IDs: ${candidates.length}`);
-
   const allEntries = [];
   const seenIds = new Set();
   let cursor = 0;
   let inspected = 0;
   const concurrency = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_CONCURRENCY || '32', 10);
-
   async function worker() {
     while (cursor < candidates.length) {
       const candidate = candidates[cursor++];
       const curated = icons.index.get(normalizeKey(candidate.identifier));
       const entry = await buildEntry(candidate, curated, seenIds);
       inspected++;
-      if (!seenIds.has(entry.id)) {
-        seenIds.add(entry.id);
-        allEntries.push(entry);
-      }
+      if (!seenIds.has(entry.id)) { seenIds.add(entry.id); allEntries.push(entry); }
       if (inspected % 1000 === 0) console.log(`Large catalog metadata: inspected ${inspected}/${candidates.length}, entries ${allEntries.length}`);
     }
   }
-
   await Promise.all(Array.from({ length: concurrency }, () => worker()));
   const seenWinget = new Set();
   const seenNames = new Set();
+  const seenVerifiedLogos = new Set();
   const rank = entry => entry.logoStatus === 'verified' ? 0 : entry.logoStatus === 'fallback' ? 1 : 2;
-  const entries = allEntries
-    .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name))
-    .filter(entry => {
-      const wingetKey = normalizeKey(entry.wingetId);
-      const nameKey = normalizeKey(entry.name);
-      if (seenWinget.has(wingetKey) || seenNames.has(nameKey)) return false;
-      seenWinget.add(wingetKey);
-      seenNames.add(nameKey);
-      return true;
-    })
-    .slice(0, target)
-    .sort((a, b) => a.name.localeCompare(b.name));
-
+  const entries = [];
+  for (const entry of allEntries.sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name))) {
+    const wingetKey = normalizeKey(entry.wingetId);
+    const nameKey = normalizeKey(entry.name);
+    const verifiedLogoKey = entry.logoStatus === 'verified' ? normalizeKey(entry.logoUrl) : '';
+    if (seenWinget.has(wingetKey) || seenNames.has(nameKey)) continue;
+    if (verifiedLogoKey && seenVerifiedLogos.has(verifiedLogoKey)) continue;
+    seenWinget.add(wingetKey);
+    seenNames.add(nameKey);
+    if (verifiedLogoKey) seenVerifiedLogos.add(verifiedLogoKey);
+    entries.push(entry);
+    if (entries.length >= target) break;
+  }
+  entries.sort((a, b) => a.name.localeCompare(b.name));
   if (entries.length < minRequired) throw new Error(`Generated only ${entries.length} large-catalog entries; required at least ${minRequired}.`);
   const verified = entries.filter(x => x.logoStatus === 'verified').length;
   const fallback = entries.filter(x => x.logoStatus === 'fallback').length;
   const missing = entries.filter(x => x.logoStatus === 'missing').length;
-  const output = {
-    schemaVersion: 2, revision: 9, lastUpdated: new Date().toISOString(), channel: 'stable-large',
-    source: 'microsoft/winget-pkgs + memstechtips/package-icons', sourceRef: branch, packageIconsRef: icons.commit,
-    logoPolicy: 'Prefer curated package-icons or WinGet manifest IconUrl. Use publisher-site favicon when available. Keep local category fallback when no upstream logo exists; never pretend fallback is an original logo.',
-    stats: { total: entries.length, verifiedLogos: verified, faviconFallbackLogos: fallback, missingUpstreamLogos: missing }, apps: entries
-  };
+  const output = { schemaVersion: 2, revision: 9, lastUpdated: new Date().toISOString(), channel: 'stable-large', source: 'microsoft/winget-pkgs + memstechtips/package-icons', sourceRef: branch, packageIconsRef: icons.commit, logoPolicy: 'Prefer curated package-icons or WinGet manifest IconUrl. Use publisher-site favicon when available. Keep local category fallback when no upstream logo exists; never pretend fallback is an original logo.', stats: { total: entries.length, verifiedLogos: verified, faviconFallbackLogos: fallback, missingUpstreamLogos: missing }, apps: entries };
   fs.writeFileSync(outFile, JSON.stringify(output, null, 2) + '\n');
   console.log(`Wrote ${output.apps.length} apps to ${path.relative(root, outFile)} | verified logos ${verified}, favicon fallbacks ${fallback}, missing upstream ${missing}`);
 }
