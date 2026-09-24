@@ -200,6 +200,7 @@ public sealed partial class MainWindow : Window
             DeviceText.Text=text;
             DeviceDetails.Text=text;
             ArchitectureText.Text=$"Architecture: {p.Architecture}";
+            DevicePlatformSummary.Text=$"{p.Windows} · {p.Architecture}";
             LoadRecommendations(p);
         }
         catch(Exception ex)
@@ -513,6 +514,22 @@ public sealed partial class MainWindow : Window
         });
     }
 
+    async void CatalogInstall_Click(object sender,RoutedEventArgs e)
+    {
+        if((sender as Button)?.Tag is not PackageItem item) return;
+        if(!PackagePolicy.IsSafeId(item.Id)) return;
+        if(!await ConfirmAsync(PackageAction.Install,"Install software",$"Install {item.Name}?","Install")) return;
+
+        await RunOperationAsync($"Installing {item.Name}...",async ct=>{
+            var results=await new QueueService(winget).RunAsync([new QueueItem(item.Id)],null,ct);
+            foreach(var result in results)
+                activity.Add(new(DateTimeOffset.Now,result.PackageId,"install",result.Success?"success":"failed",result.Detail));
+            QueueStatus.Text=results.Count>0 && results[0].Success
+                ? $"{item.Name} installed."
+                : $"{item.Name} could not be installed.";
+        });
+    }
+
     async void InstallSelected_Click(object sender,RoutedEventArgs e)
     {
         var selected=CatalogResults.SelectedItems.Cast<PackageItem>().Select(x=>new QueueItem(x.Id)).ToArray();
@@ -544,6 +561,24 @@ public sealed partial class MainWindow : Window
             UpdateAllButton.IsEnabled=updateItems.Count>0;
             ApplyUpdateFilter();
             QueueStatus.Text=updateItems.Count==0?"No updates available":$"{updateItems.Count} updates available";
+        });
+    }
+
+    async void UpdateOne_Click(object sender,RoutedEventArgs e)
+    {
+        if((sender as Button)?.Tag is not AvailableUpdate item) return;
+        if(!PackagePolicy.IsSafeId(item.Id)) return;
+        if(!await ConfirmAsync(PackageAction.Update,"Update software",$"Update {item.Name} from {item.InstalledVersion} to {item.AvailableVersion}?","Update")) return;
+
+        await RunOperationAsync($"Updating {item.Name}...",async ct=>{
+            var result=await winget.InstallAsync(item.Id,true,ct);
+            activity.Add(new(DateTimeOffset.Now,item.Id,"update",result.Code==0?"success":"failed",result.Code==0?result.Output:result.Error));
+            updateItems=await updateScan.ScanAsync(ct);
+            UpdateResults.SelectedItems.Clear();
+            UpdateSelectedButton.IsEnabled=false;
+            UpdateAllButton.IsEnabled=updateItems.Count>0;
+            ApplyUpdateFilter();
+            QueueStatus.Text=result.Code==0?$"{item.Name} updated.":$"{item.Name} update finished with errors.";
         });
     }
 
@@ -591,6 +626,20 @@ public sealed partial class MainWindow : Window
             UninstallSelectedButton.IsEnabled=false;
             ApplyInstalledFilter();
             QueueStatus.Text=$"{installedItems.Count} installed packages detected";
+        });
+    }
+
+    async void UninstallOne_Click(object sender,RoutedEventArgs e)
+    {
+        if((sender as Button)?.Tag is not InstalledPackage item) return;
+        if(!PackagePolicy.IsSafeId(item.Id)) return;
+        if(!await ConfirmAsync(PackageAction.Uninstall,"Uninstall software",$"Uninstall {item.Name}? This can remove application data controlled by that application.","Uninstall")) return;
+
+        await RunOperationAsync($"Uninstalling {item.Name}...",async ct=>{
+            var result=await winget.UninstallAsync(item.Id,ct);
+            activity.Add(new(DateTimeOffset.Now,item.Id,"uninstall",result.Code==0?"success":"failed",result.Code==0?result.Output:result.Error));
+            await RefreshInstalledListWithoutBusyAsync(ct);
+            QueueStatus.Text=result.Code==0?$"{item.Name} uninstalled.":$"{item.Name} uninstall finished with errors.";
         });
     }
 
