@@ -39,6 +39,9 @@
     <Content Include="..\..\..\shared\catalog.json" Link="data\catalog.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\shared\catalog-large.json" Link="data\catalog-large.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\..\build\icon.ico" Link="Assets\Orvexa.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
