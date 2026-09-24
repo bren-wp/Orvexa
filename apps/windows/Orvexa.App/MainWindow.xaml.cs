@@ -710,7 +710,7 @@ public sealed partial class MainWindow : Window
 
     async void UninstallOne_Click(object sender,RoutedEventArgs e)
     {
-        if((sender as Button)?.Tag is not InstalledPackage item) return;
+        if((sender as FrameworkElement)?.Tag is not InstalledPackage item) return;
         if(!PackagePolicy.IsSafeId(item.Id)) return;
         if(!await ConfirmAsync(PackageAction.Uninstall,"Uninstall software",$"Uninstall {item.Name}? This can remove application data controlled by that application.","Uninstall")) return;
 
