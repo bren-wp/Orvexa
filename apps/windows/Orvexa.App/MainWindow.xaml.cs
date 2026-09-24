@@ -200,7 +200,7 @@ public sealed partial class MainWindow : Window
             DeviceText.Text=text;
             DeviceDetails.Text=text;
             ArchitectureText.Text=$"Architecture: {p.Architecture}";
-            DevicePlatformSummary.Text=$"{p.Windows} · {p.Architecture}";
+            DevicePlatformSummary.Text=$"{p.Windows} | {p.Architecture}";
             LoadRecommendations(p);
         }
         catch(Exception ex)
