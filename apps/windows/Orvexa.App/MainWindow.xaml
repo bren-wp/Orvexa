@@ -574,7 +574,10 @@
                                         <Border Background="#0D2550" CornerRadius="9" Padding="11">
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <SymbolIcon Symbol="Accept" Foreground="#4ADE80"/>
-                                                <TextBlock Text="Orvexa Ready" FontWeight="SemiBold"/>
+                                                <StackPanel>
+                                                    <TextBlock Text="Orvexa Ready" FontWeight="SemiBold"/>
+                                                    <TextBlock x:Name="DeviceHealthStamp" Text="Run a health check for current status." Foreground="#BFDBFE" FontSize="11"/>
+                                                </StackPanel>
                                             </StackPanel>
                                         </Border>
                                     </StackPanel>
@@ -587,6 +590,7 @@
                                         <SymbolIcon Symbol="Go" Foreground="#60A5FA"/>
                                         <TextBlock Text="Quick Actions" Style="{StaticResource OrvexaSectionTitleStyle}"/>
                                     </StackPanel>
+                                    <TextBlock Text="Common tasks to manage and troubleshoot this device." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                     <Button Content="Refresh System Info" Click="Device_Click" Style="{StaticResource OrvexaPrimaryButtonStyle}" HorizontalAlignment="Stretch"/>
                                     <Button Content="Run Health Check" Click="Health_Click" Style="{StaticResource OrvexaSecondaryButtonStyle}" HorizontalAlignment="Stretch"/>
                                     <Button Content="Installed Applications" Click="OpenInstalled_Click" Style="{StaticResource OrvexaSecondaryButtonStyle}" HorizontalAlignment="Stretch"/>
@@ -596,30 +600,67 @@
 
                         <Grid ColumnSpacing="12" RowSpacing="12">
                             <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
 
                             <Border Style="{StaticResource OrvexaCardStyle}">
                                 <StackPanel Spacing="9">
-                                    <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="Remote" Foreground="#60A5FA"/><TextBlock Text="System" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
-                                    <TextBlock Text="Architecture and Windows platform information detected locally." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="9">
+                                        <SymbolIcon Symbol="Remote" Foreground="#60A5FA"/>
+                                        <TextBlock Text="System" Style="{StaticResource OrvexaSectionTitleStyle}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="Windows and architecture information detected locally." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                     <TextBlock x:Name="DevicePlatformSummary" Text="Refresh device information to update this card." Foreground="#BFDBFE" TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Border>
 
                             <Border Grid.Column="1" Style="{StaticResource OrvexaCardStyle}">
                                 <StackPanel Spacing="9">
-                                    <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="FourBars" Foreground="#60A5FA"/><TextBlock Text="System Health" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
-                                    <TextBlock Text="WinGet status, Orvexa memory use, and available system disk space." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
-                                    <Button Content="Check health now" Click="Health_Click" Style="{StaticResource OrvexaPrimaryButtonStyle}" HorizontalAlignment="Left"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="9">
+                                        <SymbolIcon Symbol="FourBars" Foreground="#60A5FA"/>
+                                        <TextBlock Text="Memory (Orvexa)" Style="{StaticResource OrvexaSectionTitleStyle}"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="HealthMemoryText" Text="Run a health check to measure current process memory." FontSize="22" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Memory shown here is Orvexa's current process working set, not fabricated total system RAM."
+                                               Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
                                 </StackPanel>
                             </Border>
 
-                            <Border Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource OrvexaCardStyle}">
-                                <StackPanel Spacing="8">
-                                    <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="ProtectedDocument" Foreground="#60A5FA"/><TextBlock Text="Security &amp; Package Health" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
-                                    <TextBlock Text="Orvexa keeps package actions explicit, validates package IDs, and runs WinGet with bounded process output and timeouts."
-                                               Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                            <Border Grid.Row="1" Style="{StaticResource OrvexaCardStyle}">
+                                <StackPanel Spacing="9">
+                                    <StackPanel Orientation="Horizontal" Spacing="9">
+                                        <SymbolIcon Symbol="OpenFile" Foreground="#60A5FA"/>
+                                        <TextBlock Text="Storage" Style="{StaticResource OrvexaSectionTitleStyle}"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="HealthDiskText" Text="Run a health check to read free system disk space." FontSize="20" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Available space is read from the Windows system drive." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                 </StackPanel>
+                            </Border>
+
+                            <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource OrvexaCardStyle}">
+                                <StackPanel Spacing="9">
+                                    <StackPanel Orientation="Horizontal" Spacing="9">
+                                        <SymbolIcon Symbol="Download" Foreground="#60A5FA"/>
+                                        <TextBlock Text="WinGet Status" Style="{StaticResource OrvexaSectionTitleStyle}"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="HealthWingetText" Text="Not checked" FontSize="20" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Orvexa validates Windows Package Manager availability before package operations." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource OrvexaCardStyle}">
+                                <Grid ColumnSpacing="18">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                    <StackPanel Spacing="8">
+                                        <StackPanel Orientation="Horizontal" Spacing="9">
+                                            <SymbolIcon Symbol="ProtectedDocument" Foreground="#60A5FA"/>
+                                            <TextBlock Text="Security &amp; Package Health" Style="{StaticResource OrvexaSectionTitleStyle}"/>
+                                        </StackPanel>
+                                        <TextBlock Text="Orvexa keeps package actions explicit, validates package IDs, and runs WinGet with bounded output, cancellation and timeouts."
+                                                   Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                                        <TextBlock x:Name="HealthDetails" Text="System health has not been checked yet." Foreground="#BFDBFE" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="1" Content="Check health now" Click="Health_Click" Style="{StaticResource OrvexaPrimaryButtonStyle}" VerticalAlignment="Center"/>
+                                </Grid>
                             </Border>
                         </Grid>
                     </StackPanel>
@@ -637,66 +678,104 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="360"/></Grid.ColumnDefinitions>
                         <StackPanel Spacing="3">
                             <TextBlock Text="Activity" Style="{StaticResource OrvexaTitleStyle}"/>
-                            <TextBlock Text="Review local installation, update, removal, and package operation history."
+                            <TextBlock Text="View and manage your application activity, installations, updates, and package operations."
                                        Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                         </StackPanel>
                         <TextBox Grid.Column="1" PlaceholderText="Search activity, apps, or operations..." IsReadOnly="True"/>
                     </Grid>
 
                     <Grid Grid.Row="1" ColumnSpacing="10" Margin="0,14,0,12">
-                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                         <Border Style="{StaticResource OrvexaCardStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <Border Background="#123B72" CornerRadius="10" Padding="11"><SymbolIcon Symbol="ViewAll" Foreground="#60A5FA"/></Border>
-                                <StackPanel><TextBlock Text="Local history" FontWeight="SemiBold"/><TextBlock Text="Up to 500 operations" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                <StackPanel><TextBlock x:Name="ActivityTotalCount" Text="0" FontSize="22" FontWeight="SemiBold"/><TextBlock Text="Total Operations" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
                             </StackPanel>
                         </Border>
                         <Border Grid.Column="1" Style="{StaticResource OrvexaCardStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <Border Background="#123B48" CornerRadius="10" Padding="11"><SymbolIcon Symbol="Accept" Foreground="#4ADE80"/></Border>
-                                <StackPanel><TextBlock Text="Completed" FontWeight="SemiBold"/><TextBlock Text="Successful package actions" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                <StackPanel><TextBlock x:Name="ActivityCompletedCount" Text="0" FontSize="22" FontWeight="SemiBold"/><TextBlock Text="Completed" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
                             </StackPanel>
                         </Border>
                         <Border Grid.Column="2" Style="{StaticResource OrvexaCardStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <Border Background="#52202D" CornerRadius="10" Padding="11"><SymbolIcon Symbol="Cancel" Foreground="#FB7185"/></Border>
-                                <StackPanel><TextBlock Text="Failures retained" FontWeight="SemiBold"/><TextBlock Text="Useful local diagnostics" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                <StackPanel><TextBlock x:Name="ActivityFailedCount" Text="0" FontSize="22" FontWeight="SemiBold"/><TextBlock Text="Failed" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="3" Style="{StaticResource OrvexaCardStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <Border Background="#473717" CornerRadius="10" Padding="11"><SymbolIcon Symbol="Clock" Foreground="#FBBF24"/></Border>
+                                <StackPanel><TextBlock x:Name="ActivityOtherCount" Text="0" FontSize="22" FontWeight="SemiBold"/><TextBlock Text="Other / cancelled" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
                             </StackPanel>
                         </Border>
                     </Grid>
 
-                    <Button Grid.Row="2" Content="Clear activity" Click="ClearActivity_Click" HorizontalAlignment="Left"
-                            Style="{StaticResource OrvexaSecondaryButtonStyle}" Margin="0,0,0,10"/>
-
-                    <Grid Grid.Row="3">
-                        <ListView x:Name="ActivityList">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Background="#0D192A" BorderBrush="{StaticResource OrvexaBorderBrush}" BorderThickness="0,0,0,1" Padding="12,10">
-                                        <Grid ColumnSpacing="12">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="120"/>
-                                                <ColumnDefinition Width="120"/>
-                                                <ColumnDefinition Width="180"/>
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding PackageId}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
-                                                <TextBlock Text="{Binding Detail}" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="11" TextTrimming="CharacterEllipsis"/>
-                                            </StackPanel>
-                                            <TextBlock Grid.Column="1" Text="{Binding Action}" Foreground="#93C5FD" VerticalAlignment="Center"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Result}" VerticalAlignment="Center"/>
-                                            <TextBlock Grid.Column="3" Text="{Binding At}" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                        <StackPanel x:Name="ActivityEmptyState" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
-                            <SymbolIcon Symbol="Clock" Foreground="#60A5FA"/>
-                            <TextBlock Text="No activity yet" FontSize="18" FontWeight="SemiBold"/>
-                            <TextBlock Text="Installs, updates and removals will appear here." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                    <Grid Grid.Row="2" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Border Background="#17263D" CornerRadius="16" Padding="12,6"><TextBlock Text="All Operations"/></Border>
+                            <Border Background="#17263D" CornerRadius="16" Padding="12,6"><TextBlock Text="Local History"/></Border>
+                            <Border Background="#17263D" CornerRadius="16" Padding="12,6"><TextBlock Text="Newest First"/></Border>
                         </StackPanel>
+                        <Button Grid.Column="1" Content="Clear Activity" Click="ClearActivity_Click" Style="{StaticResource OrvexaSecondaryButtonStyle}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="3" ColumnSpacing="12">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="1.65*"/><ColumnDefinition Width="1*"/></Grid.ColumnDefinitions>
+                        <Grid>
+                            <ListView x:Name="ActivityList" SelectionMode="Single" SelectionChanged="ActivityList_SelectionChanged">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#0D192A" BorderBrush="{StaticResource OrvexaBorderBrush}" BorderThickness="0,0,0,1" Padding="12,10">
+                                            <Grid ColumnSpacing="12">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="110"/>
+                                                    <ColumnDefinition Width="110"/>
+                                                    <ColumnDefinition Width="150"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding PackageId}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding Detail}" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="11" TextTrimming="CharacterEllipsis"/>
+                                                </StackPanel>
+                                                <Border Grid.Column="1" Background="#173A62" CornerRadius="10" Padding="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Action}" Foreground="#BFDBFE"/>
+                                                </Border>
+                                                <TextBlock Grid.Column="2" Text="{Binding Result}" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="3" Text="{Binding At}" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="11" VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <StackPanel x:Name="ActivityEmptyState" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+                                <SymbolIcon Symbol="Clock" Foreground="#60A5FA"/>
+                                <TextBlock Text="No activity yet" FontSize="18" FontWeight="SemiBold"/>
+                                <TextBlock Text="Installs, updates and removals will appear here." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Grid.Column="1" Style="{StaticResource OrvexaCardStyle}" Padding="18">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="Operation Details" Style="{StaticResource OrvexaSectionTitleStyle}"/>
+                                <TextBlock x:Name="ActivityDetailPackage" Text="Select an activity item" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                <Grid RowSpacing="8">
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="110"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock Text="Operation" Style="{StaticResource OrvexaSecondaryTextStyle}"/><TextBlock x:Name="ActivityDetailAction" Grid.Column="1" Text="-"/>
+                                    <TextBlock Grid.Row="1" Text="Result" Style="{StaticResource OrvexaSecondaryTextStyle}"/><TextBlock x:Name="ActivityDetailResult" Grid.Row="1" Grid.Column="1" Text="-"/>
+                                    <TextBlock Grid.Row="2" Text="Time" Style="{StaticResource OrvexaSecondaryTextStyle}"/><TextBlock x:Name="ActivityDetailTime" Grid.Row="2" Grid.Column="1" Text="-"/>
+                                </Grid>
+                                <Border Background="#08111F" BorderBrush="{StaticResource OrvexaBorderBrush}" BorderThickness="1" CornerRadius="9" Padding="12" MinHeight="130">
+                                    <ScrollViewer MaxHeight="240">
+                                        <TextBlock x:Name="ActivityDetailLog" Text="Local bounded operation detail will appear here." FontFamily="Consolas"
+                                                   Foreground="#CBD5E1" TextWrapping="Wrap"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </StackPanel>
+                        </Border>
                     </Grid>
                 </Grid>
 
@@ -714,7 +793,9 @@
 
                         <Grid ColumnSpacing="12" RowSpacing="12">
                             <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
                             <Border Style="{StaticResource OrvexaCardStyle}">
                                 <StackPanel Spacing="14">
@@ -728,18 +809,23 @@
                                             <ComboBoxItem Content="Dark" Tag="dark"/>
                                         </ComboBox>
                                     </StackPanel>
-                                    <TextBlock Text="The application follows Windows when System is selected." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
+                                    <TextBlock Text="System follows the active Windows theme." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
                                 </StackPanel>
                             </Border>
 
                             <Border Grid.Column="1" Style="{StaticResource OrvexaCardStyle}">
-                                <StackPanel Spacing="14">
+                                <StackPanel Spacing="12">
                                     <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="Setting" Foreground="#60A5FA"/><TextBlock Text="Behavior" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
-                                    <TextBlock Text="Control refresh behavior and package discovery." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                                    <TextBlock Text="Orvexa uses one primary window and remembers its bounded size locally." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                                        <StackPanel><TextBlock Text="Automatic refresh" FontWeight="SemiBold"/><TextBlock Text="Refresh Updates and Installed when pages open." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
-                                        <ToggleSwitch x:Name="AutoRefresh" Grid.Column="1" VerticalAlignment="Center"/>
+                                        <StackPanel><TextBlock Text="Single-window navigation" FontWeight="SemiBold"/><TextBlock Text="Home through About stay inside the main window." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                        <TextBlock Grid.Column="1" Text="Enabled" Foreground="#4ADE80" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <StackPanel><TextBlock Text="Remember window size" FontWeight="SemiBold"/><TextBlock Text="Stored locally with safe minimum and maximum bounds." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                        <TextBlock Grid.Column="1" Text="Enabled" Foreground="#4ADE80" VerticalAlignment="Center" FontWeight="SemiBold"/>
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -753,21 +839,47 @@
                                         <StackPanel><TextBlock Text="Confirm app installs" FontWeight="SemiBold"/><TextBlock Text="Ask before installing selected packages." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
                                         <ToggleSwitch x:Name="ConfirmInstall" Grid.Column="1" VerticalAlignment="Center"/>
                                     </Grid>
+                                    <TextBlock Text="Updates, removals and reset operations still use explicit in-app confirmations where required."
+                                               Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
                                 </StackPanel>
                             </Border>
 
                             <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource OrvexaCardStyle}">
                                 <StackPanel Spacing="14">
+                                    <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="Sync" Foreground="#60A5FA"/><TextBlock Text="Updates" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
+                                    <TextBlock Text="Configure how Orvexa refreshes package information." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <StackPanel><TextBlock Text="Refresh automatically" FontWeight="SemiBold"/><TextBlock Text="Refresh Updates and Installed when those pages first open." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                        <ToggleSwitch x:Name="AutoRefresh" Grid.Column="1" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Row="2" Style="{StaticResource OrvexaCardStyle}">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="Lock" Foreground="#60A5FA"/><TextBlock Text="Privacy" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
+                                    <TextBlock Text="Orvexa does not require a telemetry transport for normal application operation." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <StackPanel><TextBlock Text="Local product state" FontWeight="SemiBold"/><TextBlock Text="Settings, favorites, activity, cache and diagnostics remain on this PC." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                        <TextBlock Grid.Column="1" Text="Local" Foreground="#4ADE80" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource OrvexaCardStyle}">
+                                <StackPanel Spacing="14">
                                     <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="ViewAll" Foreground="#60A5FA"/><TextBlock Text="Catalog" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
                                     <TextBlock Text="Configure the maximum number of package results shown in searches." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                     <StackPanel Spacing="6">
                                         <TextBlock Text="Maximum search results" FontWeight="SemiBold"/>
-                                        <NumberBox x:Name="SearchLimitBox" Minimum="10" Maximum="500" SpinButtonPlacementMode="Inline"/>
+                                        <NumberBox x:Name="SearchLimitBox" Minimum="25" Maximum="500" SpinButtonPlacementMode="Inline"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
 
-                            <Border Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource OrvexaCardStyle}">
+                            <Border Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource OrvexaCardStyle}">
                                 <Grid ColumnSpacing="12">
                                     <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                     <StackPanel>
