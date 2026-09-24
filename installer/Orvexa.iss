@@ -42,6 +42,6 @@ Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription:
 Root: HKCU; Subkey: "Software\Classes\orvexa"; ValueType: string; ValueName: ""; ValueData: "URL:Orvexa Protocol"; Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\Classes\orvexa"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""
 Root: HKCU; Subkey: "Software\Classes\orvexa\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
-Root: HKCU; Subkey: "Software\Classes\orvexa\shell\open\command"; ValueType: string; ValueName: ""; ValueData: "\"{app}\{#MyAppExeName}\" \"%1\""
+Root: HKCU; Subkey: "Software\Classes\orvexa\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "Launch Orvexa"; Flags: nowait postinstall skipifsilent
