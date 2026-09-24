@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.7 — 2026-09-24
+- Rebuilt the native WinUI shell to follow the approved Orvexa Home, Catalog, Updates, Installed, This PC, Activity, Settings and About mockups.
+- Added the new blue/navy Orvexa design system with shared card, title, secondary text, primary action and secondary action styles.
+- Replaced the old purple/checkmark brand mark with the new geometric six-segment white/blue Orvexa identity and aligned the web hero and favicon.
+- Linked the existing local catalog SVG artwork into the WinUI build instead of adding remote image dependencies.
+- Added bounded catalog-presentation metadata readers and native converters for application icon, description and category.
+- Rebuilt Catalog as responsive app cards and wired each card's Install action to the existing confirmed queue.
+- Rebuilt Updates and Installed presentation and added real single-item Update and Uninstall actions while retaining multi-select workflows.
+- Rebuilt Home as the approved dashboard composition with catalog hero, updates, installed software, device health, quick actions and recommendations.
+- Rebuilt This PC, Activity, Settings and About around the approved card hierarchy without inventing unsupported device values or fake settings.
+- Added docs/UI-DESIGN.md as the visual implementation contract for future Orvexa development.
+- Rebuilt the main README as the marketing and product presentation for the new visual system.
+- Preserved the 0.0.6 Portable launch gate so the redesigned application must start successfully before release publication.
+
+
 ## 0.0.6 — 2026-09-24
 - Fixed the standalone Portable EXE startup failure reproduced as `XamlParseException` on Windows.
 - Stopped renaming WinUI 3 single-file executables after publish; the Portable release name is now assigned during the WinUI app publish itself.
