@@ -37,9 +37,9 @@
 
 Orvexa is a native Windows software control center designed to make package management feel like a polished product instead of a command-line workflow. It combines a curated application catalog, Windows Package Manager, local device information, favorites, update management and bounded local activity history inside one focused WinUI 3 application.
 
-**Current version: 0.0.7**
+**Current version: 0.0.8**
 
-Version 0.0.7 introduces the new Orvexa visual system based directly on the approved product mockups: a deep navy Windows 11 shell, blue selection and action states, geometric Orvexa branding, elevated cards, local app artwork and a consistent layout across every primary page.
+Version 0.0.8 keeps the approved Orvexa visual mockup direction from 0.0.7 and adds a permanent UI parity QA layer so the real WinUI app cannot silently drift back toward a generic prototype. The new checks protect navigation order, design tokens, local artwork, primary action wiring, README links and the UI implementation contract.
 
 <table>
 <tr>
@@ -60,9 +60,9 @@ Settings, favorites, activity, catalog cache, protocol handoff and diagnostics r
 </tr>
 </table>
 
-## The 0.0.7 visual system
+## The Orvexa visual system
 
-The Windows application, website branding and this README now share one visual language.
+The Windows application, website branding and this README share one visual language.
 
 | Token | Value | Purpose |
 |---|---|---|
@@ -81,7 +81,7 @@ Read the implementation contract in **[docs/UI-DESIGN.md](docs/UI-DESIGN.md)**.
 
 ## One shell, eight focused surfaces
 
-The approved navigation order is fixed:
+The approved navigation order is fixed and covered by QA:
 
 **Home -> Catalog -> Updates -> Installed -> This PC -> Activity -> Settings -> About**
 
@@ -100,7 +100,7 @@ The hero uses the strongest brand gradient and local application artwork.
 
 ### Catalog
 
-Catalog now uses responsive native cards rather than a plain default list. Each card can display the local app icon, name, canonical package metadata, category, Windows compatibility, version and a real install action.
+Catalog uses responsive native cards rather than a plain default list. Each card can display the local app icon, name, canonical package metadata, category, Windows compatibility, version and a real install action.
 
 Presentation metadata is read from the same bounded bundled catalog used by package logic. Descriptions are not duplicated in XAML.
 
@@ -124,15 +124,29 @@ Activity keeps the approved summary-card feel while preserving Orvexa's bounded 
 
 ### Settings
 
-Settings now uses grouped cards for Appearance, Behavior, Confirmations, Catalog and Diagnostics. Only settings backed by persisted application behavior are interactive.
+Settings uses grouped cards for Appearance, Behavior, Confirmations, Catalog and Diagnostics. Only settings backed by persisted application behavior are interactive.
 
 ### About
 
 About uses the large Orvexa brand hero followed by Version, Technologies, License, product information and Privacy/Security cards.
 
+## 0.0.8 UI parity QA
+
+Version 0.0.8 adds `qa/ui-parity.test.mjs` and runs it as part of `npm run qa`.
+
+It verifies:
+
+- the approved navigation order;
+- every primary mockup surface exists in the native shell;
+- Orvexa design tokens are present in WinUI resources;
+- brand, app and category SVGs are linked into the native build locally;
+- Catalog cards use bundled catalog presentation metadata;
+- primary card actions are wired to real package operations;
+- README and UI-DESIGN remain connected to the approved visual direction.
+
 ## Real catalog artwork
 
-Orvexa already ships local SVG artwork for the curated app catalog. Version 0.0.7 links that same asset set into the WinUI build, so native cards can use real local artwork without remote image dependencies.
+Orvexa ships local SVG artwork for the curated app catalog. Native cards use that same asset set without remote image dependencies.
 
 <div align="center">
   <img src="apps/web/assets/apps/firefox.svg" width="48" alt="Firefox">&nbsp;&nbsp;
@@ -186,16 +200,17 @@ Every stable release is gated by GitHub Actions.
 
 The Windows release path verifies:
 
-- repository QA
-- WinUI 3 production publish
-- local brand and app asset availability
-- version synchronization
-- Portable EXE generation
-- Portable ZIP generation
-- guided Inno Setup generation
-- SHA-256 manifests
-- a real Portable EXE startup smoke test
-- GitHub Release publication
+- repository QA;
+- UI parity QA;
+- WinUI 3 production publish;
+- local brand and app asset availability;
+- version synchronization;
+- Portable EXE generation;
+- Portable ZIP generation;
+- guided Inno Setup generation;
+- SHA-256 manifests;
+- a real Portable EXE startup smoke test;
+- GitHub Release publication.
 
 A Windows artifact is not considered valid just because it compiled.
 
@@ -205,22 +220,22 @@ Latest stable release:
 
 **[GitHub Releases ->](https://github.com/bren-wp/Orvexa/releases/latest)**
 
-Version 0.0.7 produces:
+Version 0.0.8 produces:
 
 ```text
-Orvexa-0.0.7.zip
-Orvexa-Web-0.0.7.zip
-Orvexa-QA-0.0.7.zip
-Orvexa-Portable-0.0.7-x64.exe
-Orvexa-Portable-0.0.7-x64.zip
-Orvexa-Setup-0.0.7-x64.exe
+Orvexa-0.0.8.zip
+Orvexa-Web-0.0.8.zip
+Orvexa-QA-0.0.8.zip
+Orvexa-Portable-0.0.8-x64.exe
+Orvexa-Portable-0.0.8-x64.zip
+Orvexa-Setup-0.0.8-x64.exe
 SHA256SUMS.txt
 version.json
 ```
 
 ### Portable EXE
 
-`Orvexa-Portable-0.0.7-x64.exe` is built as a self-contained Windows x64 single-file application. The release pipeline launches the generated EXE and requires it to remain alive through the startup smoke window before release publication can proceed.
+`Orvexa-Portable-0.0.8-x64.exe` is built as a self-contained Windows x64 single-file application. The release pipeline launches the generated EXE and requires it to remain alive through the startup smoke window before release publication can proceed.
 
 ## Build
 
@@ -248,23 +263,23 @@ powershell -ExecutionPolicy Bypass -File installer/build-production.ps1
 Stable:
 
 ```text
-0.0.7
 0.0.8
 0.0.9
+0.1.0
 ```
 
 Release candidates:
 
 ```text
-0.0.8-rc.1
-0.0.8-rc.2
+0.0.9-rc.1
+0.0.9-rc.2
 ```
 
 Central update:
 
 ```bash
-node tools/set-version.mjs 0.0.7
-node tools/set-version.mjs 0.0.8-rc.1
+node tools/set-version.mjs 0.0.8
+node tools/set-version.mjs 0.0.9-rc.1
 ```
 
 ## Repository
@@ -277,7 +292,7 @@ Orvexa/
 |-- build/             Version metadata and Windows icons
 |-- docs/              UI design, architecture, security, privacy, changelog
 |-- installer/         Production packaging and Setup
-|-- qa/                Release QA
+|-- qa/                Release QA and UI parity QA
 |-- shared/            Canonical catalog and device metadata
 `-- tools/             Version and catalog tooling
 ```
