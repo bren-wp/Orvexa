@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace Orvexa.Core;
 
-public sealed record WindowState(int Width=1180,int Height=760);
+public sealed record WindowState(int Width=1320,int Height=860);
 
 public sealed class WindowStateService
 {
@@ -29,7 +29,7 @@ public sealed class WindowStateService
 
     static WindowState Sanitize(WindowState value)=>value with
     {
-        Width=Math.Clamp(value.Width,760,3840),
-        Height=Math.Clamp(value.Height,520,2160)
+        Width=Math.Clamp(value.Width,900,3840),
+        Height=Math.Clamp(value.Height,620,2160)
     };
 }
