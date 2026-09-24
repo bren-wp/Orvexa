@@ -1,5 +1,5 @@
 #define MyAppName "Orvexa"
-#define MyAppVersion "0.0.7"
+#define MyAppVersion "0.0.8"
 #define MyAppExeName "Orvexa.App.exe"
 [Setup]
 AppId={{2B56E793-5F72-4F50-89CE-0B8E27E4A18D}
@@ -10,7 +10,7 @@ DefaultDirName={localappdata}\Programs\Orvexa
 DefaultGroupName=Orvexa
 UninstallDisplayName=Orvexa
 OutputDir=..\dist
-OutputBaseFilename=Orvexa-Setup-0.0.7-x64
+OutputBaseFilename=Orvexa-Setup-0.0.8-x64
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
@@ -38,11 +38,10 @@ Name: "{group}\Orvexa"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\Orvexa"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription: "Shortcuts:"; Flags: unchecked
-
 [Registry]
 Root: HKCU; Subkey: "Software\Classes\orvexa"; ValueType: string; ValueName: ""; ValueData: "URL:Orvexa Protocol"; Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\Classes\orvexa"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""
-Root: HKCU; Subkey: "Software\Classes\orvexa\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
-
+Root: HKCU; Subkey: "Software\Classes\orvexa\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
+Root: HKCU; Subkey: "Software\Classes\orvexa\shell\open\command"; ValueType: string; ValueName: ""; ValueData: "\"{app}\{#MyAppExeName}\" \"%1\""
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "Launch Orvexa"; Flags: nowait postinstall skipifsilent
