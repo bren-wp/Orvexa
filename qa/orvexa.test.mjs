@@ -308,8 +308,10 @@ test('atomic reads stay bounded even if a file grows during the read',()=>{
 
 test('bundled Windows data is read through bounded file infrastructure',()=>{
   assert.match(code,/TryReadBundledData/);
-  assert.match(code,/MaxBundledCatalogBytes=16L\*1024\*1024/);
+  assert.match(code,/MaxBundledCatalogBytes=64L\*1024\*1024/);
   assert.match(code,/MaxBundledProfilesBytes=2L\*1024\*1024/);
+  assert.match(code,/TryReadBundledData\("catalog-large\.json",MaxBundledCatalogBytes,out var largeJson\)/);
+  assert.match(proj,/catalog-large\.json/);
   assert.doesNotMatch(code,/File\.ReadAllText|File\.ReadAllTextAsync/);
 });
 

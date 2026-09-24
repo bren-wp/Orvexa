@@ -1,0 +1,208 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+
+const root = path.resolve(import.meta.dirname, '..');
+const target = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_TARGET || '5200', 10);
+const minRequired = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_MIN || '5001', 10);
+const branch = process.env.WINGET_PKGS_REF || 'master';
+const manifestsUrl = `https://api.github.com/repos/microsoft/winget-pkgs/contents/manifests?ref=${encodeURIComponent(branch)}`;
+const rawManifestBase = `https://raw.githubusercontent.com/microsoft/winget-pkgs/${branch}/manifests`;
+const packageIconsRepo = 'memstechtips/package-icons';
+const packageIconsRef = process.env.ORVEXA_PACKAGE_ICONS_REF || 'dev';
+const packageIconsBranchUrl = `https://api.github.com/repos/${packageIconsRepo}/branches/${packageIconsRef}`;
+const packageIconsManifestUrl = `https://raw.githubusercontent.com/${packageIconsRepo}/${packageIconsRef}/manifest.json`;
+const headers = { accept: 'application/vnd.github+json', 'user-agent': 'Orvexa-large-catalog-builder' };
+if (process.env.GITHUB_TOKEN) headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+
+const categories = JSON.parse(fs.readFileSync(path.join(root, 'shared', 'categories.json'), 'utf8'));
+const categoryNames = new Set(categories.map(x => x.name));
+const categoryIconByName = new Map(categories.map(x => [x.name, x.icon]));
+const outFile = path.join(root, 'shared', 'catalog-large.json');
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const normalize = value => String(value || '').trim().replace(/\s+/g, ' ');
+const normalizeKey = value => normalize(value).toLowerCase();
+const hash = value => crypto.createHash('sha1').update(value).digest('hex').slice(0, 8);
+const slug = value => normalize(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'app';
+
+async function fetchJson(url, attempt = 1) {
+  const response = await fetch(url, { headers });
+  if (response.status === 404) return null;
+  if (response.status === 403 || response.status === 429 || response.status >= 500) {
+    if (attempt < 4) { await sleep(650 * attempt); return await fetchJson(url, attempt + 1); }
+  }
+  if (!response.ok) return null;
+  try { return await response.json(); } catch { return null; }
+}
+
+async function fetchText(url, attempt = 1) {
+  const response = await fetch(url, { headers });
+  if (response.status === 404) return '';
+  if (response.status === 403 || response.status === 429 || response.status >= 500) {
+    if (attempt < 4) { await sleep(650 * attempt); return await fetchText(url, attempt + 1); }
+  }
+  if (!response.ok) return '';
+  return await response.text();
+}
+
+function yamlScalar(text, key) {
+  const match = text.match(new RegExp(`^${key}:\\s*(.+?)\\s*$`, 'm'));
+  if (!match) return '';
+  let value = match[1].trim();
+  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1);
+  return value.trim();
+}
+
+function yamlIconUrl(text) {
+  const direct = text.match(/^\s*IconUrl:\s*(.+?)\s*$/m);
+  if (!direct) return '';
+  let value = direct[1].trim();
+  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1);
+  return /^https:\/\//i.test(value) ? value : '';
+}
+
+function splitWingetId(identifier) {
+  const parts = identifier.split('.');
+  const publisher = parts.shift() || identifier;
+  const packageName = parts.join('.') || identifier;
+  return { publisher, packageName };
+}
+
+function titleFromIdentifier(identifier) {
+  const { packageName } = splitWingetId(identifier);
+  return normalize(packageName.replace(/[._+-]+/g, ' ')) || identifier;
+}
+
+function categoryFor(entry) {
+  const hay = `${entry.identifier} ${entry.name} ${entry.publisher} ${entry.description}`.toLowerCase();
+  const checks = [
+    ['Browsers', /browser|chromium|firefox|brave|vivaldi|opera|edge|tor/],
+    ['Messaging', /slack|discord|teams|zoom|telegram|signal|chat|messenger|matrix|mail|thunderbird|whatsapp/],
+    ['Media', /video|audio|media|player|music|podcast|vlc|plex|jellyfin|obs|stream|codec|ffmpeg/],
+    ['Office', /office|pdf|document|note|writer|spreadsheet|markdown|obsidian|notion|libreoffice|onlyoffice/],
+    ['Developer', /developer|code|sdk|ide|git|python|node|java|docker|kubernetes|terminal|shell|api|postman|jetbrains|visual studio|compiler|database|sql|rust|go|dotnet/],
+    ['Gaming', /game|gaming|steam|epic games|battle|gog|minecraft|emulator|retroarch/],
+    ['Security', /security|password|vpn|auth|encrypt|firewall|malware|antivirus|bitwarden|keepass|keychain|gpg/],
+    ['Cloud & Sync', /cloud|sync|drive|dropbox|onedrive|backup|nextcloud|ftp|sftp|rclone/],
+    ['Creative', /creative|design|photo|image|paint|vector|figma|blender|cad|3d|drawing|editor|krita|gimp/],
+    ['Remote Access', /remote|rdp|vnc|ssh|anydesk|teamviewer|parsec|rustdesk/]
+  ];
+  return checks.find(([, rx]) => rx.test(hay))?.[0] ?? 'Utilities';
+}
+
+async function loadPackageIconIndex() {
+  const branchData = await fetchJson(packageIconsBranchUrl);
+  const commit = branchData?.commit?.sha || packageIconsRef;
+  const manifest = await fetchJson(packageIconsManifestUrl);
+  const index = new Map();
+  for (const [fileName, meta] of Object.entries(manifest?.icons || {})) {
+    for (const id of meta.winget || []) {
+      index.set(normalizeKey(id), { url: `https://cdn.jsdelivr.net/gh/${packageIconsRepo}@${commit}/icons/${encodeURIComponent(fileName)}`, source: 'package-icons-curated', name: meta.name || '', sha256: meta.sha256 || '' });
+    }
+  }
+  console.log(`Package-icons index: ${index.size} WinGet mappings from ${packageIconsRepo}@${commit}`);
+  return { index, commit };
+}
+
+async function loadWingetCandidates() {
+  const letters = await fetchJson(manifestsUrl);
+  if (!Array.isArray(letters)) throw new Error('Could not read WinGet manifests directory.');
+  const byId = new Map();
+  const directories = letters.filter(x => x.type === 'dir' && x.git_url).sort((a, b) => a.name.localeCompare(b.name));
+  console.log(`WinGet manifest root directories: ${directories.length}`);
+  for (const directory of directories) {
+    const tree = await fetchJson(`${directory.git_url}?recursive=1`);
+    if (!tree?.tree) continue;
+    let before = byId.size;
+    for (const entry of tree.tree) {
+      if (entry.type !== 'blob' || !/\.locale\.en-US\.ya?ml$/i.test(entry.path)) continue;
+      const id = entry.path.split('/').pop()?.replace(/\.locale\.en-US\.ya?ml$/i, '') || '';
+      if (!/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(id)) continue;
+      if (!byId.has(normalizeKey(id))) {
+        const rawPath = `${directory.name}/${entry.path}`.split('/').map(encodeURIComponent).join('/');
+        byId.set(normalizeKey(id), { identifier: id, rawUrl: `${rawManifestBase}/${rawPath}` });
+      }
+    }
+    console.log(`WinGet ${directory.name}: +${byId.size - before} IDs${tree.truncated ? ' (subtree truncated)' : ''}`);
+  }
+  return [...byId.values()].sort((a, b) => a.identifier.localeCompare(b.identifier));
+}
+
+function logoFromManifest(meta, curated) {
+  if (curated) return { url: curated.url, source: curated.source, status: 'verified', sha256: curated.sha256 };
+  if (meta.iconUrl) return { url: meta.iconUrl, source: 'winget-manifest-icon', status: 'verified' };
+  const site = meta.packageUrl || meta.publisherUrl;
+  if (/^https?:\/\//i.test(site)) {
+    try {
+      const host = new URL(site).hostname;
+      if (host && host.split('.').length > 1) return { url: `https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}&sz=128`, source: 'publisher-site-favicon', status: 'fallback' };
+    } catch {}
+  }
+  return { url: '', source: 'missing-upstream-logo', status: 'missing' };
+}
+
+async function buildEntry(candidate, curated, seenIds) {
+  const text = await fetchText(candidate.rawUrl);
+  const identifier = yamlScalar(text, 'PackageIdentifier') || candidate.identifier;
+  const name = normalize(yamlScalar(text, 'PackageName') || curated?.name || titleFromIdentifier(identifier));
+  const { publisher } = splitWingetId(identifier);
+  const publisherName = normalize(yamlScalar(text, 'Publisher') || publisher || 'Unknown publisher');
+  const description = normalize(yamlScalar(text, 'ShortDescription') || yamlScalar(text, 'Description') || `${name} package from Windows Package Manager.`);
+  const meta = { iconUrl: yamlIconUrl(text), packageUrl: yamlScalar(text, 'PackageUrl'), publisherUrl: yamlScalar(text, 'PublisherUrl') };
+  const logo = logoFromManifest(meta, curated);
+  const category = categoryFor({ identifier, name, publisher: publisherName, description });
+  if (!categoryNames.has(category)) throw new Error(`Unknown category ${category}`);
+  const baseId = slug(identifier);
+  let id = baseId;
+  if (seenIds.has(id)) id = `${baseId}-${hash(identifier)}`;
+  return { id, name, publisher: publisherName, category, description: description.slice(0, 220), platforms: ['windows-11', 'windows-10'], architectures: ['x64'], provider: 'winget', wingetId: identifier, versionStrategy: 'latest', versionLabel: 'Latest via WinGet', icon: categoryIconByName.get(category) || 'assets/categories/utilities.svg', logoUrl: logo.url, logoSource: logo.source, logoStatus: logo.status, logoSha256: logo.sha256 || '', popular: false, featured: false, enabled: true, silentInstall: true, website: meta.packageUrl || meta.publisherUrl || '', notes: logo.status === 'verified' ? `Logo resolved from ${logo.source}.` : logo.status === 'fallback' ? 'Logo resolved from publisher/package website favicon because no package icon was exposed.' : 'No upstream package logo was exposed; Orvexa uses the local category icon fallback.' };
+}
+
+async function main() {
+  console.log(`Fetching WinGet manifests by subtree from ${manifestsUrl}`);
+  const [candidates, icons] = await Promise.all([loadWingetCandidates(), loadPackageIconIndex()]);
+  console.log(`Candidate package IDs: ${candidates.length}`);
+  const allEntries = [];
+  const seenIds = new Set();
+  let cursor = 0;
+  let inspected = 0;
+  const concurrency = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_CONCURRENCY || '32', 10);
+  async function worker() {
+    while (cursor < candidates.length) {
+      const candidate = candidates[cursor++];
+      const curated = icons.index.get(normalizeKey(candidate.identifier));
+      const entry = await buildEntry(candidate, curated, seenIds);
+      inspected++;
+      if (!seenIds.has(entry.id)) { seenIds.add(entry.id); allEntries.push(entry); }
+      if (inspected % 1000 === 0) console.log(`Large catalog metadata: inspected ${inspected}/${candidates.length}, entries ${allEntries.length}`);
+    }
+  }
+  await Promise.all(Array.from({ length: concurrency }, () => worker()));
+  const seenWinget = new Set();
+  const seenNames = new Set();
+  const seenVerifiedLogos = new Set();
+  const rank = entry => entry.logoStatus === 'verified' ? 0 : entry.logoStatus === 'fallback' ? 1 : 2;
+  const entries = [];
+  for (const entry of allEntries.sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name))) {
+    const wingetKey = normalizeKey(entry.wingetId);
+    const nameKey = normalizeKey(entry.name);
+    const verifiedLogoKey = entry.logoStatus === 'verified' ? normalizeKey(entry.logoUrl) : '';
+    if (seenWinget.has(wingetKey) || seenNames.has(nameKey)) continue;
+    if (verifiedLogoKey && seenVerifiedLogos.has(verifiedLogoKey)) continue;
+    seenWinget.add(wingetKey);
+    seenNames.add(nameKey);
+    if (verifiedLogoKey) seenVerifiedLogos.add(verifiedLogoKey);
+    entries.push(entry);
+    if (entries.length >= target) break;
+  }
+  entries.sort((a, b) => a.name.localeCompare(b.name));
+  if (entries.length < minRequired) throw new Error(`Generated only ${entries.length} large-catalog entries; required at least ${minRequired}.`);
+  const verified = entries.filter(x => x.logoStatus === 'verified').length;
+  const fallback = entries.filter(x => x.logoStatus === 'fallback').length;
+  const missing = entries.filter(x => x.logoStatus === 'missing').length;
+  const output = { schemaVersion: 2, revision: 9, lastUpdated: new Date().toISOString(), channel: 'stable-large', source: 'microsoft/winget-pkgs + memstechtips/package-icons', sourceRef: branch, packageIconsRef: icons.commit, logoPolicy: 'Prefer curated package-icons or WinGet manifest IconUrl. Use publisher-site favicon when available. Keep local category fallback when no upstream logo exists; never pretend fallback is an original logo.', stats: { total: entries.length, verifiedLogos: verified, faviconFallbackLogos: fallback, missingUpstreamLogos: missing }, apps: entries };
+  fs.writeFileSync(outFile, JSON.stringify(output, null, 2) + '\n');
+  console.log(`Wrote ${output.apps.length} apps to ${path.relative(root, outFile)} | verified logos ${verified}, favicon fallbacks ${fallback}, missing upstream ${missing}`);
+}
+
+main().catch(error => { console.error(error); process.exit(1); });
