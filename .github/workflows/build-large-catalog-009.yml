@@ -1,0 +1,44 @@
+name: Orvexa Large Catalog 0.0.9
+
+on:
+  push:
+    branches:
+      - develop/0.0.9
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-large-catalog:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Generate 0.0.9 metadata and large catalog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORVEXA_LARGE_CATALOG_TARGET: '5200'
+          ORVEXA_LARGE_CATALOG_MIN: '5001'
+          ORVEXA_LARGE_CATALOG_CONCURRENCY: '32'
+        run: |
+          node tools/set-version.mjs 0.0.9
+          node tools/build-winget-large-catalog.mjs
+          node tools/validate-large-catalog.mjs
+      - name: Commit generated large catalog
+        run: |
+          git config user.name "Brendigo"
+          git config user.email "info@brendigo.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+          else
+            git commit -m "Generate Orvexa 0.0.9 large WinGet catalog"
+            git push
+          fi
