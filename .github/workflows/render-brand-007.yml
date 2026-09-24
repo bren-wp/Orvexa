@@ -6,6 +6,7 @@ on:
       - develop/0.0.7
     paths:
       - ".github/workflows/render-brand-007.yml"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -52,7 +53,8 @@ jobs:
           const ico=await pngToIco([16,24,32,48,64,128,256].map(x=>files.get(x)));
           await fs.writeFile('build/icon.ico',ico);
           NODE
-          node ".render-brand.mjs"\n          rm -f ".render-brand.mjs"
+          node ".render-brand.mjs"
+          rm -f ".render-brand.mjs"
       - name: Commit generated icon sizes
         run: |
           git config user.name "github-actions[bot]"
