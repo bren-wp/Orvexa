@@ -15,6 +15,9 @@ const html=read('apps/web/index.html');
 const js=read('apps/web/js/app.js');
 const css=read('apps/web/css/app.css');
 const xaml=read('apps/windows/Orvexa.App/MainWindow.xaml');
+const appXaml=read('apps/windows/Orvexa.App/App.xaml');
+const catalogPresentation=read('apps/windows/Orvexa.App/CatalogPresentation.cs');
+const uiDesignDoc=read('docs/UI-DESIGN.md');
 const code=read('apps/windows/Orvexa.App/MainWindow.xaml.cs');
 const proj=read('apps/windows/Orvexa.App/Orvexa.App.csproj');
 const installer=read('installer/Orvexa.iss');
@@ -438,4 +441,22 @@ test('production packaging strips PDB metadata before sidecar validation',()=>{
 test('This PC navigation uses a valid WinUI Symbol value',()=>{
   assert.match(xaml,/Content="This PC" Tag="device" Icon="Remote"/);
   assert.doesNotMatch(xaml,/Icon="Computer"/);
+});
+
+
+test('native UI preserves the approved Orvexa visual system',()=>{
+  for(const token of ['OrvexaPrimaryBlue','OrvexaDeepBlue','OrvexaNavy','OrvexaCardStyle','OrvexaPrimaryButtonStyle'])
+    assert.ok(appXaml.includes(token),token+' design token missing');
+
+  assert.match(proj,/assets\\apps\\\*\.svg/i);
+  assert.match(proj,/Assets\\Apps\\%\(Filename\)%\(Extension\)/);
+  assert.match(catalogPresentation,/PackageIconConverter/);
+  assert.match(catalogPresentation,/PackageDescriptionConverter/);
+  assert.match(catalogPresentation,/MaxCatalogBytes=16L\*1024\*1024/);
+
+  for(const title of ['Trusted App Catalog','Available Updates','Installed Applications','Device Health','Quick Actions','Recommended Tools'])
+    assert.ok(xaml.includes(title),title+' dashboard surface missing');
+
+  for(const section of ['Home','Catalog','Updates','Installed','This PC','Activity','Settings','About'])
+    assert.ok(uiDesignDoc.includes(section),section+' design specification missing');
 });

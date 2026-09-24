@@ -2,16 +2,15 @@
 <defs>
   <linearGradient id="b1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F8FAFC"/><stop offset="1" stop-color="#BFDBFE"/></linearGradient>
   <linearGradient id="b2" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#3B82FF"/><stop offset="1" stop-color="#1D4ED8"/></linearGradient>
-  <linearGradient id="b3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#60A5FA"/><stop offset="1" stop-color="#2563EB"/></linearGradient>
 </defs>
 <g transform="translate(8 8)">
   <path d="M40 0 71 18 71 54 40 72 9 54 9 18Z" fill="#07152D"/>
   <path d="M40 0 71 18 57 28 40 18 23 28 9 18Z" fill="url(#b1)"/>
-  <path d="M71 18 71 54 56 45 56 30Z" fill="url(#b3)"/>
-  <path d="M71 54 40 72 40 54 56 45Z" fill="url(#b1)"/>
+  <path d="M71 18 71 54 56 45 56 30Z" fill="#3B82FF"/>
+  <path d="M71 54 40 72 40 54 56 45Z" fill="#F8FAFC"/>
   <path d="M40 72 9 54 24 45 40 54Z" fill="url(#b2)"/>
-  <path d="M9 54 9 18 24 28 24 45Z" fill="url(#b3)"/>
-  <path d="M9 18 40 0 40 18 24 28Z" fill="url(#b1)"/>
+  <path d="M9 54 9 18 24 28 24 45Z" fill="#60A5FA"/>
+  <path d="M9 18 40 0 40 18 24 28Z" fill="#F8FAFC"/>
 </g>
-<text x="102" y="62" fill="#0F172A" font-family="Segoe UI,Arial,sans-serif" font-size="44" font-weight="700" letter-spacing="-1">Orvexa</text>
+<text x="102" y="62" fill="#F8FAFC" font-family="Segoe UI,Arial,sans-serif" font-size="44" font-weight="700" letter-spacing="-1">Orvexa</text>
 </svg>
