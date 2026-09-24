@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.8 — 2026-09-24
+- Added `qa/ui-parity.test.mjs` to protect the approved Orvexa mockup direction in automated QA.
+- Expanded `npm run qa` so UI parity checks run alongside the existing release QA suite, JavaScript syntax checks and catalog validation.
+- Locked the approved navigation order: Home, Catalog, Updates, Installed, This PC, Activity, Settings and About.
+- Added regression coverage for the blue/navy Orvexa WinUI design tokens, local SVG asset pipeline and catalog-presentation metadata converters.
+- Added regression coverage that primary card actions remain wired to real install, update and uninstall operations rather than decorative mockup controls.
+- Updated the README for 0.0.8 and documented the new UI parity QA layer.
+- Synchronized package, build, web, WinUI, manifest and Setup version metadata for 0.0.8.
+
 ## 0.0.7 — 2026-09-24
 - Rebuilt the native WinUI shell to follow the approved Orvexa Home, Catalog, Updates, Installed, This PC, Activity, Settings and About mockups.
 - Added the new blue/navy Orvexa design system with shared card, title, secondary text, primary action and secondary action styles.
@@ -78,20 +87,3 @@
 - Centralized bounded atomic local-state I/O for Settings, Favorites, Activity, Window State, Catalog Cache and protocol handoff.
 - Improved System Health cancellation behavior and WinGet version reporting.
 - Hardened Orvexa Setup as a per-user step-by-step wizard with explicit Welcome, destination, license, Ready and Finish pages.
-- Removed recursive uninstall cleanup that could delete unrelated files placed inside the application directory.
-- Hardened the production build script with explicit restore/publish/compiler exit checks and artifact existence validation.
-- Extended centralized versioning so web product metadata follows stable and RC releases automatically.
-
-## 0.0.1 — 2026-09-23
-- Standardized the product brand to Orvexa and reset the public release sequence to 0.0.1.
-- Added stable and RC versioning support such as 0.0.2 and 0.0.2-rc.1 from one release command.
-- Polished the single-window WinUI 3 interface, responsive action groups and selection-aware controls.
-- Added Catalog favorites, actionable recommendations, Settings reset, in-app license viewer and persistent system-health details.
-- Hardened cancellation, confirmation reentrancy, startup recovery, storage fallbacks and single-instance coordination.
-- Removed application-source dependencies on Microsoft.Win32 registry APIs and legacy desktop UI interop.
-- Added a bounded Orvexa protocol handoff from the public website to the existing Orvexa window.
-- Protocol catalog IDs are resolved through the bundled enabled WinGet allowlist before any installation is offered.
-- Added per-user protocol registration to Orvexa Setup and automatic removal on uninstall.
-- Rebuilt the public website without the obsolete desktop bridge and hidden desktop shell.
-- Added local PWA icons and removed external visual dependencies.
-- Expanded click-by-click QA for navigation, handlers, selections, confirmations, protocol activation, web controls and release naming.
