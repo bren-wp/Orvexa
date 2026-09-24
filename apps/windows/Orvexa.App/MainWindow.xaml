@@ -657,7 +657,7 @@
                                         </StackPanel>
                                         <TextBlock Text="Orvexa keeps package actions explicit, validates package IDs, and runs WinGet with bounded output, cancellation and timeouts."
                                                    Style="{StaticResource OrvexaSecondaryTextStyle}"/>
-                                        <TextBlock x:Name="HealthDetails" Text="System health has not been checked yet." Foreground="#BFDBFE" TextWrapping="Wrap"/>
+                                        <TextBlock x:Name="DeviceHealthDetails" Text="System health has not been checked yet." Foreground="#BFDBFE" TextWrapping="Wrap"/>
                                     </StackPanel>
                                     <Button Grid.Column="1" Content="Check health now" Click="Health_Click" Style="{StaticResource OrvexaPrimaryButtonStyle}" VerticalAlignment="Center"/>
                                 </Grid>
@@ -858,7 +858,7 @@
 
                             <Border Grid.Row="2" Style="{StaticResource OrvexaCardStyle}">
                                 <StackPanel Spacing="12">
-                                    <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="Lock" Foreground="#60A5FA"/><TextBlock Text="Privacy" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="ProtectedDocument" Foreground="#60A5FA"/><TextBlock Text="Privacy" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
                                     <TextBlock Text="Orvexa does not require a telemetry transport for normal application operation." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
