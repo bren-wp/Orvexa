@@ -38,7 +38,7 @@
 
 Orvexa is a native Windows software control center designed to make package management feel like a polished product instead of a command-line workflow. It combines a curated application catalog, Windows Package Manager, local device information, favorites, update management and bounded local activity history inside one focused WinUI 3 application.
 
-**Current version: 0.0.8**
+**Current version: 0.0.9**
 
 Version 0.0.8 keeps the approved Orvexa visual mockup direction from 0.0.7, adds a permanent UI parity QA layer and expands the bundled app catalog to **354 unique curated Windows applications**. Catalog validation now rejects duplicate app IDs, duplicate names and duplicate WinGet package IDs, so new catalog work cannot silently reintroduce repeated entries.
 
@@ -243,16 +243,16 @@ Version 0.0.8 produces:
 Orvexa-0.0.8.zip
 Orvexa-Web-0.0.8.zip
 Orvexa-QA-0.0.8.zip
-Orvexa-Portable-0.0.8-x64.exe
-Orvexa-Portable-0.0.8-x64.zip
-Orvexa-Setup-0.0.8-x64.exe
+Orvexa-Portable-0.0.9-x64.exe
+Orvexa-Portable-0.0.9-x64.zip
+Orvexa-Setup-0.0.9-x64.exe
 SHA256SUMS.txt
 version.json
 ```
 
 ### Portable EXE
 
-`Orvexa-Portable-0.0.8-x64.exe` is built as a self-contained Windows x64 single-file application. The release pipeline launches the generated EXE and requires it to remain alive through the startup smoke window before release publication can proceed.
+`Orvexa-Portable-0.0.9-x64.exe` is built as a self-contained Windows x64 single-file application. The release pipeline launches the generated EXE and requires it to remain alive through the startup smoke window before release publication can proceed.
 
 ## Build
 
@@ -295,8 +295,8 @@ Release candidates:
 Central update:
 
 ```bash
-node tools/set-version.mjs 0.0.8
-node tools/set-version.mjs 0.0.9-rc.1
+node tools/set-version.mjs 0.0.9
+node tools/set-version.mjs 0.0.10-rc.1
 ```
 
 ## Repository
