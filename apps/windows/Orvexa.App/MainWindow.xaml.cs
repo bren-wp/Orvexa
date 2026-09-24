@@ -567,14 +567,35 @@ public sealed partial class MainWindow : Window
 
     async Task RefreshUpdatesAsync()
     {
-        await RunOperationAsync("Checking for updates...",async ct=>{
-            updateItems=await updateScan.ScanAsync(ct);
-            UpdateResults.SelectedItems.Clear();
-            UpdateSelectedButton.IsEnabled=false;
-            UpdateAllButton.IsEnabled=updateItems.Count>0;
-            ApplyUpdateFilter();
-            QueueStatus.Text=updateItems.Count==0?"No updates available":$"{updateItems.Count} updates available";
-        });
+        UpdateScanPanel.Visibility=Visibility.Visible;
+        UpdateScanRing.IsActive=true;
+        UpdateInProgressCount.Text="1";
+        UpdateScanTitle.Text="Scanning for updates...";
+        UpdateScanStatus.Text="Checking Windows Package Manager for new versions.";
+        try
+        {
+            await RunOperationAsync("Checking for updates...",async ct=>{
+                updateItems=await updateScan.ScanAsync(ct);
+                UpdateResults.SelectedItems.Clear();
+                UpdateSelectedButton.IsEnabled=false;
+                UpdateAllButton.IsEnabled=updateItems.Count>0;
+                ApplyUpdateFilter();
+                RefreshUpdateSummary();
+                QueueStatus.Text=updateItems.Count==0?"No updates available":$"{updateItems.Count} updates available";
+            });
+        }
+        finally
+        {
+            UpdateScanRing.IsActive=false;
+            UpdateInProgressCount.Text="0";
+            UpdateScanPanel.Visibility=Visibility.Collapsed;
+        }
+    }
+
+    void RefreshUpdateSummary()
+    {
+        UpdatesAvailableCount.Text=updateItems.Count.ToString();
+        UpdateLastScannedText.Text=DateTimeOffset.Now.LocalDateTime.ToString("HH:mm");
     }
 
     async void UpdateOne_Click(object sender,RoutedEventArgs e)
@@ -591,6 +612,7 @@ public sealed partial class MainWindow : Window
             UpdateSelectedButton.IsEnabled=false;
             UpdateAllButton.IsEnabled=updateItems.Count>0;
             ApplyUpdateFilter();
+            RefreshUpdateSummary();
             QueueStatus.Text=result.Code==0?$"{item.Name} updated.":$"{item.Name} update finished with errors.";
         });
     }
@@ -610,6 +632,7 @@ public sealed partial class MainWindow : Window
             UpdateSelectedButton.IsEnabled=false;
             UpdateAllButton.IsEnabled=updateItems.Count>0;
             ApplyUpdateFilter();
+            RefreshUpdateSummary();
             QueueStatus.Text=$"Updated {results.Count(x=>x.Success)}/{results.Count} | {updateItems.Count} remaining";
         });
     }
@@ -625,6 +648,7 @@ public sealed partial class MainWindow : Window
             UpdateSelectedButton.IsEnabled=false;
             UpdateAllButton.IsEnabled=updateItems.Count>0;
             ApplyUpdateFilter();
+            RefreshUpdateSummary();
             QueueStatus.Text=r.Code==0?$"Update all completed | {updateItems.Count} remaining":"Update all finished with errors.";
         });
     }
@@ -638,8 +662,50 @@ public sealed partial class MainWindow : Window
             InstalledResults.SelectedItems.Clear();
             UninstallSelectedButton.IsEnabled=false;
             ApplyInstalledFilter();
+            InstalledCountText.Text=$"{installedItems.Count} applications installed";
             QueueStatus.Text=$"{installedItems.Count} installed packages detected";
         });
+    }
+
+    async void UpdateInstalled_Click(object sender,RoutedEventArgs e)
+    {
+        if((sender as FrameworkElement)?.Tag is not InstalledPackage item) return;
+        if(!PackagePolicy.IsSafeId(item.Id)) return;
+        if(!await ConfirmAsync(PackageAction.Update,"Update software",$"Ask Windows Package Manager to update {item.Name}?","Update")) return;
+
+        await RunOperationAsync($"Updating {item.Name}...",async ct=>{
+            var result=await winget.InstallAsync(item.Id,true,ct);
+            activity.Add(new(DateTimeOffset.Now,item.Id,"update",result.Code==0?"success":"failed",result.Code==0?result.Output:result.Error));
+            await RefreshInstalledListWithoutBusyAsync(ct);
+            QueueStatus.Text=result.Code==0?$"{item.Name} update completed.":$"{item.Name} update finished with errors.";
+        });
+    }
+
+    async void InstalledDetails_Click(object sender,RoutedEventArgs e)
+    {
+        if((sender as FrameworkElement)?.Tag is not InstalledPackage item) return;
+        if(confirmationOpen || Content is not FrameworkElement root || root.XamlRoot is null) return;
+
+        confirmationOpen=true;
+        try
+        {
+            var available=string.IsNullOrWhiteSpace(item.AvailableVersion)?"No newer version reported":item.AvailableVersion;
+            var dialog=new ContentDialog
+            {
+                XamlRoot=root.XamlRoot,
+                Title=item.Name,
+                Content=$"Package ID: {item.Id}\nInstalled version: {item.Version}\nAvailable version: {available}\nSource: Windows Package Manager",
+                CloseButtonText="Close",
+                DefaultButton=ContentDialogButton.Close
+            };
+            await dialog.ShowAsync();
+        }
+        catch(Exception ex)
+        {
+            crashLog.Write(ex);
+            QueueStatus.Text="Package details could not be opened.";
+        }
+        finally { confirmationOpen=false; }
     }
 
     async void UninstallOne_Click(object sender,RoutedEventArgs e)
@@ -685,6 +751,7 @@ public sealed partial class MainWindow : Window
         InstalledResults.SelectedItems.Clear();
         UninstallSelectedButton.IsEnabled=false;
         ApplyInstalledFilter();
+        InstalledCountText.Text=$"{installedItems.Count} applications installed";
     }
 
     async void Health_Click(object sender,RoutedEventArgs e)
@@ -695,6 +762,10 @@ public sealed partial class MainWindow : Window
                 ? $"WinGet: {h.WingetVersion} | Orvexa memory: {h.WorkingSetMB} MB | Free disk: {h.FreeDiskMB/1024.0:F1} GB"
                 : $"WinGet: Unavailable | Orvexa memory: {h.WorkingSetMB} MB | Free disk: {h.FreeDiskMB/1024.0:F1} GB";
             HealthDetails.Text=summary;
+            HealthMemoryText.Text=$"{h.WorkingSetMB} MB working set";
+            HealthDiskText.Text=$"{h.FreeDiskMB/1024.0:F1} GB free";
+            HealthWingetText.Text=h.WingetAvailable?h.WingetVersion:"Unavailable";
+            DeviceHealthStamp.Text=$"Checked {h.At.LocalDateTime:HH:mm}";
             QueueStatus.Text=summary;
         });
     }
@@ -711,6 +782,11 @@ public sealed partial class MainWindow : Window
         activity.Clear();
         ActivityList.ItemsSource=Array.Empty<ActivityItem>();
         ActivityEmptyState.Visibility=Visibility.Visible;
+        ActivityTotalCount.Text="0";
+        ActivityCompletedCount.Text="0";
+        ActivityFailedCount.Text="0";
+        ActivityOtherCount.Text="0";
+        ClearActivityDetails();
         QueueStatus.Text="Activity history cleared.";
     }
 
@@ -733,6 +809,38 @@ public sealed partial class MainWindow : Window
         var items=activity.Read();
         ActivityList.ItemsSource=items;
         ActivityEmptyState.Visibility=items.Count==0?Visibility.Visible:Visibility.Collapsed;
+        ActivityTotalCount.Text=items.Count.ToString();
+        ActivityCompletedCount.Text=items.Count(x=>string.Equals(x.Result,"success",StringComparison.OrdinalIgnoreCase)).ToString();
+        ActivityFailedCount.Text=items.Count(x=>string.Equals(x.Result,"failed",StringComparison.OrdinalIgnoreCase)).ToString();
+        ActivityOtherCount.Text=items.Count(x=>!string.Equals(x.Result,"success",StringComparison.OrdinalIgnoreCase) &&
+                                               !string.Equals(x.Result,"failed",StringComparison.OrdinalIgnoreCase)).ToString();
+
+        if(items.Count>0) ActivityList.SelectedIndex=0;
+        else ClearActivityDetails();
+    }
+
+    void ActivityList_SelectionChanged(object sender,SelectionChangedEventArgs e)
+    {
+        if(ActivityList.SelectedItem is not ActivityItem item)
+        {
+            ClearActivityDetails();
+            return;
+        }
+
+        ActivityDetailPackage.Text=item.PackageId;
+        ActivityDetailAction.Text=item.Action;
+        ActivityDetailResult.Text=item.Result;
+        ActivityDetailTime.Text=item.At.LocalDateTime.ToString("g");
+        ActivityDetailLog.Text=string.IsNullOrWhiteSpace(item.Detail)?"No additional local detail was recorded.":item.Detail;
+    }
+
+    void ClearActivityDetails()
+    {
+        ActivityDetailPackage.Text="Select an activity item";
+        ActivityDetailAction.Text="-";
+        ActivityDetailResult.Text="-";
+        ActivityDetailTime.Text="-";
+        ActivityDetailLog.Text="Local bounded operation detail will appear here.";
     }
 
     void ShowSection(string tag)
