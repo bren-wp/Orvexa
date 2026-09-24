@@ -6,7 +6,7 @@ const root = path.resolve(import.meta.dirname, '..');
 const target = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_TARGET || '5200', 10);
 const minRequired = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_MIN || '5001', 10);
 const branch = process.env.WINGET_PKGS_REF || 'master';
-const treeUrl = `https://api.github.com/repos/microsoft/winget-pkgs/git/trees/${branch}?recursive=1`;
+const manifestsUrl = `https://api.github.com/repos/microsoft/winget-pkgs/contents/manifests?ref=${encodeURIComponent(branch)}`;
 const packageIconsRepo = 'memstechtips/package-icons';
 const packageIconsRef = process.env.ORVEXA_PACKAGE_ICONS_REF || 'dev';
 const packageIconsBranchUrl = `https://api.github.com/repos/${packageIconsRepo}/branches/${packageIconsRef}`;
@@ -70,8 +70,8 @@ function categoryFor(entry) {
 }
 
 async function loadPackageIconIndex() {
-  const branch = await fetchJson(packageIconsBranchUrl);
-  const commit = branch?.commit?.sha || packageIconsRef;
+  const branchData = await fetchJson(packageIconsBranchUrl);
+  const commit = branchData?.commit?.sha || packageIconsRef;
   const manifest = await fetchJson(packageIconsManifestUrl);
   const index = new Map();
   for (const [fileName, meta] of Object.entries(manifest?.icons || {})) {
@@ -86,6 +86,29 @@ async function loadPackageIconIndex() {
   }
   console.log(`Package-icons index: ${index.size} WinGet mappings from ${packageIconsRepo}@${commit}`);
   return { index, commit };
+}
+
+async function loadWingetIdentifiers() {
+  const letters = await fetchJson(manifestsUrl);
+  if (!Array.isArray(letters)) throw new Error('Could not read WinGet manifests directory.');
+  const identifiers = new Set();
+  const directories = letters.filter(x => x.type === 'dir' && x.git_url).sort((a, b) => a.name.localeCompare(b.name));
+  console.log(`WinGet manifest root directories: ${directories.length}`);
+
+  for (const directory of directories) {
+    const tree = await fetchJson(`${directory.git_url}?recursive=1`);
+    if (!tree?.tree) continue;
+    let before = identifiers.size;
+    for (const entry of tree.tree) {
+      if (entry.type !== 'blob') continue;
+      if (!/\.locale\.en-US\.ya?ml$/i.test(entry.path)) continue;
+      const id = entry.path.split('/').pop()?.replace(/\.locale\.en-US\.ya?ml$/i, '') || '';
+      if (/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(id)) identifiers.add(id);
+    }
+    console.log(`WinGet ${directory.name}: +${identifiers.size - before} IDs${tree.truncated ? ' (subtree truncated)' : ''}`);
+  }
+
+  return [...identifiers].sort((a, b) => a.localeCompare(b));
 }
 
 async function loadWingetRun(identifier) {
@@ -155,17 +178,10 @@ function buildEntry(identifier, pkg, curated, seenIds) {
 }
 
 async function main() {
-  console.log(`Fetching WinGet tree from ${treeUrl}`);
-  const [tree, icons] = await Promise.all([fetchJson(treeUrl), loadPackageIconIndex()]);
-  if (!tree?.tree) throw new Error('Could not read WinGet package tree.');
+  console.log(`Fetching WinGet manifests by subtree from ${manifestsUrl}`);
+  const [identifiers, icons] = await Promise.all([loadWingetIdentifiers(), loadPackageIconIndex()]);
+  console.log(`Candidate package IDs: ${identifiers.length}`);
 
-  const identifiers = [...new Set((tree.tree || [])
-    .filter(x => x.type === 'blob' && /^manifests\//.test(x.path) && /\.locale\.en-US\.ya?ml$/i.test(x.path))
-    .map(x => x.path.split('/').pop()?.replace(/\.locale\.en-US\.ya?ml$/i, '') || '')
-    .filter(x => /^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(x)))]
-    .sort((a, b) => a.localeCompare(b));
-
-  console.log(`Candidate package IDs: ${identifiers.length}${tree.truncated ? ' (GitHub tree was truncated)' : ''}`);
   const entries = [];
   const seenWinget = new Set();
   const seenNames = new Set();
