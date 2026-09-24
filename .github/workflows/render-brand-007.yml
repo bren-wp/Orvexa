@@ -1,0 +1,62 @@
+name: Render Orvexa 0.0.7 brand assets
+
+on:
+  push:
+    branches:
+      - develop/0.0.7
+    paths:
+      - ".github/workflows/render-brand-007.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop/0.0.7
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install raster tooling
+        run: npm install --no-save --package-lock=false sharp png-to-ico
+      - name: Render approved Orvexa mark
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/render-brand.mjs" <<'NODE'
+          import fs from 'node:fs/promises';
+          import path from 'node:path';
+          import sharp from 'sharp';
+          import pngToIco from 'png-to-ico';
+
+          const svg='apps/web/assets/brand/mark.svg';
+          const tmp=process.env.RUNNER_TEMP;
+          const sizes=[16,24,32,48,64,128,192,256,512];
+          const files=new Map();
+
+          for(const size of sizes){
+            const file=path.join(tmp,`orvexa-${size}.png`);
+            await sharp(svg).resize(size,size,{fit:'contain'}).png().toFile(file);
+            files.set(size,file);
+          }
+
+          await fs.copyFile(files.get(32),'build/icon-32.png');
+          await fs.copyFile(files.get(64),'build/icon-64.png');
+          await fs.copyFile(files.get(192),'apps/web/assets/brand/icon-192.png');
+          await fs.copyFile(files.get(512),'apps/web/assets/brand/icon-512.png');
+
+          const ico=await pngToIco([16,24,32,48,64,128,256].map(x=>files.get(x)));
+          await fs.writeFile('build/icon.ico',ico);
+          NODE
+          node "$RUNNER_TEMP/render-brand.mjs"
+      - name: Commit generated icon sizes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add build/icon.ico build/icon-32.png build/icon-64.png apps/web/assets/brand/icon-192.png apps/web/assets/brand/icon-512.png
+          git commit -m "Rasterize approved Orvexa 0.0.7 brand mark"
+          git push origin HEAD:develop/0.0.7
