@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using Orvexa.Core;
 using Windows.Graphics;
 using Windows.System;
+using Windows.UI;
 
 namespace Orvexa.App;
 
@@ -166,6 +167,18 @@ public sealed partial class MainWindow : Window
         {
             var icon=Path.Combine(AppContext.BaseDirectory,"Assets","Orvexa.ico");
             if(File.Exists(icon)) AppWindow.SetIcon(icon);
+
+            var titleBar=AppWindow.TitleBar;
+            titleBar.BackgroundColor=Color.FromArgb(255,7,19,38);
+            titleBar.ForegroundColor=Color.FromArgb(255,248,250,252);
+            titleBar.InactiveBackgroundColor=Color.FromArgb(255,11,27,61);
+            titleBar.InactiveForegroundColor=Color.FromArgb(255,148,163,184);
+            titleBar.ButtonBackgroundColor=Color.FromArgb(255,7,19,38);
+            titleBar.ButtonForegroundColor=Color.FromArgb(255,248,250,252);
+            titleBar.ButtonHoverBackgroundColor=Color.FromArgb(255,30,58,95);
+            titleBar.ButtonHoverForegroundColor=Color.FromArgb(255,255,255,255);
+            titleBar.ButtonPressedBackgroundColor=Color.FromArgb(255,37,99,235);
+            titleBar.ButtonPressedForegroundColor=Color.FromArgb(255,255,255,255);
         }
         catch(Exception ex){crashLog.Write(ex);}
     }
