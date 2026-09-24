@@ -60,7 +60,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Spacing="3">
                                 <TextBlock Text="Home" Style="{StaticResource OrvexaTitleStyle}"/>
-                                <TextBlock Text="Discover, install, and manage trusted Windows applications — all in one place."
+                                <TextBlock Text="Discover, install, and manage trusted Windows applications - all in one place."
                                            Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                             </StackPanel>
                             <TextBox Grid.Column="1"
@@ -764,8 +764,8 @@
                             <Border Grid.Column="1" Style="{StaticResource OrvexaCardStyle}">
                                 <StackPanel Spacing="10">
                                     <StackPanel Orientation="Horizontal" Spacing="9"><SymbolIcon Symbol="Library" Foreground="#60A5FA"/><TextBlock Text="Technologies" Style="{StaticResource OrvexaSectionTitleStyle}"/></StackPanel>
-                                    <TextBlock Text="Windows App SDK · WinUI 3" FontWeight="SemiBold"/>
-                                    <TextBlock Text="C# · .NET 8 · XAML · WinGet" Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                                    <TextBlock Text="Windows App SDK / WinUI 3" FontWeight="SemiBold"/>
+                                    <TextBlock Text="C# / .NET 8 / XAML / WinGet" Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                                 </StackPanel>
                             </Border>
                             <Border Grid.Column="2" Style="{StaticResource OrvexaCardStyle}">
