@@ -1,0 +1,37 @@
+name: Orvexa Catalog Expansion 0.0.8
+
+on:
+  push:
+    branches:
+      - develop/0.0.8
+    paths:
+      - tools/expand-catalog-0.0.8.mjs
+      - .github/workflows/catalog-expand-0.0.8.yml
+
+permissions:
+  contents: write
+
+jobs:
+  expand:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Expand catalog
+        run: node tools/expand-catalog-0.0.8.mjs
+      - name: Commit expanded catalog
+        run: |
+          git config user.name "Brendigo"
+          git config user.email "info@brendigo.com"
+          git add shared/catalog.json apps/web/assets/apps
+          if git diff --cached --quiet; then
+            echo "No catalog changes to commit."
+          else
+            git commit -m "Expand Orvexa 0.0.8 catalog without duplicates"
+            git push
+          fi
