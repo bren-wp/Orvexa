@@ -324,13 +324,15 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+
                     <Grid>
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="360"/></Grid.ColumnDefinitions>
                         <StackPanel Spacing="3">
                             <TextBlock Text="Updates" Style="{StaticResource OrvexaTitleStyle}"/>
-                            <TextBlock Text="Keep your applications current with the latest features, security fixes, and performance improvements."
+                            <TextBlock Text="Keep your applications up to date for the latest features, security fixes, and best performance."
                                        Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                         </StackPanel>
                         <TextBox x:Name="UpdateSearchBox" Grid.Column="1" PlaceholderText="Search updates..."
@@ -339,36 +341,78 @@
 
                     <Grid Grid.Row="1" ColumnSpacing="10" Margin="0,14,0,12">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Border Style="{StaticResource OrvexaCardStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <Border Background="#123B72" CornerRadius="10" Padding="11"><SymbolIcon Symbol="Download" Foreground="#60A5FA"/></Border>
-                                <StackPanel><TextBlock Text="Updates available" FontWeight="SemiBold"/><TextBlock Text="WinGet scan results" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                <StackPanel>
+                                    <TextBlock x:Name="UpdatesAvailableCount" Text="0" FontSize="22" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Updates available" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
+                                </StackPanel>
                             </StackPanel>
                         </Border>
                         <Border Grid.Column="1" Style="{StaticResource OrvexaCardStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <Border Background="#123B48" CornerRadius="10" Padding="11"><SymbolIcon Symbol="Accept" Foreground="#4ADE80"/></Border>
-                                <StackPanel><TextBlock Text="Verified packages" FontWeight="SemiBold"/><TextBlock Text="Exact IDs only" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                <StackPanel>
+                                    <TextBlock Text="Verified" FontSize="18" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Exact package IDs" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
+                                </StackPanel>
                             </StackPanel>
                         </Border>
                         <Border Grid.Column="2" Style="{StaticResource OrvexaCardStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <Border Background="#473717" CornerRadius="10" Padding="11"><SymbolIcon Symbol="Clock" Foreground="#FBBF24"/></Border>
-                                <StackPanel><TextBlock Text="Release queue" FontWeight="SemiBold"/><TextBlock Text="Confirmed before changes" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/></StackPanel>
+                                <StackPanel>
+                                    <TextBlock x:Name="UpdateInProgressCount" Text="0" FontSize="22" FontWeight="SemiBold"/>
+                                    <TextBlock Text="In progress" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="3" Style="{StaticResource OrvexaCardStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <Border Background="#17263D" CornerRadius="10" Padding="11"><SymbolIcon Symbol="Calendar" Foreground="#93C5FD"/></Border>
+                                <StackPanel>
+                                    <TextBlock x:Name="UpdateLastScannedText" Text="Not scanned" FontSize="14" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Last scanned" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
+                                </StackPanel>
                             </StackPanel>
                         </Border>
                     </Grid>
 
-                    <StackPanel x:Name="UpdateActions" Grid.Row="2" Orientation="Horizontal" Spacing="8" Margin="0,0,0,10">
+                    <Border x:Name="UpdateScanPanel" Grid.Row="2" Visibility="Collapsed" Style="{StaticResource OrvexaCardStyle}" Margin="0,0,0,12">
+                        <Grid ColumnSpacing="18">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <ProgressRing x:Name="UpdateScanRing" Width="58" Height="58" IsActive="False"/>
+                            <StackPanel Grid.Column="1" Spacing="8" VerticalAlignment="Center">
+                                <TextBlock x:Name="UpdateScanTitle" Text="Scanning for updates..." Style="{StaticResource OrvexaSectionTitleStyle}"/>
+                                <ProgressBar x:Name="UpdateScanProgress" IsIndeterminate="True" MinWidth="360"/>
+                                <TextBlock x:Name="UpdateScanStatus" Text="Checking Windows Package Manager for new versions."
+                                           Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
+                            </StackPanel>
+                            <Button Grid.Column="2" Content="Cancel Scan" Click="Cancel_Click" Style="{StaticResource OrvexaSecondaryButtonStyle}" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <StackPanel x:Name="UpdateActions" Grid.Row="3" Orientation="Horizontal" Spacing="8" Margin="0,0,0,10">
                         <Button Content="Scan for Updates" Click="ScanUpdates_Click" Style="{StaticResource OrvexaSecondaryButtonStyle}"/>
                         <Button x:Name="UpdateSelectedButton" Content="Update selected" Click="UpdateSelected_Click" IsEnabled="False" Style="{StaticResource OrvexaSecondaryButtonStyle}"/>
                         <Button x:Name="UpdateAllButton" Content="Update All" Click="UpdateAll_Click" IsEnabled="False" Style="{StaticResource OrvexaPrimaryButtonStyle}"/>
                     </StackPanel>
 
-                    <Grid Grid.Row="3">
-                        <ListView x:Name="UpdateResults" SelectionMode="Multiple" SelectionChanged="UpdateResults_SelectionChanged">
+                    <Grid Grid.Row="4">
+                        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                        <Border Background="#132238" BorderBrush="{StaticResource OrvexaBorderBrush}" BorderThickness="1" CornerRadius="10,10,0,0" Padding="12,9">
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="54"/><ColumnDefinition Width="1.4*"/><ColumnDefinition Width=".7*"/><ColumnDefinition Width=".7*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Application" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="2" Text="Current Version" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="3" Text="New Version" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="4" Text="Action" FontWeight="SemiBold"/>
+                            </Grid>
+                        </Border>
+                        <ListView x:Name="UpdateResults" Grid.Row="1" SelectionMode="Multiple" SelectionChanged="UpdateResults_SelectionChanged">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Border Background="#0D192A" BorderBrush="{StaticResource OrvexaBorderBrush}" BorderThickness="0,0,0,1" Padding="12,10">
@@ -385,21 +429,15 @@
                                                 <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                                                 <TextBlock Text="{Binding Id}" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="11" TextTrimming="CharacterEllipsis"/>
                                             </StackPanel>
-                                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                                                <TextBlock Text="Current" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="11"/>
-                                                <TextBlock Text="{Binding InstalledVersion}"/>
-                                            </StackPanel>
-                                            <StackPanel Grid.Column="3" VerticalAlignment="Center">
-                                                <TextBlock Text="New version" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="11"/>
-                                                <TextBlock Text="{Binding AvailableVersion}" Foreground="#60A5FA" FontWeight="SemiBold"/>
-                                            </StackPanel>
+                                            <TextBlock Grid.Column="2" Text="{Binding InstalledVersion}" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding AvailableVersion}" Foreground="#60A5FA" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                             <Button Grid.Column="4" Content="Update" Tag="{Binding}" Click="UpdateOne_Click" Style="{StaticResource OrvexaPrimaryButtonStyle}" Padding="18,7"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <StackPanel x:Name="UpdatesEmptyState" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+                        <StackPanel x:Name="UpdatesEmptyState" Grid.RowSpan="2" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
                             <SymbolIcon Symbol="Accept" Foreground="#4ADE80"/>
                             <TextBlock Text="You're up to date" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                             <TextBlock Text="No package updates are currently reported." Style="{StaticResource OrvexaSecondaryTextStyle}" TextAlignment="Center"/>
@@ -418,7 +456,7 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="360"/></Grid.ColumnDefinitions>
                         <StackPanel Spacing="3">
                             <TextBlock Text="Installed" Style="{StaticResource OrvexaTitleStyle}"/>
-                            <TextBlock Text="Manage installed applications, review versions, and remove packages with confidence."
+                            <TextBlock Text="Manage your installed applications. Review, update, inspect, or remove them with confidence."
                                        Style="{StaticResource OrvexaSecondaryTextStyle}"/>
                         </StackPanel>
                         <TextBox x:Name="InstalledSearchBox" Grid.Column="1" PlaceholderText="Search installed apps..."
@@ -432,7 +470,18 @@
                     </StackPanel>
 
                     <Grid Grid.Row="2">
-                        <ListView x:Name="InstalledResults" SelectionMode="Multiple" SelectionChanged="InstalledResults_SelectionChanged">
+                        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                        <Border Background="#132238" BorderBrush="{StaticResource OrvexaBorderBrush}" BorderThickness="1" CornerRadius="10,10,0,0" Padding="12,9">
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="54"/><ColumnDefinition Width="1.5*"/><ColumnDefinition Width=".7*"/><ColumnDefinition Width=".8*"/><ColumnDefinition Width=".6*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Name" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="2" Text="Version" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="3" Text="Install Source" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="4" Text="Status" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="5" Text="Actions" FontWeight="SemiBold"/>
+                            </Grid>
+                        </Border>
+                        <ListView x:Name="InstalledResults" Grid.Row="1" SelectionMode="Multiple" SelectionChanged="InstalledResults_SelectionChanged">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Border Background="#0D192A" BorderBrush="{StaticResource OrvexaBorderBrush}" BorderThickness="0,0,0,1" Padding="12,10">
@@ -442,6 +491,7 @@
                                                 <ColumnDefinition Width="1.5*"/>
                                                 <ColumnDefinition Width=".7*"/>
                                                 <ColumnDefinition Width=".8*"/>
+                                                <ColumnDefinition Width=".6*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
                                             <Image Width="40" Height="40" Source="{Binding Id, Converter={StaticResource PackageIconConverter}}"/>
@@ -449,21 +499,36 @@
                                                 <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                                                 <TextBlock Text="{Binding Id}" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="11" TextTrimming="CharacterEllipsis"/>
                                             </StackPanel>
-                                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                                                <TextBlock Text="Version" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="11"/>
-                                                <TextBlock Text="{Binding VersionDisplay}"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding VersionDisplay}" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="3" Text="WinGet" VerticalAlignment="Center" Foreground="#CBD5E1"/>
+                                            <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                                <SymbolIcon Symbol="Accept" Foreground="#4ADE80"/>
+                                                <TextBlock Text="Detected" Foreground="#4ADE80"/>
                                             </StackPanel>
-                                            <StackPanel Grid.Column="3" VerticalAlignment="Center">
-                                                <TextBlock Text="Source" Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="11"/>
-                                                <TextBlock Text="Windows Package Manager"/>
+                                            <StackPanel Grid.Column="5" Orientation="Horizontal" Spacing="6">
+                                                <Button Content="Details" Tag="{Binding}" Click="InstalledDetails_Click" Style="{StaticResource OrvexaPrimaryButtonStyle}" Padding="14,7"/>
+                                                <Button Content="..." Style="{StaticResource OrvexaSecondaryButtonStyle}" Padding="12,7">
+                                                    <Button.Flyout>
+                                                        <MenuFlyout>
+                                                            <MenuFlyoutItem Text="Update" Tag="{Binding}" Click="UpdateInstalled_Click"/>
+                                                            <MenuFlyoutItem Text="Uninstall" Tag="{Binding}" Click="UninstallOne_Click"/>
+                                                            <MenuFlyoutSeparator/>
+                                                            <MenuFlyoutItem Text="View details" Tag="{Binding}" Click="InstalledDetails_Click"/>
+                                                        </MenuFlyout>
+                                                    </Button.Flyout>
+                                                </Button>
                                             </StackPanel>
-                                            <Button Grid.Column="4" Content="Uninstall" Tag="{Binding}" Click="UninstallOne_Click" Style="{StaticResource OrvexaSecondaryButtonStyle}" Padding="16,7"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <StackPanel x:Name="InstalledEmptyState" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+                        <Grid Grid.Row="2" Margin="10,8,10,0">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <TextBlock x:Name="InstalledCountText" Text="0 applications installed" Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                            <TextBlock Grid.Column="1" Text="Local package inventory" Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                        </Grid>
+                        <StackPanel x:Name="InstalledEmptyState" Grid.RowSpan="3" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
                             <SymbolIcon Symbol="Library" Foreground="#60A5FA"/>
                             <TextBlock Text="No packages detected" FontSize="18" FontWeight="SemiBold"/>
                             <TextBlock Text="Refresh after Windows Package Manager is available." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
