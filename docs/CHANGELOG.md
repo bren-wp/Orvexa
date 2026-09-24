@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.9 — 2026-09-24
+- Added `shared/catalog-large.json` with 5,200 WinGet-backed applications generated from upstream WinGet manifest metadata.
+- Built the large catalog from 13,883 candidate WinGet package IDs and selected the final 5,200 after normalized duplicate filtering.
+- Added 174 verified upstream logo records and 5,026 publisher/package favicon fallback logo records with 0 entries missing an upstream logo source.
+- Added explicit `logoSource` and `logoStatus` metadata so fallback favicons are never presented as verified original logos.
+- Added `tools/build-winget-large-catalog.mjs` for reproducible large-catalog generation from `microsoft/winget-pkgs` and curated package-icons metadata.
+- Added `tools/validate-large-catalog.mjs` and wired it into `npm run qa` so large-catalog integrity is enforced by standard QA.
+- Hardened large-catalog validation against duplicate app IDs, duplicate normalized names, duplicate WinGet IDs, invalid logo provenance, invalid categories and inconsistent platform/architecture metadata.
+- Bundled `catalog-large.json` into the native Windows application build under `data/catalog-large.json`.
+- Updated README documentation to describe the 0.0.9 large catalog, logo provenance policy and validation rules.
+- Removed the temporary large-catalog generation workflow after the generated catalog was committed, so release branches do not carry one-off maintenance automation.
+- Synchronized package, build, web, WinUI, manifest and Setup version metadata for 0.0.9.
+
 ## 0.0.8 — 2026-09-24
 - Added `qa/ui-parity.test.mjs` to protect the approved Orvexa mockup direction in automated QA.
 - Expanded `npm run qa` so UI parity checks run alongside the existing release QA suite, JavaScript syntax checks and catalog validation.
