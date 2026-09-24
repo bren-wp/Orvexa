@@ -11,7 +11,7 @@ namespace Orvexa.App;
 
 public sealed partial class MainWindow : Window
 {
-    const long MaxBundledCatalogBytes=16L*1024*1024;
+    const long MaxBundledCatalogBytes=64L*1024*1024;
     const long MaxBundledProfilesBytes=2L*1024*1024;
     readonly WingetService winget=new();
     readonly DeviceService devices=new();
@@ -144,6 +144,22 @@ public sealed partial class MainWindow : Window
         if(string.IsNullOrWhiteSpace(fileName) || fileName.IndexOfAny(Path.GetInvalidFileNameChars())>=0) return false;
         var path=Path.Combine(AppContext.BaseDirectory,"data",fileName);
         return AtomicFile.TryReadText(path,maxBytes,out text);
+    }
+
+    IReadOnlyList<PackageItem> LoadBundledCatalogPackages()
+    {
+        var packages=new List<PackageItem>();
+        if(TryReadBundledData("catalog.json",MaxBundledCatalogBytes,out var curatedJson))
+            packages.AddRange(catalogSeed.FromBundledCatalog(curatedJson));
+        if(TryReadBundledData("catalog-large.json",MaxBundledCatalogBytes,out var largeJson))
+            packages.AddRange(catalogSeed.FromBundledCatalog(largeJson));
+
+        return packages
+            .Where(x=>PackagePolicy.IsSafeId(x.Id))
+            .GroupBy(x=>x.Id,StringComparer.OrdinalIgnoreCase)
+            .Select(group=>group.First())
+            .OrderBy(x=>x.Name,StringComparer.OrdinalIgnoreCase)
+            .ToArray();
     }
 
     void ApplyVersionText()
@@ -324,17 +340,17 @@ public sealed partial class MainWindow : Window
 
         try
         {
-            if(!TryReadBundledData("catalog.json",MaxBundledCatalogBytes,out var catalogJson))
+            catalogItems=LoadBundledCatalogPackages();
+            if(catalogItems.Count==0)
             {
                 CatalogEmptyState.Visibility=Visibility.Visible;
                 QueueStatus.Text="The local catalog could not be loaded.";
                 return;
             }
 
-            catalogItems=catalogSeed.FromBundledCatalog(catalogJson);
             cache.Merge(catalogItems);
             ApplyCatalogFilter();
-            QueueStatus.Text=$"Catalog ready | {catalogItems.Count} curated packages";
+            QueueStatus.Text=$"Catalog ready | {catalogItems.Count} trusted packages";
         }
         catch(Exception ex)
         {
@@ -512,14 +528,14 @@ public sealed partial class MainWindow : Window
     {
         await RunOperationAsync("Refreshing local catalog...",async ct=>{
             ct.ThrowIfCancellationRequested();
-            if(!TryReadBundledData("catalog.json",MaxBundledCatalogBytes,out var catalogJson))
+            var packages=LoadBundledCatalogPackages();
+            if(packages.Count==0)
             {
                 QueueStatus.Text="The bundled Orvexa catalog is unavailable.";
                 return;
             }
 
             ct.ThrowIfCancellationRequested();
-            var packages=catalogSeed.FromBundledCatalog(catalogJson);
             cache.Merge(packages);
             catalogItems=packages;
             ApplyCatalogFilter();
