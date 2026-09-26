@@ -23,6 +23,8 @@ const proj=read('apps/windows/Orvexa.App/Orvexa.App.csproj');
 const installer=read('installer/Orvexa.iss');
 const build=read('installer/build-production.ps1');
 const versionTool=read('tools/set-version.mjs');
+const largeCatalogGenerator=read('tools/build-winget-large-catalog.mjs');
+const largeCatalogValidator=read('tools/validate-large-catalog.mjs');
 const protocol=read('apps/windows/Orvexa.Core/ProtocolService.cs');
 const cache=read('apps/windows/Orvexa.Core/CatalogCacheService.cs');
 const seed=read('apps/windows/Orvexa.Core/CatalogSeedService.cs');
@@ -98,9 +100,24 @@ test('Windows UI has explicit empty states for major result surfaces',()=>{
 });
 
 test('Catalog opens from bundled curated data before a live search',()=>{
-  assert.match(code,/EnsureCatalogLoaded/);
+  assert.match(code,/EnsureCatalogLoadedAsync/);
   assert.match(code,/catalogSeed\.FromBundledCatalog/);
   assert.match(seed,/provider,"winget"/);
+  assert.match(seed,/wingetId!,/);
+  assert.match(code,/new QueueItem\(item\.Id\)/);
+});
+
+test('large catalog generator and validator share exact logo provenance vocabulary',()=>{
+  for(const source of ['package-icons-curated','winget-manifest-icon','publisher-site-favicon','missing-upstream-logo']){
+    assert.ok(largeCatalogGenerator.includes(source),source+' generator source missing');
+    assert.ok(largeCatalogValidator.includes(source),source+' validator source missing');
+  }
+  assert.doesNotMatch(largeCatalogValidator,/winget-run-icon/);
+  assert.match(largeCatalogValidator,/logoStatusBySource/);
+  assert.match(largeCatalogValidator,/catalog\.stats\.verifiedLogos/);
+  assert.match(largeCatalogValidator,/catalog\.stats\.faviconFallbackLogos/);
+  assert.match(largeCatalogValidator,/catalog\.stats\.missingUpstreamLogos/);
+  assert.match(largeCatalogGenerator,/while \(seenIds\.has\(id\)\)/);
 });
 
 test('large catalog UI pages results instead of rendering every app at once',()=>{
@@ -117,10 +134,24 @@ test('broken one-character catalog seeding is removed',()=>{
   assert.doesNotMatch(code,/var seeds=new\[\]\{"a","b","c"/);
 });
 
-test('live search discoveries merge into the bounded cache',()=>{
+test('live search discoveries merge into the bounded in-memory cache',()=>{
   assert.match(code,/cache\.Merge\(live\)/);
   assert.match(cache,/MaxPackages=20000/);
   assert.match(cache,/MaxFileBytes=16L\*1024\*1024/);
+  assert.match(cache,/CatalogCache\? snapshot/);
+  assert.match(cache,/return snapshot\?\?=ReadFromDisk\(\)/);
+  assert.match(cache,/snapshot=value/);
+});
+
+test('large catalog load avoids repeated UI-thread parsing',()=>{
+  assert.match(code,/Task\.Run\(LoadBundledCatalogPackages\)/);
+  assert.match(code,/IReadOnlyList<PackageItem> bundledCatalogItems=\[\]/);
+  assert.match(code,/EnsureCatalogLoadedAsync/);
+  const start=code.indexOf('async void ClearCatalogSearch_Click');
+  const end=code.indexOf('void FavoritesOnly_Click',start);
+  const clearHandler=code.slice(start,end);
+  assert.match(clearHandler,/EnsureCatalogLoadedAsync\(resetView:true\)/);
+  assert.doesNotMatch(clearHandler,/LoadBundledCatalogPackages\(\)/);
 });
 
 test('Installed and Updates filter locally without new scans',()=>{
