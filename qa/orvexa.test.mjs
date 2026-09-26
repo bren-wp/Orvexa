@@ -103,6 +103,16 @@ test('Catalog opens from bundled curated data before a live search',()=>{
   assert.match(seed,/provider,"winget"/);
 });
 
+test('large catalog UI pages results instead of rendering every app at once',()=>{
+  assert.match(code,/CatalogDisplayPageSize=320/);
+  assert.match(code,/catalogDisplayLimit\+=CatalogDisplayPageSize/);
+  assert.match(code,/ShowMoreCatalog_Click/);
+  assert.match(code,/ClearCatalogSearch_Click/);
+  assert.match(xaml,/ShowMoreCatalogButton/);
+  assert.match(xaml,/Content="Clear search"/);
+  assert.doesNotMatch(code,/Take\(CatalogDisplayLimit\)/);
+});
+
 test('broken one-character catalog seeding is removed',()=>{
   assert.doesNotMatch(code,/var seeds=new\[\]\{"a","b","c"/);
 });
