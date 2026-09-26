@@ -207,14 +207,35 @@ function syncCuratedVersions(entries, updatedAt) {
   const file = path.join(root, 'shared', 'catalog.json');
   const catalog = JSON.parse(fs.readFileSync(file, 'utf8'));
   const latestByWinget = new Map(entries.map(entry => [normalizeKey(entry.wingetId), entry]));
+  const byName = new Map();
+
+  for (const entry of entries) {
+    const key = normalizeKey(entry.name);
+    if (!byName.has(key)) byName.set(key, []);
+    byName.get(key).push(entry);
+  }
+
   const missing = [];
   let updated = 0;
+  let remapped = 0;
 
   for (const app of catalog.apps || []) {
     if (!app.enabled || app.provider !== 'winget') continue;
-    const latest = latestByWinget.get(normalizeKey(app.wingetId));
+    let latest = latestByWinget.get(normalizeKey(app.wingetId));
+
     if (!latest?.version) {
-      missing.push(app.wingetId);
+      const exactNameMatches = byName.get(normalizeKey(app.name)) || [];
+      if (exactNameMatches.length === 1) {
+        const previousId = app.wingetId;
+        latest = exactNameMatches[0];
+        app.wingetId = latest.wingetId;
+        remapped++;
+        console.log(`Curated WinGet ID migrated: ${previousId} -> ${app.wingetId} (${app.name})`);
+      }
+    }
+
+    if (!latest?.version) {
+      missing.push(`${app.wingetId} [${app.name}]`);
       continue;
     }
 
@@ -230,7 +251,7 @@ function syncCuratedVersions(entries, updatedAt) {
   catalog.revision = Math.max(Number(catalog.revision || 0) + 1, 12);
   catalog.lastUpdated = updatedAt;
   fs.writeFileSync(file, JSON.stringify(catalog, null, 2) + '\n');
-  console.log(`Updated ${updated} curated app versions from current WinGet manifests.`);
+  console.log(`Updated ${updated} curated app versions from current WinGet manifests; migrated ${remapped} stale WinGet IDs.`);
 }
 
 async function main() {
