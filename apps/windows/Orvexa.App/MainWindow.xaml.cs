@@ -11,8 +11,9 @@ namespace Orvexa.App;
 
 public sealed partial class MainWindow : Window
 {
-    const long MaxBundledCatalogBytes=64L*1024*1024;
+    const long MaxBundledCatalogBytes=96L*1024*1024;
     const long MaxBundledProfilesBytes=2L*1024*1024;
+    const int CatalogDisplayLimit=320;
     readonly WingetService winget=new();
     readonly DeviceService devices=new();
     readonly ActivityService activity=new();
@@ -419,8 +420,15 @@ public sealed partial class MainWindow : Window
             visible=catalogItems.Where(x=>ids.Contains(x.Id)).ToArray();
         }
 
-        CatalogResults.ItemsSource=visible;
-        CatalogEmptyState.Visibility=visible.Count==0?Visibility.Visible:Visibility.Collapsed;
+        var total=visible.Count;
+        var shouldCap=FavoritesOnlyToggle.IsChecked!=true && total>CatalogDisplayLimit;
+        var shown=shouldCap ? visible.Take(CatalogDisplayLimit).ToArray() : visible;
+
+        CatalogResults.ItemsSource=shown;
+        CatalogEmptyState.Visibility=shown.Count==0?Visibility.Visible:Visibility.Collapsed;
+        CatalogCountText.Text=shouldCap
+            ? $"Showing {shown.Count:n0} of {total:n0} trusted apps. Use search to narrow the full catalog."
+            : $"Showing {shown.Count:n0} trusted app(s).";
     }
 
     void FavoritesOnly_Click(object sender,RoutedEventArgs e)

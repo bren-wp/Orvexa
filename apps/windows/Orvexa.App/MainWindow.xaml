@@ -245,6 +245,7 @@
                         <StackPanel Spacing="3">
                             <TextBlock Text="Catalog" Style="{StaticResource OrvexaTitleStyle}"/>
                             <TextBlock Text="Discover and install high-quality, trusted Windows applications." Style="{StaticResource OrvexaSecondaryTextStyle}"/>
+                            <TextBlock x:Name="CatalogCountText" Text="Catalog loads on demand with validated WinGet package IDs." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>
                         </StackPanel>
                         <TextBox x:Name="SearchBox" Grid.Column="1" PlaceholderText="Search for apps, tools, and more..."
                                  KeyDown="SearchBox_KeyDown" AutomationProperties.Name="Search software"/>
@@ -252,14 +253,14 @@
 
                     <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="0,14,0,8">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <Border Background="{StaticResource OrvexaPrimaryBrush}" CornerRadius="16" Padding="14,7"><TextBlock Text="All" Foreground="White" FontWeight="SemiBold"/></Border>
-                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Browsers"/></Border>
-                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Development"/></Border>
-                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Communication"/></Border>
-                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Multimedia"/></Border>
-                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Utilities"/></Border>
-                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Productivity"/></Border>
-                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Security"/></Border>
+                            <Border Background="{StaticResource OrvexaPrimaryBrush}" CornerRadius="16" Padding="14,7"><TextBlock Text="10k+ apps" Foreground="White" FontWeight="SemiBold"/></Border>
+                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="WinGet-backed"/></Border>
+                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="No duplicate IDs"/></Border>
+                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Logo provenance"/></Border>
+                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Curated + large"/></Border>
+                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Favorites"/></Border>
+                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Search first"/></Border>
+                            <Border Background="#17263D" CornerRadius="16" Padding="14,7"><TextBlock Text="Install gated"/></Border>
                         </StackPanel>
                     </ScrollViewer>
 
