@@ -161,7 +161,8 @@ async function loadCompleteTree(gitUrl, prefix = '') {
     }
 
     if (entry.type === 'tree' && entry.url) {
-      expanded.push(...await loadCompleteTree(entry.url, entryPath));
+      const nested = await loadCompleteTree(entry.url, entryPath);
+      for (const nestedEntry of nested) expanded.push(nestedEntry);
     }
   }
 
