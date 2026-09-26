@@ -1,0 +1,57 @@
+name: Orvexa 0.0.12 version refresh
+
+on:
+  push:
+    branches: [ 'develop/0.0.12' ]
+    paths:
+      - tools/build-winget-large-catalog.mjs
+      - .github/workflows/orvexa-0-0-12-version-refresh.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: orvexa-0-0-12-version-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      ORVEXA_LARGE_CATALOG_TARGET: '10500'
+      ORVEXA_LARGE_CATALOG_MIN: '10001'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop/0.0.12
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate current WinGet catalog versions
+        run: node tools/build-winget-large-catalog.mjs
+
+      - name: Sync curated catalog to web
+        run: npm run sync
+
+      - name: Validate generated catalogs
+        run: |
+          node tools/validate-catalog.mjs
+          node tools/validate-large-catalog.mjs
+
+      - name: Commit refreshed catalogs
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add shared/catalog.json shared/catalog-large.json apps/web/data/catalog.json
+          if git diff --cached --quiet; then
+            echo "Catalogs already current."
+            exit 0
+          fi
+          git commit -m "data: refresh current WinGet application versions"
+          git push origin HEAD:develop/0.0.12
