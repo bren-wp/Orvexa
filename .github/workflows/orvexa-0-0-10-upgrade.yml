@@ -11,7 +11,6 @@ permissions:
 
 jobs:
   upgrade:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.actor != 'github-actions[bot]' || startsWith(github.event.head_commit.message, 'chore: generate Orvexa 0.0.10') == false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,6 +45,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json build/version.json README.md docs/CHANGELOG.md tools/build-winget-large-catalog.mjs tools/validate-large-catalog.mjs tools/validate-production-content.mjs tools/upgrade-0.0.10.mjs shared/catalog-large.json apps/windows/Orvexa.App/MainWindow.xaml apps/windows/Orvexa.App/MainWindow.xaml.cs apps/windows/Orvexa.App/Orvexa.App.csproj apps/windows/Orvexa.App/app.manifest installer/Orvexa.iss apps/web/index.html apps/web/data/product.json
+          git rm .github/workflows/orvexa-0-0-10-upgrade.yml tools/upgrade-0.0.10.mjs
+          git add package.json build/version.json README.md docs/CHANGELOG.md tools/build-winget-large-catalog.mjs tools/validate-large-catalog.mjs tools/validate-production-content.mjs shared/catalog-large.json apps/windows/Orvexa.App/MainWindow.xaml apps/windows/Orvexa.App/MainWindow.xaml.cs apps/windows/Orvexa.App/Orvexa.App.csproj apps/windows/Orvexa.App/app.manifest installer/Orvexa.iss apps/web/index.html apps/web/data/product.json
           git commit -m "chore: generate Orvexa 0.0.10 catalog upgrade"
           git push origin HEAD:develop/0.0.10
