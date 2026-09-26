@@ -1,0 +1,40 @@
+name: Orvexa 0.0.11 UX Upgrade
+
+on:
+  push:
+    branches:
+      - develop/0.0.11
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop/0.0.11
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Patch 0.0.11 code and metadata
+        run: |
+          node tools/set-version.mjs 0.0.11
+          node tools/upgrade-0.0.11.mjs
+
+      - name: QA
+        run: npm run qa
+
+      - name: Commit generated 0.0.11 upgrade
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/orvexa-0-0-11-upgrade.yml tools/upgrade-0.0.11.mjs
+          git add package.json build/version.json README.md docs/CHANGELOG.md qa/orvexa.test.mjs apps/windows/Orvexa.App/MainWindow.xaml apps/windows/Orvexa.App/MainWindow.xaml.cs apps/windows/Orvexa.App/Orvexa.App.csproj apps/windows/Orvexa.App/app.manifest installer/Orvexa.iss apps/web/index.html apps/web/data/product.json
+          git commit -m "chore: generate Orvexa 0.0.11 catalog UX upgrade"
+          git push origin HEAD:develop/0.0.11
