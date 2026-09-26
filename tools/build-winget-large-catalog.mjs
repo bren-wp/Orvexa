@@ -141,7 +141,7 @@ function logoFromManifest(meta, curated) {
   return { url: '', source: 'missing-upstream-logo', status: 'missing' };
 }
 
-async function buildEntry(candidate, curated, seenIds) {
+async function buildEntry(candidate, curated) {
   const text = await fetchText(candidate.rawUrl);
   const identifier = yamlScalar(text, 'PackageIdentifier') || candidate.identifier;
   const name = normalize(yamlScalar(text, 'PackageName') || curated?.name || titleFromIdentifier(identifier));
@@ -152,10 +152,7 @@ async function buildEntry(candidate, curated, seenIds) {
   const logo = logoFromManifest(meta, curated);
   const category = categoryFor({ identifier, name, publisher: publisherName, description });
   if (!categoryNames.has(category)) throw new Error(`Unknown category ${category}`);
-  const baseId = slug(identifier);
-  let id = baseId;
-  if (seenIds.has(id)) id = `${baseId}-${hash(identifier)}`;
-  return { id, name, publisher: publisherName, category, description: description.slice(0, 220), platforms: ['windows-11', 'windows-10'], architectures: ['x64'], provider: 'winget', wingetId: identifier, versionStrategy: 'latest', versionLabel: 'Latest via WinGet', icon: categoryIconByName.get(category) || 'assets/categories/utilities.svg', logoUrl: logo.url, logoSource: logo.source, logoStatus: logo.status, logoSha256: logo.sha256 || '', popular: false, featured: false, enabled: true, silentInstall: true, website: meta.packageUrl || meta.publisherUrl || '', notes: logo.status === 'verified' ? `Logo resolved from ${logo.source}.` : logo.status === 'fallback' ? 'Logo resolved from publisher/package website favicon because no package icon was exposed.' : 'No upstream package logo was exposed; Orvexa uses the local category icon fallback.' };
+  return { id: slug(identifier), name, publisher: publisherName, category, description: description.slice(0, 220), platforms: ['windows-11', 'windows-10'], architectures: ['x64'], provider: 'winget', wingetId: identifier, versionStrategy: 'latest', versionLabel: 'Latest via WinGet', icon: categoryIconByName.get(category) || 'assets/categories/utilities.svg', logoUrl: logo.url, logoSource: logo.source, logoStatus: logo.status, logoSha256: logo.sha256 || '', popular: false, featured: false, enabled: true, silentInstall: true, website: meta.packageUrl || meta.publisherUrl || '', notes: logo.status === 'verified' ? `Logo resolved from ${logo.source}.` : logo.status === 'fallback' ? 'Logo resolved from publisher/package website favicon because no package icon was exposed.' : 'No upstream package logo was exposed; Orvexa uses the local category icon fallback.' };
 }
 
 async function main() {
@@ -171,9 +168,19 @@ async function main() {
     while (cursor < candidates.length) {
       const candidate = candidates[cursor++];
       const curated = icons.index.get(normalizeKey(candidate.identifier));
-      const entry = await buildEntry(candidate, curated, seenIds);
+      const entry = await buildEntry(candidate, curated);
       inspected++;
-      if (!seenIds.has(entry.id)) { seenIds.add(entry.id); allEntries.push(entry); }
+
+      const baseId = entry.id;
+      let id = baseId;
+      let collision = 0;
+      while (seenIds.has(id)) {
+        collision++;
+        id = `${baseId}-${hash(`${entry.wingetId}:${collision}`)}`;
+      }
+
+      seenIds.add(id);
+      allEntries.push(id === entry.id ? entry : { ...entry, id });
       if (inspected % 1000 === 0) console.log(`Large catalog metadata: inspected ${inspected}/${candidates.length}, entries ${allEntries.length}`);
     }
   }
