@@ -119,6 +119,25 @@ async function loadPackageIconIndex() {
   return { index, commit };
 }
 
+function describeManifestPath(entryPath) {
+  const parts = entryPath.split('/');
+  const fileName = parts.at(-1) || '';
+  const version = normalize(parts.at(-2));
+  if (!version) return null;
+
+  const enUs = fileName.match(/^(.*)\.locale\.en-US\.ya?ml$/i);
+  if (enUs) return { identifier: enUs[1], version, metadataRank: 0 };
+
+  const locale = fileName.match(/^(.*)\.locale\.[^.]+\.ya?ml$/i);
+  if (locale) return { identifier: locale[1], version, metadataRank: 1 };
+
+  if (/\.installer\.ya?ml$/i.test(fileName)) return null;
+  const versionManifest = fileName.match(/^(.*)\.ya?ml$/i);
+  if (versionManifest) return { identifier: versionManifest[1], version, metadataRank: 2 };
+
+  return null;
+}
+
 async function loadWingetCandidates() {
   const letters = await fetchJson(manifestsUrl);
   if (!Array.isArray(letters)) throw new Error('Could not read WinGet manifests directory.');
@@ -129,21 +148,29 @@ async function loadWingetCandidates() {
     const tree = await fetchJson(`${directory.git_url}?recursive=1`);
     if (!tree?.tree) continue;
     let before = byId.size;
+
     for (const entry of tree.tree) {
-      if (entry.type !== 'blob' || !/\.locale\.en-US\.ya?ml$/i.test(entry.path)) continue;
-      const pathParts = entry.path.split('/');
-      const id = pathParts.at(-1)?.replace(/\.locale\.en-US\.ya?ml$/i, '') || '';
-      const version = normalize(pathParts.at(-2));
-      if (!/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(id) || !version) continue;
+      if (entry.type !== 'blob') continue;
+      const descriptor = describeManifestPath(entry.path);
+      if (!descriptor) continue;
+
+      const { identifier, version, metadataRank } = descriptor;
+      if (!/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(identifier)) continue;
 
       const rawPath = `${directory.name}/${entry.path}`.split('/').map(encodeURIComponent).join('/');
-      const candidate = { identifier: id, version, rawUrl: `${rawManifestBase}/${rawPath}` };
-      const key = normalizeKey(id);
+      const candidate = { identifier, version, rawUrl: `${rawManifestBase}/${rawPath}`, metadataRank };
+      const key = normalizeKey(identifier);
       const current = byId.get(key);
-      if (!current || compareWingetVersions(candidate.version, current.version) > 0) byId.set(key, candidate);
+      const versionOrder = current ? compareWingetVersions(candidate.version, current.version) : 1;
+
+      if (!current || versionOrder > 0 || (versionOrder === 0 && candidate.metadataRank < current.metadataRank)) {
+        byId.set(key, candidate);
+      }
     }
+
     console.log(`WinGet ${directory.name}: +${byId.size - before} IDs${tree.truncated ? ' (subtree truncated)' : ''}`);
   }
+
   return [...byId.values()].sort((a, b) => a.identifier.localeCompare(b.identifier));
 }
 
