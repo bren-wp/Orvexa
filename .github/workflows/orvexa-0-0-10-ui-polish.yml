@@ -1,0 +1,76 @@
+name: Orvexa 0.0.10 UI Polish
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  polish:
+    name: Apply UI and UX polish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop/0.0.10
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Patch UI copy and large-catalog UX
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          function patch(file, edits) {
+            let text = fs.readFileSync(file, 'utf8');
+            for (const [from, to] of edits) {
+              if (!text.includes(from)) throw new Error(`${file}: missing pattern ${from}`);
+              text = text.split(from).join(to);
+            }
+            fs.writeFileSync(file, text);
+          }
+
+          patch('apps/windows/Orvexa.App/MainWindow.xaml', [
+            ['Discover and install high-quality, trusted Windows applications.', 'Search, filter and install from a large trusted Windows catalog with fast local results.'],
+            ['Search for apps, tools, and more...', 'Search 10,000+ apps by name or package ID...'],
+            ['Refresh local catalog', 'Refresh catalog index'],
+            ['No software found', 'No matching apps found'],
+            ['Try another search or refresh the local catalog.', 'Try a more specific search or refresh the local catalog index.'],
+            ['Popular trusted applications selected for this Windows profile.', 'Trusted applications selected from the bundled catalog for this Windows profile.'],
+            ['Keep your applications up to date for the latest features, security fixes, and best performance.', 'Scan installed WinGet packages and apply updates with explicit confirmations.'],
+            ['Manage your installed applications. Review, update, inspect, or remove them with confidence.', 'Review installed WinGet packages, inspect details and remove software with explicit confirmation.'],
+          ]);
+
+          patch('README.md', [
+            ['catalog-5200%2B%20apps-0B1B3D', 'catalog-10000%2B%20apps-0B1B3D'],
+            ['5200 plus catalog apps', '10000 plus catalog apps'],
+            ['**Current version: 0.0.9**', '**Current version: 0.0.10**'],
+            ['Version 0.0.9 keeps the approved Orvexa visual direction, keeps the 354-app curated catalog, and adds a production large-catalog layer with **5,200 WinGet-backed applications** generated from upstream WinGet metadata.', 'Version 0.0.10 keeps the approved Orvexa visual direction, keeps the 354-app curated catalog, and expands the production large-catalog layer to **10,000+ WinGet-backed applications** generated from upstream WinGet metadata.'],
+            ['Version 0.0.9 ships two catalog layers:', 'Version 0.0.10 ships two catalog layers:'],
+            ['**5,200 large-catalog applications** generated from upstream WinGet metadata and bundled as `shared/catalog-large.json`.', '**10,000+ large-catalog applications** generated from upstream WinGet metadata and bundled as `shared/catalog-large.json`.'],
+            ['The large catalog was generated from 13,883 WinGet package candidates and selected the best 5,200 records after de-duplication and logo provenance ranking. It contains **174 verified upstream logos**, **5,026 publisher/package favicon fallback logos** and **0 entries without an upstream logo source**. Fallbacks are marked as fallbacks; Orvexa does not label them as original logos.', 'The large catalog is generated from upstream WinGet package candidates and selects the best 10,000+ records after de-duplication and logo provenance ranking. Every accepted record must have either a verified upstream icon or a publisher/package favicon fallback. Fallbacks are marked as fallbacks; Orvexa does not label them as original logos.'],
+            ['## 0.0.9 UI parity and catalog QA', '## 0.0.10 UI parity and catalog QA'],
+            ['more than 5,000 WinGet-backed applications;', 'more than 10,000 WinGet-backed applications;'],
+          ]);
+
+          const changelog = 'docs/CHANGELOG.md';
+          let log = fs.readFileSync(changelog, 'utf8');
+          if (!log.includes('## 0.0.10')) {
+            log = log.replace('# Changelog\n', '# Changelog\n\n## 0.0.10 - 2026-09-26\n\n- Expands the production large catalog target to more than 10,000 WinGet-backed applications.\n- Keeps strict duplicate protection for app IDs, normalized names and WinGet package identifiers.\n- Requires accepted large-catalog entries to expose an upstream icon or publisher/package favicon source; local category icons remain only a visual fallback in the UI.\n- Raises the bundled catalog read limit and caps initial catalog rendering to keep the native WinUI catalog responsive with a 10k+ data set.\n- Polishes catalog, updates and installed-app copy to remove vague wording and improve production UX.\n\n');
+            fs.writeFileSync(changelog, log);
+          }
+          NODE
+
+      - name: Commit UI polish
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Polish Orvexa 0.0.10 UI copy and catalog UX"
+            git push origin HEAD:develop/0.0.10
+          fi
