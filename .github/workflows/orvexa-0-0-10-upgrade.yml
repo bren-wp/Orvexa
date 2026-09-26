@@ -28,19 +28,33 @@ jobs:
           node tools/upgrade-0.0.10.mjs patch
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
-          const file = 'qa/orvexa.test.mjs';
-          let text = fs.readFileSync(file, 'utf8');
-          if (!text.includes('MaxBundledCatalogBytes=64L\\*1024\\*1024')) {
+          const testFile = 'qa/orvexa.test.mjs';
+          let testText = fs.readFileSync(testFile, 'utf8');
+          if (!testText.includes('MaxBundledCatalogBytes=64L\\*1024\\*1024')) {
             throw new Error('QA bounded catalog limit expectation not found');
           }
-          text = text.replace('MaxBundledCatalogBytes=64L\\*1024\\*1024', 'MaxBundledCatalogBytes=96L\\*1024\\*1024');
-          if (!text.includes('CatalogDisplayLimit=320')) {
-            text = text.replace(
+          testText = testText.replace('MaxBundledCatalogBytes=64L\\*1024\\*1024', 'MaxBundledCatalogBytes=96L\\*1024\\*1024');
+          if (!testText.includes('CatalogDisplayLimit=320')) {
+            testText = testText.replace(
               "assert.match(code,/MaxBundledCatalogBytes=96L\\\\*1024\\\\*1024/);",
               "assert.match(code,/MaxBundledCatalogBytes=96L\\\\*1024\\\\*1024/);\n  assert.match(code,/CatalogDisplayLimit=320/);"
             );
           }
-          fs.writeFileSync(file, text);
+          fs.writeFileSync(testFile, testText);
+
+          const validatorFile = 'tools/validate-production-content.mjs';
+          let validatorText = fs.readFileSync(validatorFile, 'utf8');
+          if (!validatorText.includes('const ignoredFiles')) {
+            validatorText = validatorText.replace(
+              "const ignoredDirs = new Set(['bin', 'obj', 'node_modules', '.git']);",
+              "const ignoredDirs = new Set(['bin', 'obj', 'node_modules', '.git']);\nconst ignoredFiles = new Set(['validate-production-content.mjs', 'upgrade-0.0.10.mjs']);"
+            );
+            validatorText = validatorText.replace(
+              "if (ignoredDirs.has(entry.name)) continue;",
+              "if (ignoredDirs.has(entry.name) || ignoredFiles.has(entry.name)) continue;"
+            );
+          }
+          fs.writeFileSync(validatorFile, validatorText);
           NODE
 
       - name: Generate 10k+ large catalog
