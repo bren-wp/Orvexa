@@ -10,7 +10,13 @@ const ids = new Set();
 const names = new Set();
 const wingetIds = new Set();
 const logoUrls = new Set();
-const allowedLogoSources = new Set(['package-icons-curated', 'winget-manifest-icon', 'winget-run-icon', 'publisher-site-favicon', 'missing-upstream-logo']);
+const logoStatusBySource = new Map([
+  ['package-icons-curated', 'verified'],
+  ['winget-manifest-icon', 'verified'],
+  ['publisher-site-favicon', 'fallback'],
+  ['missing-upstream-logo', 'missing']
+]);
+const allowedLogoSources = new Set(logoStatusBySource.keys());
 const allowedLogoStatuses = new Set(['verified', 'fallback', 'missing']);
 const normalize = value => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
 const requireString = (app, key) => {
@@ -33,6 +39,8 @@ for (const app of catalog.apps || []) {
   if (!/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(app.wingetId || '')) errors.push(`${app.id}: invalid wingetId ${app.wingetId}`);
   if (!allowedLogoSources.has(app.logoSource)) errors.push(`${app.id}: unsupported logoSource ${app.logoSource}`);
   if (!allowedLogoStatuses.has(app.logoStatus)) errors.push(`${app.id}: unsupported logoStatus ${app.logoStatus}`);
+  const expectedLogoStatus = logoStatusBySource.get(app.logoSource);
+  if (expectedLogoStatus && app.logoStatus !== expectedLogoStatus) errors.push(`${app.id}: logoSource ${app.logoSource} requires logoStatus ${expectedLogoStatus}`);
   if (app.logoStatus !== 'missing' && !/^https:\/\//i.test(app.logoUrl || '')) errors.push(`${app.id}: non-missing logoUrl must be HTTPS`);
   if (app.logoStatus === 'missing' && app.logoUrl) errors.push(`${app.id}: missing upstream logo must not claim a logoUrl`);
   if (!categoryNames.has(app.category)) errors.push(`${app.id}: unknown category ${app.category}`);
@@ -60,6 +68,16 @@ for (const app of catalog.apps || []) {
 const verified = (catalog.apps || []).filter(x => x.logoStatus === 'verified').length;
 const fallback = (catalog.apps || []).filter(x => x.logoStatus === 'fallback').length;
 const missing = (catalog.apps || []).filter(x => x.logoStatus === 'missing').length;
+const total = (catalog.apps || []).length;
+if (verified + fallback + missing !== total) errors.push('logo status counts do not add up to total catalog size');
+if (!catalog.stats || typeof catalog.stats !== 'object') {
+  errors.push('large catalog stats object is required');
+} else {
+  if (catalog.stats.total !== total) errors.push(`catalog stats.total mismatch: expected ${total}, got ${catalog.stats.total}`);
+  if (catalog.stats.verifiedLogos !== verified) errors.push(`catalog stats.verifiedLogos mismatch: expected ${verified}, got ${catalog.stats.verifiedLogos}`);
+  if (catalog.stats.faviconFallbackLogos !== fallback) errors.push(`catalog stats.faviconFallbackLogos mismatch: expected ${fallback}, got ${catalog.stats.faviconFallbackLogos}`);
+  if (catalog.stats.missingUpstreamLogos !== missing) errors.push(`catalog stats.missingUpstreamLogos mismatch: expected ${missing}, got ${catalog.stats.missingUpstreamLogos}`);
+}
 if (verified < 100) errors.push(`expected at least 100 verified upstream logos, got ${verified}`);
 if (verified + fallback < 10001) errors.push(`expected at least 10,001 upstream logo/favicons, got ${verified + fallback}`);
 if (missing >= catalog.apps.length) errors.push('all large catalog entries are missing upstream logos');
@@ -69,4 +87,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Large catalog OK: ${catalog.apps.length} apps, ${verified} verified logos, ${fallback} favicon fallbacks, ${missing} local category fallbacks, no duplicate IDs, names or WinGet IDs.`);
+console.log(`Large catalog OK: ${catalog.apps.length} apps, ${verified} verified logos, ${fallback} favicon fallbacks, ${missing} missing upstream logos, no duplicate IDs, names or WinGet IDs.`);
