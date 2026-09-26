@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.11 - 2026-09-26
+
+- Improved the Windows Catalog UX for the 10,500-app dataset with explicit paged loading instead of a fixed one-page cap.
+- Added a Clear search action that resets the bundled catalog view, clears selections and reloads the trusted local catalog state.
+- Reset catalog paging when switching favorites, refreshing the local catalog or starting a new search so stale selection windows do not leak between modes.
+- Added QA coverage that verifies the large-catalog UI uses Show more paging controls and does not regress to rendering every bundled app at once.
+
 ## 0.0.10 - 2026-09-26
 
 - Expanded the production large catalog to 10,500 WinGet-backed applications while preserving duplicate protection for app IDs, normalized names and WinGet package IDs.

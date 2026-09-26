@@ -266,10 +266,12 @@
 
                     <StackPanel x:Name="CatalogActions" Grid.Row="2" Orientation="Horizontal" Spacing="8" Margin="0,0,0,10">
                         <Button Content="Search" Click="Search_Click" Style="{StaticResource OrvexaPrimaryButtonStyle}"/>
+                        <Button Content="Clear search" Click="ClearCatalogSearch_Click" Style="{StaticResource OrvexaSecondaryButtonStyle}"/>
                         <Button Content="Refresh local catalog" Click="BuildIndex_Click" Style="{StaticResource OrvexaSecondaryButtonStyle}"/>
                         <Button x:Name="InstallSelectedButton" Content="Install selected" Click="InstallSelected_Click" IsEnabled="False" Style="{StaticResource OrvexaPrimaryButtonStyle}"/>
                         <Button x:Name="FavoriteSelectedButton" Content="Add to favorites" Click="FavoriteSelected_Click" IsEnabled="False" Style="{StaticResource OrvexaSecondaryButtonStyle}"/>
                         <ToggleButton x:Name="FavoritesOnlyToggle" Content="Favorites only" Click="FavoritesOnly_Click" Style="{StaticResource OrvexaChipStyle}"/>
+                        <Button x:Name="ShowMoreCatalogButton" Content="Show more apps" Click="ShowMoreCatalog_Click" Visibility="Collapsed" Style="{StaticResource OrvexaSecondaryButtonStyle}"/>
                     </StackPanel>
 
                     <Grid Grid.Row="3">
@@ -314,7 +316,7 @@
                         <StackPanel x:Name="CatalogEmptyState" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
                             <SymbolIcon Symbol="Find" Foreground="#60A5FA"/>
                             <TextBlock Text="No software found" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Try another search or refresh the local catalog." Style="{StaticResource OrvexaSecondaryTextStyle}" TextAlignment="Center"/>
+                            <TextBlock Text="Try another search, clear the current search, or refresh the local catalog." Style="{StaticResource OrvexaSecondaryTextStyle}" TextAlignment="Center"/>
                         </StackPanel>
                     </Grid>
                 </Grid>

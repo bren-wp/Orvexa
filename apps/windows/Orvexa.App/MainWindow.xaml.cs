@@ -13,7 +13,8 @@ public sealed partial class MainWindow : Window
 {
     const long MaxBundledCatalogBytes=96L*1024*1024;
     const long MaxBundledProfilesBytes=2L*1024*1024;
-    const int CatalogDisplayLimit=320;
+    const int CatalogDisplayPageSize=320;
+    int catalogDisplayLimit=CatalogDisplayPageSize;
     readonly WingetService winget=new();
     readonly DeviceService devices=new();
     readonly ActivityService activity=new();
@@ -342,6 +343,7 @@ public sealed partial class MainWindow : Window
         try
         {
             catalogItems=LoadBundledCatalogPackages();
+            catalogDisplayLimit=CatalogDisplayPageSize;
             if(catalogItems.Count==0)
             {
                 CatalogEmptyState.Visibility=Visibility.Visible;
@@ -365,6 +367,7 @@ public sealed partial class MainWindow : Window
     {
         var query=PackagePolicy.NormalizeQuery(SearchBox.Text);
         if(query.Length<2){QueueStatus.Text="Enter at least two characters.";return;}
+        catalogDisplayLimit=CatalogDisplayPageSize;
         InstallSelectedButton.IsEnabled=false;
         CatalogResults.SelectedItems.Clear();
 
@@ -421,18 +424,46 @@ public sealed partial class MainWindow : Window
         }
 
         var total=visible.Count;
-        var shouldCap=FavoritesOnlyToggle.IsChecked!=true && total>CatalogDisplayLimit;
-        var shown=shouldCap ? visible.Take(CatalogDisplayLimit).ToArray() : visible;
+        var effectiveLimit=Math.Max(CatalogDisplayPageSize,catalogDisplayLimit);
+        var shouldPage=FavoritesOnlyToggle.IsChecked!=true && total>effectiveLimit;
+        var shown=shouldPage ? visible.Take(effectiveLimit).ToArray() : visible;
+        catalogDisplayLimit=shown.Count==0?CatalogDisplayPageSize:Math.Max(CatalogDisplayPageSize,shown.Count);
 
         CatalogResults.ItemsSource=shown;
         CatalogEmptyState.Visibility=shown.Count==0?Visibility.Visible:Visibility.Collapsed;
-        CatalogCountText.Text=shouldCap
-            ? $"Showing {shown.Count:n0} of {total:n0} trusted apps. Use search to narrow the full catalog."
-            : $"Showing {shown.Count:n0} trusted app(s).";
+        ShowMoreCatalogButton.Visibility=shouldPage?Visibility.Visible:Visibility.Collapsed;
+        ShowMoreCatalogButton.Content=shouldPage
+            ? $"Show next {Math.Min(CatalogDisplayPageSize,total-shown.Count):n0} apps"
+            : "All visible apps loaded";
+        CatalogCountText.Text=shouldPage
+            ? $"Showing {shown.Count:n0} of {total:n0} trusted apps. Continue in batches or search by name/WinGet ID."
+            : $"Showing {shown.Count:n0} of {total:n0} trusted app(s).";
+    }
+
+    void ShowMoreCatalog_Click(object sender,RoutedEventArgs e)
+    {
+        catalogDisplayLimit+=CatalogDisplayPageSize;
+        CatalogResults.SelectedItems.Clear();
+        ApplyCatalogFilter();
+        QueueStatus.Text=$"Showing more catalog apps | {catalogDisplayLimit:n0} loaded window.";
+    }
+
+    void ClearCatalogSearch_Click(object sender,RoutedEventArgs e)
+    {
+        SearchBox.Text="";
+        catalogDisplayLimit=CatalogDisplayPageSize;
+        CatalogResults.SelectedItems.Clear();
+        catalogItems=LoadBundledCatalogPackages();
+        if(catalogItems.Count>0) cache.Merge(catalogItems);
+        ApplyCatalogFilter();
+        QueueStatus.Text=catalogItems.Count==0
+            ? "The local catalog could not be loaded."
+            : $"Catalog reset | {catalogItems.Count:n0} trusted packages";
     }
 
     void FavoritesOnly_Click(object sender,RoutedEventArgs e)
     {
+        catalogDisplayLimit=CatalogDisplayPageSize;
         CatalogResults.SelectedItems.Clear();
         ApplyCatalogFilter();
         QueueStatus.Text=FavoritesOnlyToggle.IsChecked==true?"Showing favorites only.":"Showing all catalog results.";
@@ -546,6 +577,7 @@ public sealed partial class MainWindow : Window
             ct.ThrowIfCancellationRequested();
             cache.Merge(packages);
             catalogItems=packages;
+            catalogDisplayLimit=CatalogDisplayPageSize;
             ApplyCatalogFilter();
             QueueStatus.Text=$"Local catalog refreshed | {cache.Read().Packages.Count} cached packages";
         });
