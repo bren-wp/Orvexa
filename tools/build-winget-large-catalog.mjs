@@ -24,6 +24,21 @@ const normalize = value => String(value || '').trim().replace(/\s+/g, ' ');
 const normalizeKey = value => normalize(value).toLowerCase();
 const hash = value => crypto.createHash('sha1').update(value).digest('hex').slice(0, 8);
 const slug = value => normalize(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'app';
+const versionCollator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+
+function compareWingetVersions(leftValue, rightValue) {
+  const left = normalize(leftValue).replace(/^v(?=\d)/i, '');
+  const right = normalize(rightValue).replace(/^v(?=\d)/i, '');
+  if (left === right) return 0;
+
+  const [leftCore, leftPre = ''] = left.split(/-(.+)/, 2);
+  const [rightCore, rightPre = ''] = right.split(/-(.+)/, 2);
+  const core = versionCollator.compare(leftCore, rightCore);
+  if (core !== 0) return core;
+  if (!leftPre && rightPre) return 1;
+  if (leftPre && !rightPre) return -1;
+  return versionCollator.compare(leftPre, rightPre);
+}
 
 async function fetchJson(url, attempt = 1) {
   const response = await fetch(url, { headers });
@@ -116,12 +131,16 @@ async function loadWingetCandidates() {
     let before = byId.size;
     for (const entry of tree.tree) {
       if (entry.type !== 'blob' || !/\.locale\.en-US\.ya?ml$/i.test(entry.path)) continue;
-      const id = entry.path.split('/').pop()?.replace(/\.locale\.en-US\.ya?ml$/i, '') || '';
-      if (!/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(id)) continue;
-      if (!byId.has(normalizeKey(id))) {
-        const rawPath = `${directory.name}/${entry.path}`.split('/').map(encodeURIComponent).join('/');
-        byId.set(normalizeKey(id), { identifier: id, rawUrl: `${rawManifestBase}/${rawPath}` });
-      }
+      const pathParts = entry.path.split('/');
+      const id = pathParts.at(-1)?.replace(/\.locale\.en-US\.ya?ml$/i, '') || '';
+      const version = normalize(pathParts.at(-2));
+      if (!/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(id) || !version) continue;
+
+      const rawPath = `${directory.name}/${entry.path}`.split('/').map(encodeURIComponent).join('/');
+      const candidate = { identifier: id, version, rawUrl: `${rawManifestBase}/${rawPath}` };
+      const key = normalizeKey(id);
+      const current = byId.get(key);
+      if (!current || compareWingetVersions(candidate.version, current.version) > 0) byId.set(key, candidate);
     }
     console.log(`WinGet ${directory.name}: +${byId.size - before} IDs${tree.truncated ? ' (subtree truncated)' : ''}`);
   }
@@ -144,6 +163,8 @@ function logoFromManifest(meta, curated) {
 async function buildEntry(candidate, curated) {
   const text = await fetchText(candidate.rawUrl);
   const identifier = yamlScalar(text, 'PackageIdentifier') || candidate.identifier;
+  const version = normalize(yamlScalar(text, 'PackageVersion') || candidate.version);
+  if (!version) throw new Error(`Missing PackageVersion for ${identifier}`);
   const name = normalize(yamlScalar(text, 'PackageName') || curated?.name || titleFromIdentifier(identifier));
   const { publisher } = splitWingetId(identifier);
   const publisherName = normalize(yamlScalar(text, 'Publisher') || publisher || 'Unknown publisher');
@@ -152,7 +173,37 @@ async function buildEntry(candidate, curated) {
   const logo = logoFromManifest(meta, curated);
   const category = categoryFor({ identifier, name, publisher: publisherName, description });
   if (!categoryNames.has(category)) throw new Error(`Unknown category ${category}`);
-  return { id: slug(identifier), name, publisher: publisherName, category, description: description.slice(0, 220), platforms: ['windows-11', 'windows-10'], architectures: ['x64'], provider: 'winget', wingetId: identifier, versionStrategy: 'latest', versionLabel: 'Latest via WinGet', icon: categoryIconByName.get(category) || 'assets/categories/utilities.svg', logoUrl: logo.url, logoSource: logo.source, logoStatus: logo.status, logoSha256: logo.sha256 || '', popular: false, featured: false, enabled: true, silentInstall: true, website: meta.packageUrl || meta.publisherUrl || '', notes: logo.status === 'verified' ? `Logo resolved from ${logo.source}.` : logo.status === 'fallback' ? 'Logo resolved from publisher/package website favicon because no package icon was exposed.' : 'No upstream package logo was exposed; Orvexa uses the local category icon fallback.' };
+  return { id: slug(identifier), name, publisher: publisherName, category, description: description.slice(0, 220), platforms: ['windows-11', 'windows-10'], architectures: ['x64'], provider: 'winget', wingetId: identifier, versionStrategy: 'latest', version, versionLabel: version, versionSource: 'winget-manifest', versionStatus: 'verified', icon: categoryIconByName.get(category) || 'assets/categories/utilities.svg', logoUrl: logo.url, logoSource: logo.source, logoStatus: logo.status, logoSha256: logo.sha256 || '', popular: false, featured: false, enabled: true, silentInstall: true, website: meta.packageUrl || meta.publisherUrl || '', notes: logo.status === 'verified' ? `Logo resolved from ${logo.source}.` : logo.status === 'fallback' ? 'Logo resolved from publisher/package website favicon because no package icon was exposed.' : 'No upstream package logo was exposed; Orvexa uses the local category icon fallback.' };
+}
+
+function syncCuratedVersions(entries, updatedAt) {
+  const file = path.join(root, 'shared', 'catalog.json');
+  const catalog = JSON.parse(fs.readFileSync(file, 'utf8'));
+  const latestByWinget = new Map(entries.map(entry => [normalizeKey(entry.wingetId), entry]));
+  const missing = [];
+  let updated = 0;
+
+  for (const app of catalog.apps || []) {
+    if (!app.enabled || app.provider !== 'winget') continue;
+    const latest = latestByWinget.get(normalizeKey(app.wingetId));
+    if (!latest?.version) {
+      missing.push(app.wingetId);
+      continue;
+    }
+
+    app.versionStrategy = 'latest';
+    app.version = latest.version;
+    app.versionLabel = latest.version;
+    app.versionSource = 'winget-manifest';
+    app.versionStatus = 'verified';
+    updated++;
+  }
+
+  if (missing.length) throw new Error(`Could not resolve current WinGet version for curated packages: ${missing.join(', ')}`);
+  catalog.revision = Math.max(Number(catalog.revision || 0) + 1, 12);
+  catalog.lastUpdated = updatedAt;
+  fs.writeFileSync(file, JSON.stringify(catalog, null, 2) + '\n');
+  console.log(`Updated ${updated} curated app versions from current WinGet manifests.`);
 }
 
 async function main() {
@@ -185,6 +236,9 @@ async function main() {
     }
   }
   await Promise.all(Array.from({ length: concurrency }, () => worker()));
+  const updatedAt = new Date().toISOString();
+  syncCuratedVersions(allEntries, updatedAt);
+
   const seenWinget = new Set();
   const seenNames = new Set();
   const seenVerifiedLogos = new Set();
@@ -207,7 +261,7 @@ async function main() {
   const verified = entries.filter(x => x.logoStatus === 'verified').length;
   const fallback = entries.filter(x => x.logoStatus === 'fallback').length;
   const missing = entries.filter(x => x.logoStatus === 'missing').length;
-  const output = { schemaVersion: 2, revision: 10, lastUpdated: new Date().toISOString(), channel: 'stable-large', source: 'microsoft/winget-pkgs + memstechtips/package-icons', sourceRef: branch, packageIconsRef: icons.commit, logoPolicy: 'Prefer curated package-icons or WinGet manifest IconUrl. Use publisher-site favicon when available. Keep local category fallback when no upstream logo exists; never pretend fallback is an original logo.', stats: { total: entries.length, verifiedLogos: verified, faviconFallbackLogos: fallback, missingUpstreamLogos: missing }, apps: entries };
+  const output = { schemaVersion: 2, revision: 12, lastUpdated: updatedAt, channel: 'stable-large', source: 'microsoft/winget-pkgs + memstechtips/package-icons', sourceRef: branch, packageIconsRef: icons.commit, versionPolicy: 'Resolve the newest available WinGet manifest version per package at catalog build time and record that exact PackageVersion.', logoPolicy: 'Prefer curated package-icons or WinGet manifest IconUrl. Use publisher-site favicon when available. Keep local category fallback when no upstream logo exists; never pretend fallback is an original logo.', stats: { total: entries.length, verifiedVersions: entries.filter(x => x.versionStatus === 'verified').length, verifiedLogos: verified, faviconFallbackLogos: fallback, missingUpstreamLogos: missing }, apps: entries };
   fs.writeFileSync(outFile, JSON.stringify(output, null, 2) + '\n');
   console.log(`Wrote ${output.apps.length} apps to ${path.relative(root, outFile)} | verified logos ${verified}, favicon fallbacks ${fallback}, missing upstream ${missing}`);
 }
