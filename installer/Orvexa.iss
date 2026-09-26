@@ -1,5 +1,5 @@
 #define MyAppName "Orvexa"
-#define MyAppVersion "0.0.9"
+#define MyAppVersion "0.0.10"
 #define MyAppExeName "Orvexa.App.exe"
 [Setup]
 AppId={{2B56E793-5F72-4F50-89CE-0B8E27E4A18D}
@@ -10,7 +10,7 @@ DefaultDirName={localappdata}\Programs\Orvexa
 DefaultGroupName=Orvexa
 UninstallDisplayName=Orvexa
 OutputDir=..\dist
-OutputBaseFilename=Orvexa-Setup-0.0.9-x64
+OutputBaseFilename=Orvexa-Setup-0.0.10-x64
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern

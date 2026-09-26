@@ -3,8 +3,8 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 
 const root = path.resolve(import.meta.dirname, '..');
-const target = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_TARGET || '5200', 10);
-const minRequired = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_MIN || '5001', 10);
+const target = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_TARGET || '10500', 10);
+const minRequired = Number.parseInt(process.env.ORVEXA_LARGE_CATALOG_MIN || '10001', 10);
 const branch = process.env.WINGET_PKGS_REF || 'master';
 const manifestsUrl = `https://api.github.com/repos/microsoft/winget-pkgs/contents/manifests?ref=${encodeURIComponent(branch)}`;
 const rawManifestBase = `https://raw.githubusercontent.com/microsoft/winget-pkgs/${branch}/manifests`;
@@ -200,7 +200,7 @@ async function main() {
   const verified = entries.filter(x => x.logoStatus === 'verified').length;
   const fallback = entries.filter(x => x.logoStatus === 'fallback').length;
   const missing = entries.filter(x => x.logoStatus === 'missing').length;
-  const output = { schemaVersion: 2, revision: 9, lastUpdated: new Date().toISOString(), channel: 'stable-large', source: 'microsoft/winget-pkgs + memstechtips/package-icons', sourceRef: branch, packageIconsRef: icons.commit, logoPolicy: 'Prefer curated package-icons or WinGet manifest IconUrl. Use publisher-site favicon when available. Keep local category fallback when no upstream logo exists; never pretend fallback is an original logo.', stats: { total: entries.length, verifiedLogos: verified, faviconFallbackLogos: fallback, missingUpstreamLogos: missing }, apps: entries };
+  const output = { schemaVersion: 2, revision: 10, lastUpdated: new Date().toISOString(), channel: 'stable-large', source: 'microsoft/winget-pkgs + memstechtips/package-icons', sourceRef: branch, packageIconsRef: icons.commit, logoPolicy: 'Prefer curated package-icons or WinGet manifest IconUrl. Use publisher-site favicon when available. Keep local category fallback when no upstream logo exists; never pretend fallback is an original logo.', stats: { total: entries.length, verifiedLogos: verified, faviconFallbackLogos: fallback, missingUpstreamLogos: missing }, apps: entries };
   fs.writeFileSync(outFile, JSON.stringify(output, null, 2) + '\n');
   console.log(`Wrote ${output.apps.length} apps to ${path.relative(root, outFile)} | verified logos ${verified}, favicon fallbacks ${fallback}, missing upstream ${missing}`);
 }

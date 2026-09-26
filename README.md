@@ -24,7 +24,7 @@
     <a href="https://github.com/bren-wp/Orvexa/releases/latest"><img src="https://img.shields.io/github/v/release/bren-wp/Orvexa?label=release" alt="Latest release"></a>
     <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-3B82FF" alt="Windows 10 and 11">
     <img src="https://img.shields.io/badge/WinUI%203-.NET%208-2563EB" alt="WinUI 3 and .NET 8">
-    <img src="https://img.shields.io/badge/catalog-5200%2B%20apps-0B1B3D" alt="5200 plus catalog apps">
+    <img src="https://img.shields.io/badge/catalog-10000%2B%20apps-0B1B3D" alt="10000 plus catalog apps">
   </p>
 </div>
 
@@ -38,9 +38,9 @@
 
 Orvexa is a native Windows software control center designed to make package management feel like a polished product instead of a command-line workflow. It combines a curated application catalog, Windows Package Manager, local device information, favorites, update management and bounded local activity history inside one focused WinUI 3 application.
 
-**Current version: 0.0.9**
+**Current version: 0.0.10**
 
-Version 0.0.9 keeps the approved Orvexa visual direction, keeps the 354-app curated catalog, and adds a production large-catalog layer with **5,200 WinGet-backed applications** generated from upstream WinGet metadata. The large catalog is validated for duplicate IDs, duplicate normalized names and duplicate WinGet package IDs, and every logo field includes provenance through `logoSource` and `logoStatus` instead of pretending fallback artwork is an original logo.
+Version 0.0.10 keeps the approved Orvexa visual direction, keeps the 354-app curated catalog, and expands the production large-catalog layer to **10,500 WinGet-backed applications** generated from upstream WinGet metadata. The large catalog is validated for duplicate IDs, duplicate normalized names and duplicate WinGet package IDs, and every logo field includes provenance through `logoSource` and `logoStatus` instead of pretending fallback artwork is an original logo.
 
 <table>
 <tr>
@@ -105,12 +105,12 @@ Catalog uses responsive native cards rather than a plain default list. Each card
 
 Presentation metadata is read from the same bounded bundled catalog used by package logic. Descriptions are not duplicated in XAML.
 
-Version 0.0.9 ships two catalog layers:
+Version 0.0.10 ships two catalog layers:
 
 - **354 curated applications** with local SVG artwork for the polished first-run experience.
-- **5,200 large-catalog applications** generated from upstream WinGet metadata and bundled as `shared/catalog-large.json`.
+- **10,500 large-catalog applications** generated from upstream WinGet metadata and bundled as `shared/catalog-large.json`.
 
-The large catalog was generated from 13,883 WinGet package candidates and selected the best 5,200 records after de-duplication and logo provenance ranking. It contains **174 verified upstream logos**, **5,026 publisher/package favicon fallback logos** and **0 entries without an upstream logo source**. Fallbacks are marked as fallbacks; Orvexa does not label them as original logos.
+The large catalog was generated from 13,883 WinGet package candidates and selected the best 10,500 records after de-duplication and logo provenance ranking. It contains **174 verified upstream logos**, **10,326 publisher/package favicon fallback logos** and **0 entries without an upstream logo source**. Fallbacks are marked as fallbacks; Orvexa does not label them as original logos.
 
 ### Updates
 
@@ -138,7 +138,7 @@ Settings uses grouped cards for Appearance, Behavior, Confirmations, Catalog and
 
 About uses the large Orvexa brand hero followed by Version, Technologies, License, product information and Privacy/Security cards.
 
-## 0.0.9 UI parity and catalog QA
+## 0.0.10 UI parity and catalog QA
 
 Orvexa runs UI parity and catalog integrity checks as part of `npm run qa`.
 
@@ -164,14 +164,14 @@ Curated catalog validation verifies:
 
 Large catalog validation verifies:
 
-- more than 5,000 WinGet-backed applications;
+- at least 10,001 WinGet-backed applications;
 - no duplicate app IDs;
 - no duplicate normalized app names;
 - no duplicate normalized WinGet package IDs;
 - HTTPS logo URLs for every non-missing logo record;
 - explicit `logoSource` and `logoStatus` values;
 - known category, Windows platform metadata and x64 architecture metadata for every entry;
-- minimum verified/fallback logo coverage without fake original-logo claims.
+- minimum 10,001 verified/fallback upstream logo records without fake original-logo claims;
 
 ## Real catalog artwork
 
@@ -261,16 +261,16 @@ Version 0.0.9 produces:
 Orvexa-0.0.9.zip
 Orvexa-Web-0.0.9.zip
 Orvexa-QA-0.0.9.zip
-Orvexa-Portable-0.0.9-x64.exe
-Orvexa-Portable-0.0.9-x64.zip
-Orvexa-Setup-0.0.9-x64.exe
+Orvexa-Portable-0.0.10-x64.exe
+Orvexa-Portable-0.0.10-x64.zip
+Orvexa-Setup-0.0.10-x64.exe
 SHA256SUMS.txt
 version.json
 ```
 
 ### Portable EXE
 
-`Orvexa-Portable-0.0.9-x64.exe` is built as a self-contained Windows x64 single-file application. The release pipeline launches the generated EXE and requires it to remain alive through the startup smoke window before release publication can proceed.
+`Orvexa-Portable-0.0.10-x64.exe` is built as a self-contained Windows x64 single-file application. The release pipeline launches the generated EXE and requires it to remain alive through the startup smoke window before release publication can proceed.
 
 ## Build
 
@@ -313,8 +313,8 @@ Release candidates:
 Central update:
 
 ```bash
-node tools/set-version.mjs 0.0.9
-node tools/set-version.mjs 0.0.10-rc.1
+node tools/set-version.mjs 0.0.10
+node tools/set-version.mjs 0.0.11-rc.1
 ```
 
 ## Repository

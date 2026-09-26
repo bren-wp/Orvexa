@@ -1,6 +1,6 @@
 {
   "name": "orvexa",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "private": true,
   "description": "Orvexa software control center",
   "scripts": {
@@ -8,6 +8,6 @@
     "validate": "node tools/validate-catalog.mjs && node tools/validate-large-catalog.mjs",
     "version:set": "node tools/set-version.mjs",
     "test": "node --test qa/orvexa.test.mjs qa/ui-parity.test.mjs",
-    "qa": "node --test qa/orvexa.test.mjs qa/ui-parity.test.mjs && node --check apps/web/js/app.js && node --check tools/set-version.mjs && node --check tools/build-winget-large-catalog.mjs && node --check tools/validate-large-catalog.mjs && node tools/validate-catalog.mjs && node tools/validate-large-catalog.mjs"
+    "qa": "node --test qa/orvexa.test.mjs qa/ui-parity.test.mjs && node --check apps/web/js/app.js && node --check tools/set-version.mjs && node --check tools/build-winget-large-catalog.mjs && node --check tools/validate-large-catalog.mjs && node --check tools/validate-production-content.mjs && node tools/validate-catalog.mjs && node tools/validate-large-catalog.mjs && node tools/validate-production-content.mjs"
   }
 }

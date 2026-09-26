@@ -10,7 +10,7 @@ const ids = new Set();
 const names = new Set();
 const wingetIds = new Set();
 const logoUrls = new Set();
-const allowedLogoSources = new Set(['package-icons-curated', 'winget-run-icon', 'publisher-site-favicon', 'missing-upstream-logo']);
+const allowedLogoSources = new Set(['package-icons-curated', 'winget-manifest-icon', 'winget-run-icon', 'publisher-site-favicon', 'missing-upstream-logo']);
 const allowedLogoStatuses = new Set(['verified', 'fallback', 'missing']);
 const normalize = value => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
 const requireString = (app, key) => {
@@ -24,8 +24,8 @@ if (!fs.existsSync(file)) {
 
 const catalog = JSON.parse(fs.readFileSync(file, 'utf8'));
 if (catalog.schemaVersion !== 2) errors.push('large catalog schemaVersion must be 2');
-if (!Array.isArray(catalog.apps) || catalog.apps.length <= 5000) errors.push('large catalog must contain more than 5000 applications');
-if (catalog.revision < 9) errors.push('large catalog revision must be at least 9');
+if (!Array.isArray(catalog.apps) || catalog.apps.length < 10001) errors.push('large catalog must contain at least 10,001 applications');
+if (catalog.revision < 10) errors.push('large catalog revision must be at least 10');
 
 for (const app of catalog.apps || []) {
   for (const key of ['id', 'name', 'publisher', 'category', 'description', 'wingetId', 'icon', 'logoSource', 'logoStatus']) requireString(app, key);
@@ -60,8 +60,8 @@ for (const app of catalog.apps || []) {
 const verified = (catalog.apps || []).filter(x => x.logoStatus === 'verified').length;
 const fallback = (catalog.apps || []).filter(x => x.logoStatus === 'fallback').length;
 const missing = (catalog.apps || []).filter(x => x.logoStatus === 'missing').length;
-if (verified < 50) errors.push(`expected at least 50 verified upstream logos, got ${verified}`);
-if (verified + fallback < 500) errors.push(`expected at least 500 upstream logo/favicons, got ${verified + fallback}`);
+if (verified < 100) errors.push(`expected at least 100 verified upstream logos, got ${verified}`);
+if (verified + fallback < 10001) errors.push(`expected at least 10,001 upstream logo/favicons, got ${verified + fallback}`);
 if (missing >= catalog.apps.length) errors.push('all large catalog entries are missing upstream logos');
 
 if (errors.length) {

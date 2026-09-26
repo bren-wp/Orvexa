@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.10 - 2026-09-26
+
+- Expanded the production large catalog to 10,500 WinGet-backed applications while preserving duplicate protection for app IDs, normalized names and WinGet package IDs.
+- Raised the large-catalog generator default target to 10,500 and the validator minimum to 10,001 entries.
+- Added production-content validation to reject blocked placeholder/dev copy in shipped app, installer and tool sources.
+- Improved Catalog UX for the larger dataset by showing a bounded first page and a live catalog count hint instead of rendering every bundled app card at once.
+- Replaced non-interactive category-looking chips with honest capability/provenance chips so the UI does not present fake filters as working controls.
+
 ## 0.0.9 — 2026-09-24
 - Added `shared/catalog-large.json` with 5,200 WinGet-backed applications generated from upstream WinGet manifest metadata.
 - Built the large catalog from 13,883 candidate WinGet package IDs and selected the final 5,200 after normalized duplicate filtering.
