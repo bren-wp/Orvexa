@@ -1,0 +1,144 @@
+name: Orvexa 0.0.10 Catalog Upgrade
+
+on:
+  push:
+    branches:
+      - develop/0.0.10
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    if: ${{ github.actor != 'github-actions[bot]' || !startsWith(github.event.head_commit.message, 'chore: generate Orvexa 0.0.10') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop/0.0.10
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Patch 0.0.10 production code
+        run: |
+          node tools/set-version.mjs 0.0.10
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+
+          const read = file => fs.readFileSync(file, 'utf8');
+          const write = (file, text) => fs.writeFileSync(file, text);
+          const replace = (file, from, to) => {
+            const current = read(file);
+            if (!current.includes(from)) throw new Error(`${file}: expected text not found: ${from.slice(0, 120)}`);
+            write(file, current.replace(from, to));
+          };
+          const replaceAll = (file, pairs) => {
+            let current = read(file);
+            for (const [from, to] of pairs) {
+              if (!current.includes(from)) throw new Error(`${file}: expected text not found: ${from.slice(0, 120)}`);
+              current = current.replace(from, to);
+            }
+            write(file, current);
+          };
+
+          replaceAll('tools/build-winget-large-catalog.mjs', [
+            ["process.env.ORVEXA_LARGE_CATALOG_TARGET || '5200'", "process.env.ORVEXA_LARGE_CATALOG_TARGET || '10500'"],
+            ["process.env.ORVEXA_LARGE_CATALOG_MIN || '5001'", "process.env.ORVEXA_LARGE_CATALOG_MIN || '10001'"],
+            ["revision: 9,", "revision: 10,"],
+          ]);
+
+          replaceAll('tools/validate-large-catalog.mjs', [
+            ["const allowedLogoSources = new Set(['package-icons-curated', 'winget-run-icon', 'publisher-site-favicon', 'missing-upstream-logo']);", "const allowedLogoSources = new Set(['package-icons-curated', 'winget-manifest-icon', 'winget-run-icon', 'publisher-site-favicon', 'missing-upstream-logo']);"],
+            ["if (!Array.isArray(catalog.apps) || catalog.apps.length <= 5000) errors.push('large catalog must contain more than 5000 applications');", "if (!Array.isArray(catalog.apps) || catalog.apps.length < 10001) errors.push('large catalog must contain at least 10,001 applications');"],
+            ["if (catalog.revision < 9) errors.push('large catalog revision must be at least 9');", "if (catalog.revision < 10) errors.push('large catalog revision must be at least 10');"],
+            ["if (verified < 50) errors.push(`expected at least 50 verified upstream logos, got ${verified}`);", "if (verified < 100) errors.push(`expected at least 100 verified upstream logos, got ${verified}`);"],
+            ["if (verified + fallback < 500) errors.push(`expected at least 500 upstream logo/favicons, got ${verified + fallback}`);", "if (verified + fallback < 10001) errors.push(`expected at least 10,001 upstream logo/favicons, got ${verified + fallback}`);"],
+            ["console.log(`Large catalog OK: ${catalog.apps.length} apps, ${verified} verified logos, ${fallback} favicon fallbacks, ${missing} local category fallbacks, no duplicate IDs, names or WinGet IDs.`);", "console.log(`Large catalog OK: ${catalog.apps.length} apps, ${verified} verified logos, ${fallback} favicon fallbacks, ${missing} local category fallbacks, no duplicate IDs, names or WinGet IDs.`);"]
+          ]);
+
+          replace('apps/windows/Orvexa.App/MainWindow.xaml.cs',
+            'const long MaxBundledCatalogBytes=64L*1024*1024;\n    const long MaxBundledProfilesBytes=2L*1024*1024;',
+            'const long MaxBundledCatalogBytes=96L*1024*1024;\n    const long MaxBundledProfilesBytes=2L*1024*1024;\n    const int CatalogDisplayLimit=320;');
+
+          replace('apps/windows/Orvexa.App/MainWindow.xaml.cs',
+            `        CatalogResults.ItemsSource=visible;\n        CatalogEmptyState.Visibility=visible.Count==0?Visibility.Visible:Visibility.Collapsed;`,
+            `        var total=visible.Count;\n        var shouldCap=FavoritesOnlyToggle.IsChecked!=true && total>CatalogDisplayLimit;\n        var shown=shouldCap ? visible.Take(CatalogDisplayLimit).ToArray() : visible;\n\n        CatalogResults.ItemsSource=shown;\n        CatalogEmptyState.Visibility=shown.Count==0?Visibility.Visible:Visibility.Collapsed;\n        CatalogCountText.Text=shouldCap\n            ? $\"Showing {shown.Count:n0} of {total:n0} trusted apps. Use search to narrow the full catalog.\"\n            : $\"Showing {shown.Count:n0} trusted app(s).\";`);
+
+          replace('apps/windows/Orvexa.App/MainWindow.xaml',
+            '<TextBlock Text="Discover and install high-quality, trusted Windows applications." Style="{StaticResource OrvexaSecondaryTextStyle}"/>',
+            '<TextBlock Text="Discover and install high-quality, trusted Windows applications." Style="{StaticResource OrvexaSecondaryTextStyle}"/>\n                            <TextBlock x:Name="CatalogCountText" Text="Catalog loads on demand with validated WinGet package IDs." Style="{StaticResource OrvexaSecondaryTextStyle}" FontSize="12"/>');
+
+          replaceAll('apps/windows/Orvexa.App/MainWindow.xaml', [
+            ['<TextBlock Text="All" Foreground="White" FontWeight="SemiBold"/>', '<TextBlock Text="10k+ apps" Foreground="White" FontWeight="SemiBold"/>'],
+            ['<TextBlock Text="Browsers"/>', '<TextBlock Text="WinGet-backed"/>'],
+            ['<TextBlock Text="Development"/>', '<TextBlock Text="No duplicate IDs"/>'],
+            ['<TextBlock Text="Communication"/>', '<TextBlock Text="Logo provenance"/>'],
+            ['<TextBlock Text="Multimedia"/>', '<TextBlock Text="Curated + large"/>'],
+            ['<TextBlock Text="Utilities"/>', '<TextBlock Text="Favorites"/>'],
+            ['<TextBlock Text="Productivity"/>', '<TextBlock Text="Search first"/>'],
+            ['<TextBlock Text="Security"/>', '<TextBlock Text="Install gated"/>'],
+          ]);
+
+          const productionValidator = `import fs from 'node:fs';\nimport path from 'node:path';\n\nconst roots = ['apps', 'installer', 'tools'];\nconst ignoredDirs = new Set(['bin', 'obj', 'node_modules', '.git']);\nconst allowedExtensions = new Set(['.cs', '.xaml', '.xml', '.json', '.js', '.mjs', '.ps1', '.iss']);\nconst forbidden = [\n  /lorem ipsum/i,\n  /todo:\\s/i,\n  /fixme:\\s/i,\n  /placeholder copy/i,\n  /dummy data/i,\n  /sample text/i,\n  /mockup only/i,\n  /not for production/i,\n  /dev text/i,\n  /development placeholder/i,\n];\nconst findings = [];\n\nfunction walk(dir) {\n  if (!fs.existsSync(dir)) return;\n  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {\n    if (ignoredDirs.has(entry.name)) continue;\n    const full = path.join(dir, entry.name);\n    if (entry.isDirectory()) { walk(full); continue; }\n    if (!allowedExtensions.has(path.extname(entry.name).toLowerCase())) continue;\n    const text = fs.readFileSync(full, 'utf8');\n    for (const rx of forbidden) {\n      const match = text.match(rx);\n      if (match) findings.push(`${full}: ${match[0]}`);\n    }\n  }\n}\nfor (const root of roots) walk(root);\nif (findings.length) {\n  console.error('Production content validation failed:');\n  console.error(findings.join('\\n'));\n  process.exit(1);\n}\nconsole.log('Production content OK: no blocked placeholder/dev copy found in shipped app, installer, or tools.');\n`;
+          fs.writeFileSync('tools/validate-production-content.mjs', productionValidator);
+
+          const pkg = JSON.parse(read('package.json'));
+          pkg.scripts.qa = 'node --test qa/orvexa.test.mjs qa/ui-parity.test.mjs && node --check apps/web/js/app.js && node --check tools/set-version.mjs && node --check tools/build-winget-large-catalog.mjs && node --check tools/validate-large-catalog.mjs && node --check tools/validate-production-content.mjs && node tools/validate-catalog.mjs && node tools/validate-large-catalog.mjs && node tools/validate-production-content.mjs';
+          write('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          NODE
+
+      - name: Generate 10k+ large catalog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORVEXA_LARGE_CATALOG_TARGET: '10500'
+          ORVEXA_LARGE_CATALOG_MIN: '10001'
+          ORVEXA_LARGE_CATALOG_CONCURRENCY: '48'
+        run: node tools/build-winget-large-catalog.mjs
+
+      - name: Update documentation from generated catalog
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const large = JSON.parse(fs.readFileSync('shared/catalog-large.json', 'utf8'));
+          const nf = new Intl.NumberFormat('en-US');
+          const total = nf.format(large.stats.total);
+          const verified = nf.format(large.stats.verifiedLogos);
+          const fallback = nf.format(large.stats.faviconFallbackLogos);
+          const missing = nf.format(large.stats.missingUpstreamLogos);
+          const sourceTotal = nf.format(13883);
+          let readme = fs.readFileSync('README.md', 'utf8');
+          readme = readme
+            .replace(/catalog-5200%2B%20apps/g, 'catalog-10000%2B%20apps')
+            .replace(/5200 plus catalog apps/g, '10000 plus catalog apps')
+            .replace(/Version 0\.0\.9 keeps the approved Orvexa visual direction, keeps the 354-app curated catalog, and adds a production large-catalog layer with \*\*5,200 WinGet-backed applications\*\* generated from upstream WinGet metadata\./, `Version 0.0.10 keeps the approved Orvexa visual direction, keeps the 354-app curated catalog, and expands the production large-catalog layer to **${total} WinGet-backed applications** generated from upstream WinGet metadata.`)
+            .replace(/Version 0\.0\.9 ships two catalog layers:/g, 'Version 0.0.10 ships two catalog layers:')
+            .replace(/\*\*5,200 large-catalog applications\*\* generated from upstream WinGet metadata and bundled as `shared\/catalog-large\.json`\./, `**${total} large-catalog applications** generated from upstream WinGet metadata and bundled as \`shared/catalog-large.json\`.`)
+            .replace(/The large catalog was generated from 13,883 WinGet package candidates and selected the best 5,200 records after de-duplication and logo provenance ranking\. It contains \*\*174 verified upstream logos\*\*, \*\*5,026 publisher\/package favicon fallback logos\*\* and \*\*0 entries without an upstream logo source\*\*\./, `The large catalog was generated from ${sourceTotal} WinGet package candidates and selected the best ${total} records after de-duplication and logo provenance ranking. It contains **${verified} verified upstream logos**, **${fallback} publisher/package favicon fallback logos** and **${missing} entries without an upstream logo source**.`)
+            .replace(/## 0\.0\.9 UI parity and catalog QA/g, '## 0.0.10 UI parity and catalog QA')
+            .replace(/more than 5,000 WinGet-backed applications;/g, 'at least 10,001 WinGet-backed applications;')
+            .replace(/minimum verified\/fallback logo coverage without fake original-logo claims\./g, 'minimum 10,001 verified/fallback upstream logo records without fake original-logo claims;')
+            .replace(/\*\*Current version: 0\.0\.9\*\*/g, '**Current version: 0.0.10**');
+          fs.writeFileSync('README.md', readme);
+
+          let changelog = fs.readFileSync('docs/CHANGELOG.md', 'utf8');
+          if (!changelog.includes('## 0.0.10')) {
+            changelog = changelog.replace('# Changelog\n\n', `# Changelog\n\n## 0.0.10 - 2026-09-26\n\n- Expanded the production large catalog to ${total} WinGet-backed applications while preserving duplicate protection for app IDs, normalized names and WinGet package IDs.\n- Raised the large-catalog generator default target to 10,500 and the validator minimum to 10,001 entries.\n- Added production-content validation to reject blocked placeholder/dev copy in shipped app, installer and tool sources.\n- Improved Catalog UX for the larger dataset by showing a bounded first page and a live catalog count hint instead of rendering every bundled app card at once.\n- Replaced non-interactive category-looking chips with honest capability/provenance chips so the UI does not present fake filters as working controls.\n\n`);
+          }
+          fs.writeFileSync('docs/CHANGELOG.md', changelog);
+          NODE
+
+      - name: QA
+        run: npm run qa
+
+      - name: Commit generated 0.0.10 upgrade
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json build/version.json README.md docs/CHANGELOG.md tools/build-winget-large-catalog.mjs tools/validate-large-catalog.mjs tools/validate-production-content.mjs shared/catalog-large.json apps/windows/Orvexa.App/MainWindow.xaml apps/windows/Orvexa.App/MainWindow.xaml.cs apps/windows/Orvexa.App/Orvexa.App.csproj
+          git commit -m "chore: generate Orvexa 0.0.10 catalog upgrade"
+          git push origin HEAD:develop/0.0.10
