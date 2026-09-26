@@ -1,0 +1,94 @@
+name: Orvexa 0.0.10 Large Catalog
+
+on:
+  push:
+    branches:
+      - develop/0.0.10
+    paths:
+      - .github/workflows/orvexa-0-0-10-catalog.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    name: Generate validated 10k catalog
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop/0.0.10
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Patch 0.0.10 production targets
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          function patch(file, edits) {
+            let text = fs.readFileSync(file, 'utf8');
+            for (const [from, to] of edits) {
+              if (!text.includes(from)) throw new Error(`${file}: missing pattern ${from}`);
+              text = text.split(from).join(to);
+            }
+            fs.writeFileSync(file, text);
+          }
+
+          patch('tools/build-winget-large-catalog.mjs', [
+            ["process.env.ORVEXA_LARGE_CATALOG_TARGET || '5200'", "process.env.ORVEXA_LARGE_CATALOG_TARGET || '10500'"],
+            ["process.env.ORVEXA_LARGE_CATALOG_MIN || '5001'", "process.env.ORVEXA_LARGE_CATALOG_MIN || '10001'"],
+            ["if (seenWinget.has(wingetKey) || seenNames.has(nameKey)) continue;", "if (entry.logoStatus === 'missing') continue;\n    if (seenWinget.has(wingetKey) || seenNames.has(nameKey)) continue;"],
+            ["revision: 9,", "revision: 10,"],
+          ]);
+
+          patch('tools/validate-large-catalog.mjs', [
+            ["new Set(['package-icons-curated', 'winget-run-icon', 'publisher-site-favicon', 'missing-upstream-logo'])", "new Set(['package-icons-curated', 'winget-run-icon', 'winget-manifest-icon', 'publisher-site-favicon', 'missing-upstream-logo'])"],
+            ["catalog.apps.length <= 5000", "catalog.apps.length <= 10000"],
+            ["large catalog must contain more than 5000 applications", "large catalog must contain more than 10000 applications"],
+            ["catalog.revision < 9", "catalog.revision < 10"],
+            ["large catalog revision must be at least 9", "large catalog revision must be at least 10"],
+            ["if (verified + fallback < 500) errors.push(`expected at least 500 upstream logo/favicons, got ${verified + fallback}`);", "if (verified + fallback < 10001) errors.push(`expected upstream logo/favicons for every 10k catalog entry, got ${verified + fallback}`);\nif (missing > 0) errors.push(`large catalog must not include entries without upstream logo or favicon source, got ${missing}`);"],
+          ]);
+
+          patch('apps/windows/Orvexa.App/MainWindow.xaml.cs', [
+            ["const long MaxBundledCatalogBytes=64L*1024*1024;", "const long MaxBundledCatalogBytes=128L*1024*1024;\n    const int MaxCatalogCards=360;"],
+            ["CatalogResults.ItemsSource=visible;", "CatalogResults.ItemsSource=visible.Count>MaxCatalogCards?visible.Take(MaxCatalogCards).ToArray():visible;"],
+            ["QueueStatus.Text=$\"Catalog ready | {catalogItems.Count} trusted packages\";", "QueueStatus.Text=$\"Catalog ready | {catalogItems.Count} trusted packages | showing up to {MaxCatalogCards} cards for speed\";"],
+            ["QueueStatus.Text=$\"Local catalog refreshed | {cache.Read().Packages.Count} cached packages\";", "QueueStatus.Text=$\"Local catalog refreshed | {cache.Read().Packages.Count} cached packages | showing up to {MaxCatalogCards} cards for speed\";"],
+          ]);
+          NODE
+
+      - name: Set 0.0.10 version
+        run: node tools/set-version.mjs 0.0.10
+
+      - name: Generate 10k WinGet catalog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORVEXA_LARGE_CATALOG_TARGET: '10500'
+          ORVEXA_LARGE_CATALOG_MIN: '10001'
+          ORVEXA_LARGE_CATALOG_CONCURRENCY: '48'
+        run: node tools/build-winget-large-catalog.mjs
+
+      - name: Validate catalog and source
+        run: npm run qa
+
+      - name: Commit generated 0.0.10 catalog
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git status --short
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Prepare Orvexa 0.0.10 catalog and QA"
+            git push origin HEAD:develop/0.0.10
+          fi
