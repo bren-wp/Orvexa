@@ -138,6 +138,36 @@ function describeManifestPath(entryPath) {
   return null;
 }
 
+async function loadCompleteTree(gitUrl, prefix = '') {
+  const recursive = await fetchJson(`${gitUrl}?recursive=1`);
+  if (!recursive?.tree) return [];
+
+  if (!recursive.truncated) {
+    return recursive.tree.map(entry => ({
+      ...entry,
+      path: prefix ? `${prefix}/${entry.path}` : entry.path
+    }));
+  }
+
+  const direct = await fetchJson(gitUrl);
+  if (!direct?.tree) throw new Error(`Could not expand truncated WinGet tree: ${gitUrl}`);
+
+  const expanded = [];
+  for (const entry of direct.tree) {
+    const entryPath = prefix ? `${prefix}/${entry.path}` : entry.path;
+    if (entry.type === 'blob') {
+      expanded.push({ ...entry, path: entryPath });
+      continue;
+    }
+
+    if (entry.type === 'tree' && entry.url) {
+      expanded.push(...await loadCompleteTree(entry.url, entryPath));
+    }
+  }
+
+  return expanded;
+}
+
 async function loadWingetCandidates() {
   const letters = await fetchJson(manifestsUrl);
   if (!Array.isArray(letters)) throw new Error('Could not read WinGet manifests directory.');
@@ -145,11 +175,11 @@ async function loadWingetCandidates() {
   const directories = letters.filter(x => x.type === 'dir' && x.git_url).sort((a, b) => a.name.localeCompare(b.name));
   console.log(`WinGet manifest root directories: ${directories.length}`);
   for (const directory of directories) {
-    const tree = await fetchJson(`${directory.git_url}?recursive=1`);
-    if (!tree?.tree) continue;
+    const treeEntries = await loadCompleteTree(directory.git_url);
+    if (!treeEntries.length) continue;
     let before = byId.size;
 
-    for (const entry of tree.tree) {
+    for (const entry of treeEntries) {
       if (entry.type !== 'blob') continue;
       const descriptor = describeManifestPath(entry.path);
       if (!descriptor) continue;
@@ -168,7 +198,7 @@ async function loadWingetCandidates() {
       }
     }
 
-    console.log(`WinGet ${directory.name}: +${byId.size - before} IDs${tree.truncated ? ' (subtree truncated)' : ''}`);
+    console.log(`WinGet ${directory.name}: +${byId.size - before} IDs from ${treeEntries.length} manifest tree entries`);
   }
 
   return [...byId.values()].sort((a, b) => a.identifier.localeCompare(b.identifier));
