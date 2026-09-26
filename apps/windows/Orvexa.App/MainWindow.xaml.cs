@@ -37,6 +37,8 @@ public sealed partial class MainWindow : Window
     bool suppressNavigationRefresh;
     bool confirmationOpen;
     IReadOnlyList<PackageItem> catalogItems=[];
+    IReadOnlyList<PackageItem> bundledCatalogItems=[];
+    Task<IReadOnlyList<PackageItem>>? catalogLoadTask;
     IReadOnlyList<AvailableUpdate> updateItems=[];
     IReadOnlyList<InstalledPackage> installedItems=[];
     readonly string? initialProtocol;
@@ -336,37 +338,54 @@ public sealed partial class MainWindow : Window
         await ExecuteSearchAsync();
     }
 
-    void EnsureCatalogLoaded()
+    async Task EnsureCatalogLoadedAsync(bool resetView=false)
     {
-        if(CatalogResults.ItemsSource is not null) return;
-
-        try
+        if(bundledCatalogItems.Count==0)
         {
-            catalogItems=LoadBundledCatalogPackages();
-            catalogDisplayLimit=CatalogDisplayPageSize;
-            if(catalogItems.Count==0)
+            try
             {
+                QueueStatus.Text="Loading local catalog...";
+                catalogLoadTask??=Task.Run(LoadBundledCatalogPackages);
+                bundledCatalogItems=await catalogLoadTask;
+                if(bundledCatalogItems.Count==0)
+                {
+                    CatalogEmptyState.Visibility=Visibility.Visible;
+                    QueueStatus.Text="The local catalog could not be loaded.";
+                    return;
+                }
+
+                await Task.Run(()=>cache.Merge(bundledCatalogItems));
+            }
+            catch(Exception ex)
+            {
+                crashLog.Write(ex);
                 CatalogEmptyState.Visibility=Visibility.Visible;
                 QueueStatus.Text="The local catalog could not be loaded.";
                 return;
             }
+            finally
+            {
+                catalogLoadTask=null;
+            }
+        }
 
-            cache.Merge(catalogItems);
-            ApplyCatalogFilter();
-            QueueStatus.Text=$"Catalog ready | {catalogItems.Count} trusted packages";
-        }
-        catch(Exception ex)
+        if(resetView || CatalogResults.ItemsSource is null)
         {
-            crashLog.Write(ex);
-            CatalogEmptyState.Visibility=Visibility.Visible;
-            QueueStatus.Text="The local catalog could not be loaded.";
+            catalogItems=bundledCatalogItems;
+            catalogDisplayLimit=CatalogDisplayPageSize;
+            ApplyCatalogFilter();
         }
+
+        QueueStatus.Text=$"Catalog ready | {bundledCatalogItems.Count:n0} trusted packages";
     }
 
     async Task ExecuteSearchAsync()
     {
         var query=PackagePolicy.NormalizeQuery(SearchBox.Text);
         if(query.Length<2){QueueStatus.Text="Enter at least two characters.";return;}
+
+        await EnsureCatalogLoadedAsync();
+        if(bundledCatalogItems.Count==0) return;
         catalogDisplayLimit=CatalogDisplayPageSize;
         InstallSelectedButton.IsEnabled=false;
         CatalogResults.SelectedItems.Clear();
@@ -448,17 +467,16 @@ public sealed partial class MainWindow : Window
         QueueStatus.Text=$"Showing more catalog apps | {catalogDisplayLimit:n0} loaded window.";
     }
 
-    void ClearCatalogSearch_Click(object sender,RoutedEventArgs e)
+    async void ClearCatalogSearch_Click(object sender,RoutedEventArgs e)
     {
         SearchBox.Text="";
         catalogDisplayLimit=CatalogDisplayPageSize;
         CatalogResults.SelectedItems.Clear();
-        catalogItems=LoadBundledCatalogPackages();
-        if(catalogItems.Count>0) cache.Merge(catalogItems);
-        ApplyCatalogFilter();
-        QueueStatus.Text=catalogItems.Count==0
+
+        await EnsureCatalogLoadedAsync(resetView:true);
+        QueueStatus.Text=bundledCatalogItems.Count==0
             ? "The local catalog could not be loaded."
-            : $"Catalog reset | {catalogItems.Count:n0} trusted packages";
+            : $"Catalog reset | {bundledCatalogItems.Count:n0} trusted packages";
     }
 
     void FavoritesOnly_Click(object sender,RoutedEventArgs e)
@@ -851,7 +869,7 @@ public sealed partial class MainWindow : Window
         var tag=(args.SelectedItemContainer as NavigationViewItem)?.Tag?.ToString()??"home";
         ShowSection(tag);
 
-        if(tag=="catalog") EnsureCatalogLoaded();
+        if(tag=="catalog") await EnsureCatalogLoadedAsync();
         if(tag=="activity") LoadActivity();
         if(tag=="settings") LoadSettingsToUi();
 
