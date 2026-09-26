@@ -38,7 +38,9 @@
 
 Orvexa is a native Windows software control center designed to make package management feel like a polished product instead of a command-line workflow. It combines a curated application catalog, Windows Package Manager, local device information, favorites, update management and bounded local activity history inside one focused WinUI 3 application.
 
-**Current version: 0.0.11**
+**Current version: 0.0.12**
+
+Version 0.0.12 keeps the validated 10,500-app catalog and focuses on production performance and integrity: bundled catalog parsing no longer blocks the UI thread, local catalog search reuses an in-memory bounded cache, Clear search reuses the already loaded dataset, and catalog QA now enforces exact logo provenance/status consistency and summary-stat integrity.
 
 Version 0.0.10 keeps the approved Orvexa visual direction, keeps the 354-app curated catalog, and expands the production large-catalog layer to **10,500 WinGet-backed applications** generated from upstream WinGet metadata. The large catalog is validated for duplicate IDs, duplicate normalized names and duplicate WinGet package IDs, and every logo field includes provenance through `logoSource` and `logoStatus` instead of pretending fallback artwork is an original logo.
 
@@ -255,22 +257,22 @@ Latest stable release:
 
 **[GitHub Releases ->](https://github.com/bren-wp/Orvexa/releases/latest)**
 
-Version 0.0.9 produces:
+Version 0.0.12 produces:
 
 ```text
-Orvexa-0.0.9.zip
-Orvexa-Web-0.0.9.zip
-Orvexa-QA-0.0.9.zip
-Orvexa-Portable-0.0.11-x64.exe
-Orvexa-Portable-0.0.11-x64.zip
-Orvexa-Setup-0.0.11-x64.exe
+Orvexa-0.0.12.zip
+Orvexa-Web-0.0.12.zip
+Orvexa-QA-0.0.12.zip
+Orvexa-Portable-0.0.12-x64.exe
+Orvexa-Portable-0.0.12-x64.zip
+Orvexa-Setup-0.0.12-x64.exe
 SHA256SUMS.txt
 version.json
 ```
 
 ### Portable EXE
 
-`Orvexa-Portable-0.0.11-x64.exe` is built as a self-contained Windows x64 single-file application. The release pipeline launches the generated EXE and requires it to remain alive through the startup smoke window before release publication can proceed.
+`Orvexa-Portable-0.0.12-x64.exe` is built as a self-contained Windows x64 single-file application. The release pipeline launches the generated EXE and requires it to remain alive through the startup smoke window before release publication can proceed.
 
 ## Build
 
@@ -301,20 +303,22 @@ Stable:
 0.0.8
 0.0.9
 0.0.10
+0.0.11
+0.0.12
 ```
 
 Release candidates:
 
 ```text
-0.0.10-rc.1
-0.0.10-rc.2
+0.0.13-rc.1
+0.0.13-rc.2
 ```
 
 Central update:
 
 ```bash
-node tools/set-version.mjs 0.0.11
-node tools/set-version.mjs 0.0.12-rc.1
+node tools/set-version.mjs 0.0.12
+node tools/set-version.mjs 0.0.13-rc.1
 ```
 
 ## Repository

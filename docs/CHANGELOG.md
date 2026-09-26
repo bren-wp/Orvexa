@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.12 - 2026-09-26
+
+- Kept the production large catalog at 10,500 validated WinGet-backed applications while improving runtime behavior instead of inflating the catalog for version-only changes.
+- Added an in-memory snapshot to the bounded catalog cache so repeated local searches do not reread and deserialize the cache file.
+- Moved bundled large-catalog loading and cache merge work off the WinUI thread, and made Clear search reuse the already loaded bundled catalog instead of reparsing it.
+- Hardened large-catalog ID generation so slug collisions receive deterministic unique IDs instead of silently dropping candidates.
+- Aligned validator logo provenance values exactly with generator output and added strict `logoSource` to `logoStatus` consistency checks.
+- Added validation that catalog summary statistics match the actual app and logo-status counts.
+- Expanded QA coverage for large-catalog loading, in-memory caching, WinGet ID installation, generator/validator provenance alignment and collision-safe IDs.
+- Synchronized web, package, WinUI, manifest and Setup version metadata for 0.0.12.
+
 ## 0.0.11 - 2026-09-26
 
 - Improved the Windows Catalog UX for the 10,500-app dataset with explicit paged loading instead of a fixed one-page cap.

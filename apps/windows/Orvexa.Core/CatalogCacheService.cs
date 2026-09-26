@@ -9,6 +9,8 @@ public sealed class CatalogCacheService
     const int MaxPackages=20000;
     const long MaxFileBytes=16L*1024*1024;
     readonly string path;
+    readonly object sync=new();
+    CatalogCache? snapshot;
 
     public CatalogCacheService(string? basePath=null)
     {
@@ -17,30 +19,28 @@ public sealed class CatalogCacheService
 
     public CatalogCache Read()
     {
-        try
+        lock(sync)
         {
-            if(!AtomicFile.TryReadText(path,MaxFileBytes,out var json))
-                return new(DateTimeOffset.MinValue,[]);
-
-            var parsed=JsonSerializer.Deserialize<CatalogCache>(json);
-            if(parsed is null) return new(DateTimeOffset.MinValue,[]);
-            var updated=parsed.UpdatedAt> DateTimeOffset.UtcNow.AddDays(1)
-                ? DateTimeOffset.UtcNow
-                : parsed.UpdatedAt;
-            return new(updated,Normalize(parsed.Packages??[]));
+            return snapshot??=ReadFromDisk();
         }
-        catch { return new(DateTimeOffset.MinValue,[]); }
     }
 
     public void Save(IEnumerable<PackageItem> packages)
     {
-        Write(Normalize(packages));
+        ArgumentNullException.ThrowIfNull(packages);
+        var normalized=Normalize(packages);
+        lock(sync) WriteLocked(normalized);
     }
 
     public void Merge(IEnumerable<PackageItem> packages)
     {
-        var current=Read().Packages;
-        Write(Normalize(current.Concat(packages)));
+        ArgumentNullException.ThrowIfNull(packages);
+        var incoming=packages.ToArray();
+        lock(sync)
+        {
+            var current=snapshot??=ReadFromDisk();
+            WriteLocked(Normalize(current.Packages.Concat(incoming)));
+        }
     }
 
     public IReadOnlyList<PackageItem> Search(string query,int skip=0,int take=100)
@@ -61,6 +61,23 @@ public sealed class CatalogCacheService
             .ToArray();
     }
 
+    CatalogCache ReadFromDisk()
+    {
+        try
+        {
+            if(!AtomicFile.TryReadText(path,MaxFileBytes,out var json))
+                return new(DateTimeOffset.MinValue,[]);
+
+            var parsed=JsonSerializer.Deserialize<CatalogCache>(json);
+            if(parsed is null) return new(DateTimeOffset.MinValue,[]);
+            var updated=parsed.UpdatedAt>DateTimeOffset.UtcNow.AddDays(1)
+                ? DateTimeOffset.UtcNow
+                : parsed.UpdatedAt;
+            return new(updated,Normalize(parsed.Packages??[]));
+        }
+        catch { return new(DateTimeOffset.MinValue,[]); }
+    }
+
     IReadOnlyList<PackageItem> Normalize(IEnumerable<PackageItem> packages)=>
         packages
             .Where(x=>PackagePolicy.IsSafeId(x.Id))
@@ -72,9 +89,10 @@ public sealed class CatalogCacheService
             .Take(MaxPackages)
             .ToArray();
 
-    void Write(IReadOnlyList<PackageItem> packages)
+    void WriteLocked(IReadOnlyList<PackageItem> packages)
     {
-        AtomicFile.WriteText(path,JsonSerializer.Serialize(
-            new CatalogCache(DateTimeOffset.UtcNow,packages)));
+        var value=new CatalogCache(DateTimeOffset.UtcNow,packages);
+        AtomicFile.WriteText(path,JsonSerializer.Serialize(value));
+        snapshot=value;
     }
 }

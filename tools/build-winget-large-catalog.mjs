@@ -24,6 +24,21 @@ const normalize = value => String(value || '').trim().replace(/\s+/g, ' ');
 const normalizeKey = value => normalize(value).toLowerCase();
 const hash = value => crypto.createHash('sha1').update(value).digest('hex').slice(0, 8);
 const slug = value => normalize(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'app';
+const versionCollator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+
+function compareWingetVersions(leftValue, rightValue) {
+  const left = normalize(leftValue).replace(/^v(?=\d)/i, '');
+  const right = normalize(rightValue).replace(/^v(?=\d)/i, '');
+  if (left === right) return 0;
+
+  const [leftCore, leftPre = ''] = left.split(/-(.+)/, 2);
+  const [rightCore, rightPre = ''] = right.split(/-(.+)/, 2);
+  const core = versionCollator.compare(leftCore, rightCore);
+  if (core !== 0) return core;
+  if (!leftPre && rightPre) return 1;
+  if (leftPre && !rightPre) return -1;
+  return versionCollator.compare(leftPre, rightPre);
+}
 
 async function fetchJson(url, attempt = 1) {
   const response = await fetch(url, { headers });
@@ -104,6 +119,56 @@ async function loadPackageIconIndex() {
   return { index, commit };
 }
 
+function describeManifestPath(entryPath) {
+  const parts = entryPath.split('/');
+  const fileName = parts.at(-1) || '';
+  const version = normalize(parts.at(-2));
+  if (!version) return null;
+
+  const enUs = fileName.match(/^(.*)\.locale\.en-US\.ya?ml$/i);
+  if (enUs) return { identifier: enUs[1], version, metadataRank: 0 };
+
+  const locale = fileName.match(/^(.*)\.locale\.[^.]+\.ya?ml$/i);
+  if (locale) return { identifier: locale[1], version, metadataRank: 1 };
+
+  if (/\.installer\.ya?ml$/i.test(fileName)) return null;
+  const versionManifest = fileName.match(/^(.*)\.ya?ml$/i);
+  if (versionManifest) return { identifier: versionManifest[1], version, metadataRank: 2 };
+
+  return null;
+}
+
+async function loadCompleteTree(gitUrl, prefix = '') {
+  const recursive = await fetchJson(`${gitUrl}?recursive=1`);
+  if (!recursive?.tree) return [];
+
+  if (!recursive.truncated) {
+    return recursive.tree.map(entry => ({
+      ...entry,
+      path: prefix ? `${prefix}/${entry.path}` : entry.path
+    }));
+  }
+
+  const direct = await fetchJson(gitUrl);
+  if (!direct?.tree) throw new Error(`Could not expand truncated WinGet tree: ${gitUrl}`);
+
+  const expanded = [];
+  for (const entry of direct.tree) {
+    const entryPath = prefix ? `${prefix}/${entry.path}` : entry.path;
+    if (entry.type === 'blob') {
+      expanded.push({ ...entry, path: entryPath });
+      continue;
+    }
+
+    if (entry.type === 'tree' && entry.url) {
+      const nested = await loadCompleteTree(entry.url, entryPath);
+      for (const nestedEntry of nested) expanded.push(nestedEntry);
+    }
+  }
+
+  return expanded;
+}
+
 async function loadWingetCandidates() {
   const letters = await fetchJson(manifestsUrl);
   if (!Array.isArray(letters)) throw new Error('Could not read WinGet manifests directory.');
@@ -111,20 +176,32 @@ async function loadWingetCandidates() {
   const directories = letters.filter(x => x.type === 'dir' && x.git_url).sort((a, b) => a.name.localeCompare(b.name));
   console.log(`WinGet manifest root directories: ${directories.length}`);
   for (const directory of directories) {
-    const tree = await fetchJson(`${directory.git_url}?recursive=1`);
-    if (!tree?.tree) continue;
+    const treeEntries = await loadCompleteTree(directory.git_url);
+    if (!treeEntries.length) continue;
     let before = byId.size;
-    for (const entry of tree.tree) {
-      if (entry.type !== 'blob' || !/\.locale\.en-US\.ya?ml$/i.test(entry.path)) continue;
-      const id = entry.path.split('/').pop()?.replace(/\.locale\.en-US\.ya?ml$/i, '') || '';
-      if (!/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(id)) continue;
-      if (!byId.has(normalizeKey(id))) {
-        const rawPath = `${directory.name}/${entry.path}`.split('/').map(encodeURIComponent).join('/');
-        byId.set(normalizeKey(id), { identifier: id, rawUrl: `${rawManifestBase}/${rawPath}` });
+
+    for (const entry of treeEntries) {
+      if (entry.type !== 'blob') continue;
+      const descriptor = describeManifestPath(entry.path);
+      if (!descriptor) continue;
+
+      const { identifier, version, metadataRank } = descriptor;
+      if (!/^[A-Za-z0-9.+_-]+(?:\.[A-Za-z0-9.+_-]+)+$/.test(identifier)) continue;
+
+      const rawPath = `${directory.name}/${entry.path}`.split('/').map(encodeURIComponent).join('/');
+      const candidate = { identifier, version, rawUrl: `${rawManifestBase}/${rawPath}`, metadataRank };
+      const key = normalizeKey(identifier);
+      const current = byId.get(key);
+      const versionOrder = current ? compareWingetVersions(candidate.version, current.version) : 1;
+
+      if (!current || versionOrder > 0 || (versionOrder === 0 && candidate.metadataRank < current.metadataRank)) {
+        byId.set(key, candidate);
       }
     }
-    console.log(`WinGet ${directory.name}: +${byId.size - before} IDs${tree.truncated ? ' (subtree truncated)' : ''}`);
+
+    console.log(`WinGet ${directory.name}: +${byId.size - before} IDs from ${treeEntries.length} manifest tree entries`);
   }
+
   return [...byId.values()].sort((a, b) => a.identifier.localeCompare(b.identifier));
 }
 
@@ -141,9 +218,11 @@ function logoFromManifest(meta, curated) {
   return { url: '', source: 'missing-upstream-logo', status: 'missing' };
 }
 
-async function buildEntry(candidate, curated, seenIds) {
+async function buildEntry(candidate, curated) {
   const text = await fetchText(candidate.rawUrl);
   const identifier = yamlScalar(text, 'PackageIdentifier') || candidate.identifier;
+  const version = normalize(yamlScalar(text, 'PackageVersion') || candidate.version);
+  if (!version) throw new Error(`Missing PackageVersion for ${identifier}`);
   const name = normalize(yamlScalar(text, 'PackageName') || curated?.name || titleFromIdentifier(identifier));
   const { publisher } = splitWingetId(identifier);
   const publisherName = normalize(yamlScalar(text, 'Publisher') || publisher || 'Unknown publisher');
@@ -152,10 +231,58 @@ async function buildEntry(candidate, curated, seenIds) {
   const logo = logoFromManifest(meta, curated);
   const category = categoryFor({ identifier, name, publisher: publisherName, description });
   if (!categoryNames.has(category)) throw new Error(`Unknown category ${category}`);
-  const baseId = slug(identifier);
-  let id = baseId;
-  if (seenIds.has(id)) id = `${baseId}-${hash(identifier)}`;
-  return { id, name, publisher: publisherName, category, description: description.slice(0, 220), platforms: ['windows-11', 'windows-10'], architectures: ['x64'], provider: 'winget', wingetId: identifier, versionStrategy: 'latest', versionLabel: 'Latest via WinGet', icon: categoryIconByName.get(category) || 'assets/categories/utilities.svg', logoUrl: logo.url, logoSource: logo.source, logoStatus: logo.status, logoSha256: logo.sha256 || '', popular: false, featured: false, enabled: true, silentInstall: true, website: meta.packageUrl || meta.publisherUrl || '', notes: logo.status === 'verified' ? `Logo resolved from ${logo.source}.` : logo.status === 'fallback' ? 'Logo resolved from publisher/package website favicon because no package icon was exposed.' : 'No upstream package logo was exposed; Orvexa uses the local category icon fallback.' };
+  return { id: slug(identifier), name, publisher: publisherName, category, description: description.slice(0, 220), platforms: ['windows-11', 'windows-10'], architectures: ['x64'], provider: 'winget', wingetId: identifier, versionStrategy: 'latest', version, versionLabel: version, versionSource: 'winget-manifest', versionStatus: 'verified', icon: categoryIconByName.get(category) || 'assets/categories/utilities.svg', logoUrl: logo.url, logoSource: logo.source, logoStatus: logo.status, logoSha256: logo.sha256 || '', popular: false, featured: false, enabled: true, silentInstall: true, website: meta.packageUrl || meta.publisherUrl || '', notes: logo.status === 'verified' ? `Logo resolved from ${logo.source}.` : logo.status === 'fallback' ? 'Logo resolved from publisher/package website favicon because no package icon was exposed.' : 'No upstream package logo was exposed; Orvexa uses the local category icon fallback.' };
+}
+
+function syncCuratedVersions(entries, updatedAt) {
+  const file = path.join(root, 'shared', 'catalog.json');
+  const catalog = JSON.parse(fs.readFileSync(file, 'utf8'));
+  const latestByWinget = new Map(entries.map(entry => [normalizeKey(entry.wingetId), entry]));
+  const byName = new Map();
+
+  for (const entry of entries) {
+    const key = normalizeKey(entry.name);
+    if (!byName.has(key)) byName.set(key, []);
+    byName.get(key).push(entry);
+  }
+
+  const missing = [];
+  let updated = 0;
+  let remapped = 0;
+
+  for (const app of catalog.apps || []) {
+    if (!app.enabled || app.provider !== 'winget') continue;
+    let latest = latestByWinget.get(normalizeKey(app.wingetId));
+
+    if (!latest?.version) {
+      const exactNameMatches = byName.get(normalizeKey(app.name)) || [];
+      if (exactNameMatches.length === 1) {
+        const previousId = app.wingetId;
+        latest = exactNameMatches[0];
+        app.wingetId = latest.wingetId;
+        remapped++;
+        console.log(`Curated WinGet ID migrated: ${previousId} -> ${app.wingetId} (${app.name})`);
+      }
+    }
+
+    if (!latest?.version) {
+      missing.push(`${app.wingetId} [${app.name}]`);
+      continue;
+    }
+
+    app.versionStrategy = 'latest';
+    app.version = latest.version;
+    app.versionLabel = latest.version;
+    app.versionSource = 'winget-manifest';
+    app.versionStatus = 'verified';
+    updated++;
+  }
+
+  if (missing.length) throw new Error(`Could not resolve current WinGet version for curated packages: ${missing.join(', ')}`);
+  catalog.revision = Math.max(Number(catalog.revision || 0) + 1, 12);
+  catalog.lastUpdated = updatedAt;
+  fs.writeFileSync(file, JSON.stringify(catalog, null, 2) + '\n');
+  console.log(`Updated ${updated} curated app versions from current WinGet manifests; migrated ${remapped} stale WinGet IDs.`);
 }
 
 async function main() {
@@ -171,13 +298,26 @@ async function main() {
     while (cursor < candidates.length) {
       const candidate = candidates[cursor++];
       const curated = icons.index.get(normalizeKey(candidate.identifier));
-      const entry = await buildEntry(candidate, curated, seenIds);
+      const entry = await buildEntry(candidate, curated);
       inspected++;
-      if (!seenIds.has(entry.id)) { seenIds.add(entry.id); allEntries.push(entry); }
+
+      const baseId = entry.id;
+      let id = baseId;
+      let collision = 0;
+      while (seenIds.has(id)) {
+        collision++;
+        id = `${baseId}-${hash(`${entry.wingetId}:${collision}`)}`;
+      }
+
+      seenIds.add(id);
+      allEntries.push(id === entry.id ? entry : { ...entry, id });
       if (inspected % 1000 === 0) console.log(`Large catalog metadata: inspected ${inspected}/${candidates.length}, entries ${allEntries.length}`);
     }
   }
   await Promise.all(Array.from({ length: concurrency }, () => worker()));
+  const updatedAt = new Date().toISOString();
+  syncCuratedVersions(allEntries, updatedAt);
+
   const seenWinget = new Set();
   const seenNames = new Set();
   const seenVerifiedLogos = new Set();
@@ -200,7 +340,7 @@ async function main() {
   const verified = entries.filter(x => x.logoStatus === 'verified').length;
   const fallback = entries.filter(x => x.logoStatus === 'fallback').length;
   const missing = entries.filter(x => x.logoStatus === 'missing').length;
-  const output = { schemaVersion: 2, revision: 10, lastUpdated: new Date().toISOString(), channel: 'stable-large', source: 'microsoft/winget-pkgs + memstechtips/package-icons', sourceRef: branch, packageIconsRef: icons.commit, logoPolicy: 'Prefer curated package-icons or WinGet manifest IconUrl. Use publisher-site favicon when available. Keep local category fallback when no upstream logo exists; never pretend fallback is an original logo.', stats: { total: entries.length, verifiedLogos: verified, faviconFallbackLogos: fallback, missingUpstreamLogos: missing }, apps: entries };
+  const output = { schemaVersion: 2, revision: 12, lastUpdated: updatedAt, channel: 'stable-large', source: 'microsoft/winget-pkgs + memstechtips/package-icons', sourceRef: branch, packageIconsRef: icons.commit, versionPolicy: 'Resolve the newest available WinGet manifest version per package at catalog build time and record that exact PackageVersion.', logoPolicy: 'Prefer curated package-icons or WinGet manifest IconUrl. Use publisher-site favicon when available. Keep local category fallback when no upstream logo exists; never pretend fallback is an original logo.', stats: { total: entries.length, verifiedVersions: entries.filter(x => x.versionStatus === 'verified').length, verifiedLogos: verified, faviconFallbackLogos: fallback, missingUpstreamLogos: missing }, apps: entries };
   fs.writeFileSync(outFile, JSON.stringify(output, null, 2) + '\n');
   console.log(`Wrote ${output.apps.length} apps to ${path.relative(root, outFile)} | verified logos ${verified}, favicon fallbacks ${fallback}, missing upstream ${missing}`);
 }
