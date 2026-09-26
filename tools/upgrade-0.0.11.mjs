@@ -60,13 +60,14 @@ replaceAll('apps/windows/Orvexa.App/MainWindow.xaml', [
   ]
 ]);
 
-replaceAll('qa/orvexa.test.mjs', [
-  ['assert.match(code,/CatalogDisplayLimit=320/);', 'assert.match(code,/CatalogDisplayPageSize=320/);'],
-  [
-    `test('Catalog opens from bundled curated data before a live search',()=>{\n  assert.match(code,/EnsureCatalogLoaded/);\n  assert.match(code,/catalogSeed\\.FromBundledCatalog/);\n  assert.match(seed,/provider,"winget"/);\n});`,
-    `test('Catalog opens from bundled curated data before a live search',()=>{\n  assert.match(code,/EnsureCatalogLoaded/);\n  assert.match(code,/catalogSeed\\.FromBundledCatalog/);\n  assert.match(seed,/provider,"winget"/);\n});\n\ntest('large catalog UI pages results instead of rendering every app at once',()=>{\n  assert.match(code,/CatalogDisplayPageSize=320/);\n  assert.match(code,/catalogDisplayLimit\\+=CatalogDisplayPageSize/);\n  assert.match(code,/ShowMoreCatalog_Click/);\n  assert.match(code,/ClearCatalogSearch_Click/);\n  assert.match(xaml,/ShowMoreCatalogButton/);\n  assert.match(xaml,/Content="Clear search"/);\n  assert.doesNotMatch(code,/Take\\(CatalogDisplayLimit\\)/);\n});`
-  ]
-]);
+let qa = read('qa/orvexa.test.mjs');
+qa = qa.replace('assert.match(code,/CatalogDisplayLimit=320/);', 'assert.match(code,/CatalogDisplayPageSize=320/);');
+if (!qa.includes("large catalog UI pages results instead of rendering every app at once")) {
+  const anchor = `test('Catalog opens from bundled curated data before a live search',()=>{\n  assert.match(code,/EnsureCatalogLoaded/);\n  assert.match(code,/catalogSeed\\.FromBundledCatalog/);\n  assert.match(seed,/provider,"winget"/);\n});`;
+  if (!qa.includes(anchor)) throw new Error('qa/orvexa.test.mjs: catalog bundled-data test anchor not found');
+  qa = qa.replace(anchor, `${anchor}\n\ntest('large catalog UI pages results instead of rendering every app at once',()=>{\n  assert.match(code,/CatalogDisplayPageSize=320/);\n  assert.match(code,/catalogDisplayLimit\\+=CatalogDisplayPageSize/);\n  assert.match(code,/ShowMoreCatalog_Click/);\n  assert.match(code,/ClearCatalogSearch_Click/);\n  assert.match(xaml,/ShowMoreCatalogButton/);\n  assert.match(xaml,/Content="Clear search"/);\n  assert.doesNotMatch(code,/Take\\(CatalogDisplayLimit\\)/);\n});`);
+}
+write('qa/orvexa.test.mjs', qa);
 
 let changelog = read('docs/CHANGELOG.md');
 if (!changelog.includes('## 0.0.11')) {
